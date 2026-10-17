@@ -1,0 +1,30 @@
+ [Current]  Sessions   Issues   Pull requests   Gists
+
+   scripts/deploy.sh production                                                                                        ┃
+ $ Shell 운영·staging 응답성과 승인 이력·운영 릴리스 링크 확인 12 lines…                                               ┃
+   printf 'production health: '; curl --silent --show-error --fail --max-time 5 http://127.0.0.1:8100/health && print… ┃
+                                                                                                                       ┃
+ / Search "*.db" in .deploy/production/backups 1 file found                                                            ┃
+                                                                                                                       ┃
+ $ Shell 운영 DB·백업 무결성과 기존 고객·주문·환불 보존을 읽기 검증 39 lines…                                          ┃
+   .venv/bin/python <<'PY' import sqlite3 from contextlib import closing backup_path = '.deploy/production/backups/or… ┃
+                                                                                                                       ┃
+ ● Edit  Edit docs/cr/CR-2026-014/06-release-plan.md                                                                   ┃
+                                                                                                                       ┃
+ ✔ Todo completed release-production                                                                                   ┃
+                                                                                                                       ┃
+ $ Shell 운영 승인·스모크·데이터 보존 결과를 릴리스 계획에 커밋 31 lines…                                              ┃
+   git --no-pager diff --check && wc -l docs/cr/CR-2026-014/06-release-plan.md && git --no-pager diff -- docs/cr/CR-2… ┃
+ $ Shell main 병합·태그·승인·운영 서비스 지속 상태 최종 확인 7 lines…                                                  ┃
+   git branch --show-current && git merge-base --is-ancestor feature/CR-2026-014-refund-policy main && git show v1.1.… ┃
+                                                                                                                       ┃
+ ✔ Todo completed release-record                                                                                       ┃
+                                                                                                                       ┃
+ ● main 병합·staging 검증·운영 승인③ 후 배포 성공 — v1.1.0 · 확인: http://127.0.0.1:8100/health · 롤백:                ┃
+    scripts/deploy.sh production --rollback  (직전 v1.0.0은 정책 후퇴가 있으므로 검증 없이 실행 금지).                 ┃
+                                                                                                                       ┃
+ ~/Documents/Microsoft Scout/GHCP_CLI_Demo_Kit/shopflow-orders [⎇ main%]                       Session: 345.21 AIC used
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ← open sidebar · Interactive · Manual Approval · / commands      ctrl+t show reasoning · release-manager · GPT-6.1 Sol

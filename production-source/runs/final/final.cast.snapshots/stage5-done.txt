@@ -1,0 +1,30 @@
+ [Current]  Sessions   Issues   Pull requests   Gists
+
+                                                                                                                       ┃
+   ┌───┬──────────┬──────┬───────┬────────────────────────────────────┬────────────┐                                   ┃
+   │ # │ Severity │ File │ Lines │ Vulnerability                      │ Confidence │                                   ┃
+   ├───┼──────────┼──────┼───────┼────────────────────────────────────┼────────────┤                                   ┃
+   │ — │ —        │ —    │ —     │ 변경에서 확인된 고확신 취약점 없음 │ —          │                                   ┃
+   └───┴──────────┴──────┴───────┴────────────────────────────────────┴────────────┘                                   ┃
+                                                                                                                       ┃
+    docs/cr/CR-2026-014/05-review-report.md 를 저장했습니다. 이 내용을 포함해 코드 승인②를 요청합니다.                 ┃
+                                                                                                                       ┃
+ $ Shell 리뷰 결과를 바탕으로 코드 승인② 요청 3 lines…                                                              8s ┃
+   .venv/bin/python scripts/gate.py request code CR-2026-014                                                           ┃
+ $ Shell 사람 코드 승인과 검토 코드 일치 확인 3 lines…                                                                 ┃
+   .venv/bin/python scripts/gate.py verify code CR-2026-014 && git --no-pager status --short                           ┃
+                                                                                                                       ┃
+ ✔ Todo completed review-cr-gate                                                                                       ┃
+                                                                                                                       ┃
+ ● 승인 권고 · 코드 승인② 완료, 승인 기록 유효성까지 확인했습니다.                                                     ┃
+   발견: Blocker 0 / Major 0 / Minor 1 · 보안 심층 점검 취약점 0건.                                                    ┃
+   주요 지적: 아키텍처 문서의 고액 승인·사유 전환 설명 동기화 필요.                                                    ┃
+   배포 전 확인: 무중단·롤백 검증, 실제 앱·브라우저 동작 확인.                                                         ┃
+   보고서:  docs/cr/CR-2026-014/05-review-report.md                                                                    ┃
+   운영 배포에는 별도 승인③이 필요합니다.                                                                              ┃
+                                                                                                                       ┃
+ ~/Documents/Microsoft Scout/.../shopflow-orders [⎇ feature/CR-2026-014-refund-policy%]        Session: 242.59 AIC used
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ← open sidebar · Interactive · Manual Approval · / commands        ctrl+t show reasoning · code-reviewer · GPT-6.1 Sol

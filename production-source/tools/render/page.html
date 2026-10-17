@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Copilot Demo Renderer</title>
+  <link rel="stylesheet" href="./node_modules/@xterm/xterm/css/xterm.css" />
+  <style>
+    :root {
+      --bg: #0D1117;
+      --panel: #161B22;
+      --border: #30363D;
+      --text: #E6EDF3;
+      --muted: #8B949E;
+      --purple: #A371F7;
+      --green: #3FB950;
+      --amber: #D29922;
+      --blue: #58A6FF;
+      --frame-width: 1920px;
+      --frame-height: 1080px;
+      --content-scale: 1;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: var(--frame-width);
+      height: var(--frame-height);
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", AppleGothic, sans-serif;
+    }
+    body { position: relative; }
+    .page {
+      width: 1920px;
+      height: 1080px;
+      padding: 24px;
+      display: grid;
+      grid-template-rows: 56px 1fr 96px;
+      gap: 16px;
+      position: relative;
+      transform-origin: top left;
+      transform: scale(var(--content-scale));
+    }
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 24px;
+      min-height: 56px;
+    }
+    .brand-block {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+    }
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+    }
+    .brand-title {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .brand-subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .agent-chip {
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      background: rgba(88,166,255,0.15);
+      border: 1px solid rgba(88,166,255,0.45);
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+    .tracker-wrap {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      min-width: 0;
+    }
+    .tracker {
+      display: flex;
+      gap: clamp(4px, 0.35vw, 8px);
+      justify-content: flex-end;
+      flex-wrap: nowrap;
+      max-width: 100%;
+      min-width: 0;
+    }
+    .pill {
+      min-width: 0;
+      padding: 10px clamp(10px, 0.7vw, 16px);
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(22,27,34,0.72);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(6px, 0.4vw, 8px);
+      font-size: clamp(15px, 0.9vw, 18px);
+      font-weight: 700;
+      color: var(--muted);
+      flex: 0 1 auto;
+      max-width: 100%;
+    }
+    .pill > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .pill.done { color: var(--green); border-color: rgba(63,185,80,0.7); }
+    .pill.current { color: var(--text); border-color: rgba(163,113,247,0.95); box-shadow: 0 0 0 2px rgba(163,113,247,0.2) inset; }
+    .pill-index {
+      width: clamp(28px, 1.7vw, 32px); height: clamp(28px, 1.7vw, 32px); border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(139,148,158,0.18);
+      color: inherit;
+      font-size: clamp(15px, 0.85vw, 17px);
+      flex: 0 0 auto;
+    }
+    .pill.done .pill-index { background: rgba(63,185,80,0.18); }
+    .pill.current .pill-index { background: rgba(163,113,247,0.22); }
+    .terminal-shell {
+      position: relative;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+      min-height: 0;
+    }
+    #terminal-window {
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      background: #0b1117;
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 48px rgba(0,0,0,0.35);
+      overflow: hidden;
+      position: relative;
+    }
+    .terminal-header {
+      height: 38px;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      background: #11161d;
+      border-bottom: 1px solid rgba(48,54,61,0.9);
+      position: relative;
+      z-index: 3;
+    }
+    .traffic { display: flex; gap: 8px; }
+    .dot { width: 14px; height: 14px; border-radius: 50%; }
+    .dot.red { background: #ff5f57; }
+    .dot.amber { background: #febc2e; }
+    .dot.green { background: #28c840; }
+    .term-title {
+      justify-self: center;
+      font-size: 17px;
+      color: #c9d1d9;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      padding: 0 18px;
+    }
+    .badge {
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      background: rgba(22,27,34,0.9);
+      border: 1px solid rgba(88,166,255,0.42);
+      opacity: 0;
+      transition: opacity 120ms ease;
+      white-space: nowrap;
+    }
+    .badge.show { opacity: 1; }
+    #xterm-host {
+      width: 100%;
+      height: calc(100% - 38px);
+      padding: 6px 8px;
+      overflow: hidden;
+      background: #0b1117;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      position: relative;
+    }
+    #grid-frame {
+      border-radius: 14px;
+      width: fit-content;
+      height: fit-content;
+      padding: 6px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overflow: hidden;
+      background: transparent;
+      position: relative;
+      z-index: 1;
+    }
+    #xterm-mount {
+      overflow: hidden;
+      background: transparent;
+    }
+    #images-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      padding: 26px 28px 30px;
+      background: rgba(11, 17, 23, 0.985);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease;
+    }
+    #images-overlay.show { opacity: 1; }
+    .images-shell {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      gap: 18px;
+      align-content: center;
+    }
+    .images-shell.single {
+      justify-items: center;
+      grid-template-rows: 1fr;
+    }
+    .images-shell.dual {
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+    }
+    .image-card {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+    .image-card.single {
+      width: min(100%, 1420px);
+      justify-items: center;
+      align-content: center;
+    }
+    .image-label {
+      justify-self: start;
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      background: rgba(139,148,158,0.16);
+      border: 1px solid rgba(139,148,158,0.35);
+      backdrop-filter: blur(8px);
+    }
+    .image-label.after {
+      background: rgba(163,113,247,0.22);
+      border-color: rgba(163,113,247,0.7);
+      color: #f4ecff;
+    }
+    .image-frame {
+      min-width: 0;
+      min-height: 0;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      border: 1px solid rgba(230, 237, 243, 0.12);
+      background: rgba(13, 17, 23, 0.88);
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .image-card.single .image-frame {
+      height: min(100%, 860px);
+    }
+    .image-card.dual .image-frame {
+      aspect-ratio: 16 / 10;
+      max-height: 730px;
+    }
+    .images-shell.content-fit { align-items: center; }
+    .images-shell.content-fit .image-card.dual { align-content: center; }
+    .images-shell.content-fit .image-card.dual .image-frame {
+      aspect-ratio: auto;
+      height: auto;
+      max-height: none;
+    }
+    .images-shell.content-fit .image-frame img { height: auto; }
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: #0b1117;
+    }
+    .xterm-viewport { overflow: hidden !important; }
+    .xterm .xterm-screen canvas { image-rendering: pixelated; }
+    .bottom-panel {
+      position: relative;
+      border-radius: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      min-height: 96px;
+    }
+    .caption-panel,
+    .gate-overlay {
+      position: absolute;
+      inset: 0;
+    }
+    .caption-panel {
+      display: flex;
+      align-items: center;
+      padding: 16px 24px 16px 0;
+      gap: 22px;
+    }
+    .caption-panel.hidden { display: none; }
+    .caption-accent {
+      width: 8px;
+      align-self: stretch;
+      background: var(--purple);
+      flex: 0 0 8px;
+    }
+    .caption-text {
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      white-space: pre-wrap;
+    }
+    .gate-overlay {
+      display: none;
+      align-items: center;
+      gap: 22px;
+      padding: 14px 24px;
+      background: linear-gradient(90deg, rgba(210,153,34,0.32), rgba(22,27,34,0.97));
+      border-left: 10px solid var(--amber);
+      color: #fff5da;
+    }
+    .gate-overlay.show { display: flex; }
+    .gate-overlay.danger {
+      background: linear-gradient(90deg, #3A1517, #1B0F10);
+      border-left-color: #F85149;
+      color: #ffd7d5;
+    }
+    .gate-icon {
+      width: 72px; height: 72px; flex: 0 0 72px;
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    .gate-overlay .gate-icon.danger { display: none; }
+    .gate-overlay.danger .gate-icon.person { display: none; }
+    .gate-overlay.danger .gate-icon.danger { display: block; }
+    .gate-title { font-size: 36px; font-weight: 800; line-height: 1.06; }
+    .gate-overlay.danger .gate-title { color: #FF7B72; }
+    .gate-text { font-size: 24px; color: #f9d78b; margin-top: 6px; line-height: 1.15; }
+    .gate-overlay.danger .gate-text { color: #ffb1ad; }
+    #cut-overlay {
+      position: absolute; inset: 0; background: rgba(0,0,0,0.82);
+      opacity: 0; pointer-events: none; transition: opacity 80ms linear;
+      border-radius: 20px;
+    }
+    #cut-overlay.show { opacity: 1; }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page" id="page-root">
+    <div class="topbar" id="topbar">
+      <div class="brand-block">
+        <div class="title-row">
+          <div class="brand-title">GitHub Copilot CLI × Custom Agent</div>
+          <div id="agent-chip" class="agent-chip"></div>
+        </div>
+        <div class="brand-subtitle">실제 Copilot CLI 세션 녹화 · 대기 시간만 단축</div>
+      </div>
+      <div class="tracker-wrap">
+        <div id="tracker" class="tracker"></div>
+      </div>
+    </div>
+    <div class="terminal-shell" id="terminal-shell">
+      <div id="terminal-window">
+        <div class="terminal-header" id="terminal-header">
+          <div class="traffic">
+            <div class="dot red"></div>
+            <div class="dot amber"></div>
+            <div class="dot green"></div>
+          </div>
+          <div id="term-title" class="term-title">copilot — shopflow-orders</div>
+          <div id="speed-badge" class="badge"></div>
+        </div>
+        <div id="xterm-host">
+          <div id="grid-frame">
+            <div id="xterm-mount"></div>
+          </div>
+          <div id="images-overlay"></div>
+        </div>
+      </div>
+      <div id="cut-overlay"></div>
+    </div>
+    <div class="bottom-panel" id="bottom-panel">
+      <div id="caption-panel" class="caption-panel">
+        <div class="caption-accent"></div>
+        <div id="caption-text" class="caption-text"></div>
+      </div>
+      <div id="gate-overlay" class="gate-overlay">
+        <svg class="gate-icon person" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <circle cx="32" cy="19" r="11" fill="#FFF5DA"/>
+          <path d="M18 54c2-10 7-16 14-16s12 6 14 16" stroke="#FFF5DA" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+        <svg class="gate-icon danger" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <path d="M32 6l18 7v15c0 13-7.6 22-18 30C21.6 50 14 41 14 28V13l18-7z" stroke="#F85149" stroke-width="4.5" fill="rgba(248,81,73,0.14)" stroke-linejoin="round"/>
+          <path d="M24 22l16 16M40 22L24 38" stroke="#FF7B72" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div id="gate-title" class="gate-title"></div>
+          <div id="gate-text" class="gate-text"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./node_modules/@xterm/xterm/lib/xterm.js"></script>
+  <script src="./node_modules/@xterm/addon-unicode11/lib/addon-unicode11.js"></script>
+  <script src="./page.js"></script>
+</body>
+</html>

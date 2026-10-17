@@ -1,0 +1,30 @@
+ [Current]  Sessions   Issues   Pull requests   Gists
+
+   wc -l docs/cr/CR-2026-014/02-design.md && git --no-pager diff --check && git --no-pager status --short              ┃
+                                                                                                                       ┃
+ ● Edit  Edit docs/cr/CR-2026-014/02-design.md                                                                         ┃
+                                                                                                                       ┃
+ ● 설계서  docs/cr/CR-2026-014/02-design.md 를 작성했습니다.                                                           ┃
+                                                                                                                       ┃
+   • VIP 60일·일반 30일, 시행 후 모든 신규 접수에 적용합니다.                                                          ┃
+   • 등급은 정규화하고 NULL은 일반으로 처리합니다.                                                                     ┃
+   • 구앱 3.1~3.3은 12월 1일(UTC)까지 사유 누락을 허용·경고하며, 12월 2일 00:00 UTC부터 필수입니다.                    ┃
+   • 100만원 초과는 기존 승인 대기로 접수하며, DB는 사유 컬럼만 추가합니다.                                            ┃
+     R2 한시 예외와 전환 시각을 포함해 설계 승인을 요청합니다.                                                         ┃
+                                                                                                                       ┃
+ $ Shell CR-2026-014 설계에 대한 사람 승인 요청 3 lines…                                                            8s ┃
+   .venv/bin/python scripts/gate.py request design CR-2026-014                                                         ┃
+ $ Shell 설계 승인 기록과 승인된 문서의 일치 확인 1 line…                                                              ┃
+   .venv/bin/python scripts/gate.py verify design CR-2026-014                                                          ┃
+                                                                                                                       ┃
+ ● 설계 승인 완료 → 다음 단계: app-developer                                                                           ┃
+                                                                                                                       ┃
+   설계서:  docs/cr/CR-2026-014/02-design.md                                                                           ┃
+   구앱 사유 누락의 기한부 허용·경고 로그, 등급 정규화, 기존 구매 주문 적용을 반영했습니다.                            ┃
+   승인된 설계서는 동결했으며, 코드는 변경하지 않았습니다.                                                             ┃
+                                                                                                                       ┃
+ ~/Documents/Microsoft Scout/GHCP_CLI_Demo_Kit/shopflow-orders [⎇ main%]                        Session: 47.04 AIC used
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ← open sidebar · Interactive · Manual Approval · / commands   ctrl+t show reasoning · solution-architect · GPT-6.1 Sol

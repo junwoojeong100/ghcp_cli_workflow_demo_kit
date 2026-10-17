@@ -1,0 +1,30 @@
+ [Current]  Sessions   Issues   Pull requests   Gists
+
+ MD Read 07-ops-report.md L1:47 (47 lines read)                                                                        ┃
+                                                                                                                       ┃
+ $ Shell 리포트 저장과 운영 코드·설정 변경 없음 최종 확인 3 lines…                                                     ┃
+   wc -l docs/cr/CR-2026-014/07-ops-report.md && git --no-pager status --short && git --no-pager diff --name-only      ┃
+                                                                                                                       ┃
+ / Search "\p{Han}|[\t ]+$" in *.md (docs/cr/CR-2026-014/07-ops-report.md) No matches found                            ┃
+                                                                                                                       ┃
+ ● Edit  Edit docs/cr/CR-2026-014/07-ops-report.md                                                                     ┃
+                                                                                                                       ┃
+ ❯ Thought for 1s                                                                                                      ┃
+                                                                                                                       ┃
+ ✔ Todo completed ops-report                                                                                           ┃
+                                                                                                                       ┃
+ $ Shell 최종 리포트 분량·저장 범위 확인 3 lines…                                                                      ┃
+   wc -l docs/cr/CR-2026-014/07-ops-report.md && git --no-pager status --short                                         ┃
+                                                                                                                       ┃
+ ● 리포트 저장:  docs/cr/CR-2026-014/07-ops-report.md  — 시뮬레이션 중심의 관측 결과입니다.                            ┃
+   전체 312건: 4xx 14.42%·기록된 5xx 0건·P95 2.1ms.                                                                    ┃
+   시뮬레이션 환불 150건: 승인 80·대기 25·기간 초과 45건.                                                              ┃
+   고액 대기는 25건·4,500만원이며 승인 전 알림은 0건입니다.                                                            ┃
+   구앱 3.1 무사유 접수 20건(성공 접수의 19.05%), 이메일·전화 패턴 노출 검출은 0건입니다.                              ┃
+   현업 결정: 합성 대기 건 처리 방침·담당자, 구앱 업데이트·웹 안내 일정.                                               ┃
+                                                                                                                       ┃
+ ~/Documents/Microsoft Scout/GHCP_CLI_Demo_Kit/shopflow-orders [⎇ main%]                       Session: 454.22 AIC used
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ← open sidebar · Interactive · Manual Approval · / commands          ctrl+t show reasoning · ops-analyst · GPT-6.1 Sol

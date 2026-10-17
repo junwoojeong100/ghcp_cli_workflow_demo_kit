@@ -1,0 +1,1424 @@
+diff --git a/VERSION b/VERSION
+index 3eefcb9..9084fa2 100644
+--- a/VERSION
++++ b/VERSION
+@@ -1 +1 @@
+-1.0.0
++1.1.0
+diff --git a/app/main.py b/app/main.py
+index 37a51f6..5b2754f 100644
+--- a/app/main.py
++++ b/app/main.py
+@@ -44,6 +44,9 @@ async def access_log(request: Request, call_next):
+         "ms": round((time.perf_counter() - started) * 1000, 1),
+         "client": request.headers.get("user-agent", "-"),
+     }
++    warning = getattr(request.state, "refund_warning", None)
++    if warning:
++        entry.update(warning)
+     line = json.dumps(entry, ensure_ascii=False)
+     path = config.log_path()
+     if path:
+diff --git a/app/notifications.py b/app/notifications.py
+index f2f3739..cb4b0cd 100644
+--- a/app/notifications.py
++++ b/app/notifications.py
+@@ -1,19 +1,34 @@
+ """고객 알림(이메일) 발송 대기열. 실제 발송은 별도 워커가 담당한다."""
+ 
+ from . import clock
++from .services.refund_policy import (
++    LEGACY_APP_VERSIONS,
++    LEGACY_REASON_GRACE_END,
++    MANUAL_APPROVAL_THRESHOLD,
++    REFUND_WINDOW_DAYS,
++    VIP_REFUND_WINDOW_DAYS,
++)
++
++REFUND_POLICY_NOTICE = (
++    f"※ 환불은 구매 후 일반 {REFUND_WINDOW_DAYS}일·VIP {VIP_REFUND_WINDOW_DAYS}일"
++    " 이내에 신청하실 수 있습니다. 환불 사유는 필수입니다.\n"
++    f"※ {MANUAL_APPROVAL_THRESHOLD:,}원 초과는 관리자 승인 대기로 접수됩니다.\n"
++    f"※ 구앱 {', '.join(LEGACY_APP_VERSIONS)}은 {LEGACY_REASON_GRACE_END.isoformat()}"
++    "(UTC)까지 사유 누락을 허용하며 이후 필수입니다. 사유 입력이 불가능하면 웹에서 접수해 주세요.\n"
++)
+ 
+ REFUND_APPROVED_SUBJECT = "[ShopFlow] 환불이 승인되었습니다"
+ REFUND_APPROVED_BODY = (
+     "{name} 고객님, 안녕하세요.\n"
+     "주문 #{order_id}의 환불 {amount:,}원이 승인되었습니다. 영업일 기준 3일 이내에 환급됩니다.\n\n"
+-    "※ 환불은 구매 후 30일 이내에 신청하실 수 있습니다.\n"
++    + REFUND_POLICY_NOTICE
+ )
+ 
+ REFUND_REJECTED_SUBJECT = "[ShopFlow] 환불 요청이 반려되었습니다"
+ REFUND_REJECTED_BODY = (
+     "{name} 고객님, 안녕하세요.\n"
+     "주문 #{order_id}의 환불 요청이 반려되었습니다. 자세한 내용은 고객센터로 문의해 주세요.\n\n"
+-    "※ 환불은 구매 후 30일 이내에 신청하실 수 있습니다.\n"
++    + REFUND_POLICY_NOTICE
+ )
+ 
+ 
+diff --git a/app/routers/orders.py b/app/routers/orders.py
+index d52e95e..2eb1bf0 100644
+--- a/app/routers/orders.py
++++ b/app/routers/orders.py
+@@ -1,4 +1,4 @@
+-from fastapi import APIRouter, Depends
++from fastapi import APIRouter, Depends, Request
+ 
+ from ..db import get_db
+ from ..schemas import OrderCreate, OrderOut, RefundCreate, RefundOut
+@@ -18,8 +18,24 @@ def get_order(order_id: int, db=Depends(get_db)):
+ 
+ 
+ @router.post("/orders/{order_id}/refund", response_model=RefundOut, status_code=201)
+-def request_refund(order_id: int, body: RefundCreate, db=Depends(get_db)):
+-    return refund_service.request_refund(db, order_id, body.amount)
++def request_refund(order_id: int, body: RefundCreate, request: Request, db=Depends(get_db)):
++    """입력 사유와 앱 버전을 전달하고 무사유 예외 접수의 경고 정보를 남긴다."""
++    user_agent = request.headers.get("user-agent", "")
++    client_version = (
++        user_agent.split("/", 1)[1] if user_agent.startswith("ShopFlowMobile/") else None
++    )
++    refund = refund_service.request_refund(
++        db, order_id, body.amount, reason=body.reason, client_version=client_version
++    )
++    if body.reason is None:
++        request.state.refund_warning = {
++            "level": "WARNING",
++            "code": "LEGACY_REASON_MISSING",
++            "refund_id": refund["id"],
++            "order_id": order_id,
++            "client_version": client_version,
++        }
++    return refund
+ 
+ 
+ @router.get("/refunds/{refund_id}", response_model=RefundOut)
+diff --git a/app/schemas.py b/app/schemas.py
+index 048ed8e..5c29839 100644
+--- a/app/schemas.py
++++ b/app/schemas.py
+@@ -1,6 +1,10 @@
+ """API 요청/응답 스키마."""
+ 
+-from pydantic import BaseModel, Field
++from typing import Annotated
++
++from pydantic import BaseModel, Field, StringConstraints
++
++from .services.refund_policy import REFUND_REASON_MAX_LENGTH
+ 
+ 
+ class OrderCreate(BaseModel):
+@@ -12,6 +16,15 @@ class OrderCreate(BaseModel):
+ 
+ class RefundCreate(BaseModel):
+     amount: int = Field(gt=0, description="환불 요청 금액(원)")
++    reason: (
++        Annotated[
++            str,
++            StringConstraints(
++                strip_whitespace=True, min_length=1, max_length=REFUND_REASON_MAX_LENGTH
++            ),
++        ]
++        | None
++    ) = None
+ 
+ 
+ class CustomerOut(BaseModel):
+diff --git a/app/services/refund_policy.py b/app/services/refund_policy.py
+index 7e16e6e..53943f9 100644
+--- a/app/services/refund_policy.py
++++ b/app/services/refund_policy.py
+@@ -3,6 +3,11 @@
+ from datetime import date
+ 
+ REFUND_WINDOW_DAYS = 30
++VIP_REFUND_WINDOW_DAYS = 60
++MANUAL_APPROVAL_THRESHOLD = 1_000_000
++REFUND_REASON_MAX_LENGTH = 200
++LEGACY_REASON_GRACE_END = date(2026, 12, 1)
++LEGACY_APP_VERSIONS = ("3.1", "3.2", "3.3")
+ 
+ 
+ class RefundDenied(Exception):
+@@ -15,16 +20,29 @@ class RefundDenied(Exception):
+ 
+ 
+ def days_since(ordered_at: str, today: date) -> int:
++    """구매일부터 UTC 날짜 기준 경과일을 계산한다."""
+     return (today - date.fromisoformat(ordered_at[:10])).days
+ 
+ 
+-def check_refund_window(ordered_at: str, today: date) -> None:
+-    if days_since(ordered_at, today) > REFUND_WINDOW_DAYS:
++def check_refund_window(ordered_at: str, today: date, tier: str | None = None) -> None:
++    """고객 등급별 환불 기간을 검사하며 원본 등급은 변경하지 않는다."""
++    window = VIP_REFUND_WINDOW_DAYS if (tier or "").strip().upper() == "VIP" else REFUND_WINDOW_DAYS
++    if days_since(ordered_at, today) > window:
++        raise RefundDenied("WINDOW_EXPIRED", f"환불 가능 기간({window}일)이 지났습니다.")
++
++
++def check_refund_reason(reason: str | None, client_version: str | None, today: date) -> None:
++    """대상 구앱에만 기한부 사유 누락 예외를 허용한다."""
++    if reason is None and not (
++        client_version in LEGACY_APP_VERSIONS and today <= LEGACY_REASON_GRACE_END
++    ):
+         raise RefundDenied(
+-            "WINDOW_EXPIRED", f"환불 가능 기간({REFUND_WINDOW_DAYS}일)이 지났습니다."
++            "REASON_REQUIRED",
++            "환불 사유를 입력해 주세요. 구앱은 웹에서 접수해 주세요.",
+         )
+ 
+ 
+ def check_amount(order_total: int, already_refunded: int, amount: int) -> None:
++    """승인 대기액을 포함한 환불 합계가 주문 금액을 넘지 않게 한다."""
+     if already_refunded + amount > order_total:
+         raise RefundDenied("AMOUNT_EXCEEDED", "환불 금액이 주문 금액을 초과합니다.")
+diff --git a/app/services/refund_service.py b/app/services/refund_service.py
+index 5ffc77b..d666c8b 100644
+--- a/app/services/refund_service.py
++++ b/app/services/refund_service.py
+@@ -2,7 +2,13 @@
+ 
+ from .. import audit, clock, notifications
+ from . import order_service
+-from .refund_policy import RefundDenied, check_amount, check_refund_window
++from .refund_policy import (
++    MANUAL_APPROVAL_THRESHOLD,
++    RefundDenied,
++    check_amount,
++    check_refund_reason,
++    check_refund_window,
++)
+ 
+ ACTIVE_STATUSES = ("REQUESTED", "APPROVED")
+ 
+@@ -26,32 +32,54 @@ def list_refunds(db, status: str | None = None) -> list[dict]:
+     return [dict(r) for r in db.execute(sql + " ORDER BY id DESC", params).fetchall()]
+ 
+ 
+-def request_refund(db, order_id: int, amount: int, actor: str = "customer") -> dict:
++def request_refund(
++    db,
++    order_id: int,
++    amount: int,
++    actor: str = "customer",
++    *,
++    reason: str | None = None,
++    client_version: str | None = None,
++) -> dict:
++    """사유·기간·금액을 검증하고 고액 또는 배송 중 환불을 승인 대기로 접수한다."""
+     order = order_service.get_order(db, order_id)
+     customer = order_service.get_customer(db, order["customer_id"])
+     if order["status"] == "CANCELLED":
+         raise RefundDenied("ORDER_CANCELLED", "취소된 주문은 환불할 수 없습니다.")
+-    check_refund_window(order["ordered_at"], clock.today())
++    today = clock.today()
++    check_refund_window(order["ordered_at"], today, customer["tier"])
++    check_refund_reason(reason, client_version, today)
+     already = db.execute(
+         "SELECT COALESCE(SUM(amount), 0) FROM refunds WHERE order_id = ? AND status IN (?, ?)",
+         (order_id, *ACTIVE_STATUSES),
+     ).fetchone()[0]
+     check_amount(order["total_amount"], already, amount)
+ 
+-    # 배송 중인 주문은 물류 확인이 필요하므로 관리자가 수동으로 승인한다.
+-    status = "REQUESTED" if order["status"] == "SHIPPED" else "APPROVED"
++    status = (
++        "REQUESTED"
++        if order["status"] == "SHIPPED" or amount > MANUAL_APPROVAL_THRESHOLD
++        else "APPROVED"
++    )
+     now = clock.now().isoformat()
+     cur = db.execute(
+-        "INSERT INTO refunds (order_id, amount, status, requested_at, decided_at)"
+-        " VALUES (?, ?, ?, ?, ?)",
+-        (order_id, amount, status, now, now if status == "APPROVED" else None),
++        "INSERT INTO refunds (order_id, amount, status, requested_at, decided_at, reason)"
++        " VALUES (?, ?, ?, ?, ?, ?)",
++        (order_id, amount, status, now, now if status == "APPROVED" else None, reason),
+     )
+     refund_id = cur.lastrowid
+     audit.log(
+         db,
+         actor,
+         "refund.requested",
+-        {"refund_id": refund_id, "order_id": order_id, "amount": amount, "status": status},
++        {
++            "refund_id": refund_id,
++            "order_id": order_id,
++            "amount": amount,
++            "status": status,
++            "cr_id": "CR-2026-014",
++            "reason_missing": reason is None,
++            "legacy_exception": reason is None,
++        },
+     )
+     if status == "APPROVED":
+         _notify(db, customer, order_id, amount, approved=True)
+diff --git a/app/static/index.html b/app/static/index.html
+index 47e8712..0fb1831 100644
+--- a/app/static/index.html
++++ b/app/static/index.html
+@@ -49,7 +49,8 @@
+           <select id="customer"></select>
+           <span id="tier"></span>
+         </div>
+-        <p class="policy" id="policy">환불은 구매 후 30일 이내에 신청하실 수 있습니다.</p>
++        <p class="policy" id="policy">환불은 구매 후 일반 30일·VIP 60일 이내에 신청하실 수 있습니다. 환불 사유는 필수이며, 1,000,000원 초과는 관리자 승인 대기로 접수됩니다.</p>
++        <p class="policy">구앱 3.1~3.3은 2026-12-01(UTC)까지 사유 누락을 허용하며 이후 필수입니다. 구앱에서 사유를 입력할 수 없으면 웹에서 접수해 주세요.</p>
+       </div>
+       <div class="card">
+         <h2>주문 내역</h2>
+@@ -63,6 +64,8 @@
+         <div class="row">
+           <label for="amount">환불 금액(원)</label>
+           <input id="amount" type="number" min="1">
++          <label for="reason">환불 사유(필수)</label>
++          <textarea id="reason" required placeholder="환불 사유를 입력해 주세요."></textarea>
+           <button class="act" id="submit-refund">환불 요청</button>
+           <button class="act ghost" id="cancel-refund">닫기</button>
+         </div>
+@@ -97,9 +100,23 @@
+     async function api(path, opts = {}) {
+       const res = await fetch(path, { headers: { "Content-Type": "application/json", ...(opts.headers || {}) }, ...opts });
+       const body = await res.json().catch(() => ({}));
+-      if (!res.ok) throw body.detail || { message: "요청에 실패했습니다." };
++      if (!res.ok) {
++        const detail = body.detail;
++        const message = Array.isArray(detail)
++          ? (detail.some((error) => error.loc?.includes("reason"))
++            ? "환불 사유는 공백을 제외해 1~200자로 입력해 주세요."
++            : "입력값을 확인해 주세요.")
++          : detail?.message || "요청에 실패했습니다.";
++        throw new Error(message);
++      }
+       return body;
+     }
++    function showError(id, message) {
++      const notice = document.createElement("div");
++      notice.className = "msg err";
++      notice.textContent = message;
++      $(id).replaceChildren(notice);
++    }
+     const tierBadge = (t) => (t || "").trim().toUpperCase() === "VIP" ? '<span class="badge vip">VIP</span>' : '<span class="badge">일반</span>';
+ 
+     async function loadCustomers() {
+@@ -122,16 +139,23 @@
+       selectedOrder = b.dataset.order;
+       $("refund-order").textContent = selectedOrder;
+       $("amount").value = b.dataset.amount;
++      $("reason").value = "";
+       $("result").innerHTML = "";
+       $("refund-card").classList.remove("hidden");
+     });
+     $("cancel-refund").addEventListener("click", () => $("refund-card").classList.add("hidden"));
+     $("submit-refund").addEventListener("click", async () => {
++      const reason = $("reason").value.trim();
++      if (!reason) {
++        showError("result", "환불 사유를 입력해 주세요.");
++        $("reason").focus();
++        return;
++      }
+       try {
+-        const r = await api(`/orders/${selectedOrder}/refund`, { method: "POST", body: JSON.stringify({ amount: Number($("amount").value) }) });
++        const r = await api(`/orders/${selectedOrder}/refund`, { method: "POST", body: JSON.stringify({ amount: Number($("amount").value), reason }) });
+         $("result").innerHTML = `<div class="msg ok">환불 #${r.id} 접수 완료 · 상태 <span class="badge ${r.status}">${r.status}</span></div>`;
+       } catch (err) {
+-        $("result").innerHTML = `<div class="msg err">${err.message}</div>`;
++        showError("result", err.message);
+       }
+     });
+ 
+@@ -140,7 +164,7 @@
+         const list = await api("/admin/refunds?status=REQUESTED", { headers: { "X-Admin-Token": $("token").value } });
+         $("pending").innerHTML = list.map((r) => `<tr><td>#${r.id}</td><td>#${r.order_id}</td><td>${won(r.amount)}</td><td>${r.requested_at.slice(0, 16).replace("T", " ")}</td>
+           <td><button class="act" data-act="approve" data-id="${r.id}">승인</button> <button class="act ghost" data-act="reject" data-id="${r.id}">반려</button></td></tr>`).join("") || '<tr><td colspan="5">승인 대기 건이 없습니다.</td></tr>';
+-      } catch (err) { $("admin-result").innerHTML = `<div class="msg err">${err.message}</div>`; }
++      } catch (err) { showError("admin-result", err.message); }
+     }
+     $("load-admin").addEventListener("click", loadPending);
+     $("pending").addEventListener("click", async (e) => {
+@@ -148,7 +172,7 @@
+       try {
+         await api(`/admin/refunds/${b.dataset.id}/${b.dataset.act}`, { method: "POST", headers: { "X-Admin-Token": $("token").value } });
+         $("admin-result").innerHTML = `<div class="msg ok">환불 #${b.dataset.id} 처리 완료</div>`; loadPending();
+-      } catch (err) { $("admin-result").innerHTML = `<div class="msg err">${err.message}</div>`; }
++      } catch (err) { showError("admin-result", err.message); }
+     });
+ 
+     document.querySelectorAll("nav button").forEach((b) => b.addEventListener("click", () => {
+diff --git a/db/migrations/002_refund_reason.sql b/db/migrations/002_refund_reason.sql
+new file mode 100644
+index 0000000..9c00763
+--- /dev/null
++++ b/db/migrations/002_refund_reason.sql
+@@ -0,0 +1 @@
++ALTER TABLE refunds ADD COLUMN reason TEXT;
+diff --git a/docs/cr/CR-2026-014/01-impact-analysis.md b/docs/cr/CR-2026-014/01-impact-analysis.md
+new file mode 100644
+index 0000000..2cc2dd4
+--- /dev/null
++++ b/docs/cr/CR-2026-014/01-impact-analysis.md
+@@ -0,0 +1,77 @@
++# CR-2026-014 변경 영향 분석서
++
++분석일: 2026-10-16 · 희망 적용일: 2026-11-02 · 상태: 분석 완료, 설계·승인 전
++
++## 1. 한눈에 보기
++- VIP는 구매 후 60일, 일반은 30일이며, 신규 환불 접수에는 사유가 필요하다.
++- 건별 요청액 1,000,000원 초과는 기존 관리자 승인 대기로 접수하고 승인 전 처리를 막는다.
++- API·규칙·DB·웹·이메일·문서·테스트·운영 및 외부 모바일 앱에 영향이 있다.
++- 가장 큰 위험은 사유 없는 구버전 앱의 접수 실패와 현행 배포 방식의 서비스 중단이다.
++- 결정 필요: 구버전 접수 전환 방식, 등급 판정, 기존 주문에 대한 적용 기준.
++
++## 2. 요구사항 해석
++| ID | 의도 및 적용 범위 | 모호하거나 확인할 점 |
++|---|---|---|
++| R1 | VIP 60일 이내, 일반 30일 이내 접수. 기존 UTC 날짜 단위 계산을 유지한다. | 등급 표기 혼재·NULL 처리와 시행 전 주문 적용 기준 미정 |
++| R2 | 실제 사유를 입력받아 저장하고, 누락 시 입력 안내를 표시한다. | 구버전 앱 전환 방식 미정. 자유문 1~200자·앞뒤 공백 제거를 설계안으로 제안 |
++| R3 | 건별 요청액이 1,000,000원을 **초과**하면 관리자 승인 대기. 정확히 1,000,000원은 이 조건 제외. | 기존 배송 중 수동 승인 규칙은 유지. 누적 고액 통제는 이번 요구가 아님 |
++| R4 | 고객 화면·승인/반려 이메일·정책 문서를 동일한 기간·사유·승인 안내로 맞춘다. | 외부 앱 내 문구·오류 안내 구현은 확인 필요 |
++
++기준 요청서: `docs/requirements/CR-2026-014.md:15`
++
++## 3. 영향 범위
++| 영역 | 파일/위치 | 변경 내용 | 위험도 | 근거 |
++|---|---|---|---|---|
++| API | `app/schemas.py`, `app/routers/orders.py`, 환불 서비스 | 사유 입력·검증·전달·저장, 조회 응답 반영 검토. 현재 amount만 전달 | 상 | `app/routers/orders.py:22` |
++| 업무 규칙 | `app/services/refund_policy.py`, `refund_service.py` | 기간·임계값을 정책 모듈에 집중, 등급별 기간과 고액 대기 분기 추가 | 상 | `app/services/refund_service.py:34` |
++| DB/데이터 | `db/migrations/` 신규 `002_*.sql`, `refunds` | 사유 컬럼을 NULL 허용으로 확장; 과거 환불은 미수집 상태 유지, 새 접수는 API에서 필수화 | 상 | `db/migrations/001_init.sql:18` |
++| 고객 화면 | `app/static/index.html` | 사유 입력·전송, 누락/검증 오류 안내, 30/60일 및 고액 대기 문구. 현재 사유 입력 없음 | 중 | `app/static/index.html:129` |
++| 관리자 콘솔 | `app/static/index.html`, `app/routers/admin.py` | 기존 REQUESTED 목록·승인/반려 API 재사용; 새 상태·별도 승인 시스템 불필요, 인증 유지 | 중 | `app/static/index.html:140` |
++| 알림 | `app/notifications.py`, 환불 서비스 `_notify` | 승인·반려 템플릿 모두 정책 반영; 고액 대기 중 승인 이메일 생성 금지 | 중 | `app/notifications.py:9` |
++| 문서 | `docs/policy/refund-policy.md`, `docs/architecture.md` | 기간·사유 필수·고액 승인 및 API 계약 변경 설명 | 중 | `docs/policy/refund-policy.md:5` |
++| 테스트 | `tests/test_refunds.py`, `test_ui.py`, `conftest.py` | 기존 amount-only 성공 사례 수정, 기간·금액·사유·승인·마이그레이션 회귀 추가 | 상 | `tests/test_refunds.py:4` |
++| 배포/운영·감사 | 배포/스모크/트래픽 도구, 감사 로그·단계별 산출물 | 확장 선행·롤백 검증·승인 이력 유지. 현행 중지/기동 배포는 무중단 미충족; 보호된 scripts는 담당자 조치 | 상 | `scripts/deploy.sh:107` |
++| 모바일 앱 | 외부 앱 3.1~3.3 | amount-only 요청에 필수 사유를 추가하면 계약 단절; 업데이트·대체 접수 경로 사전 안내 필요 | 상 | `docs/architecture.md:16` |
++
++## 4. 데이터 확인 결과
++저장소의 `data/orders.db`를 읽기 전용 조회했다. 운영 DB와 동일한 분포인지는 확인 필요하며 운영 수치로 일반화하지 않는다.
++실행한 핵심 조회(한 줄 명령, 고객 이름·이메일 등 개인정보 조회 없음):
++```sh
++sqlite3 -readonly -header -column data/orders.db "SELECT quote(tier) AS tier, COUNT(*) AS n FROM customers GROUP BY tier; SELECT status, COUNT(*) AS n, MIN(amount) AS min_amount, MAX(amount) AS max_amount FROM refunds GROUP BY status; SELECT total_amount, status, COUNT(*) AS n FROM orders WHERE total_amount>=1000000 GROUP BY total_amount,status; SELECT UPPER(TRIM(COALESCE(c.tier,''))) AS tier, COUNT(*) AS orders_31_60 FROM orders o JOIN customers c ON c.id=o.customer_id WHERE julianday('2026-10-16')-julianday(substr(o.ordered_at,1,10)) BETWEEN 31 AND 60 GROUP BY 1; PRAGMA table_info(refunds);"
++```
++| 확인 항목 | 실제 결과 | 영향 |
++|---|---|---|
++| 고객 등급 12명 | `'STANDARD'` 5, `'VIP'` 4, `'vip'` 1, `'VIP '` 1, NULL 1 | 단순 VIP 완전일치 시 2명 누락; 정규화 시 VIP 6명. NULL은 판정 결정 필요 |
++| 기존 환불 | APPROVED 1건 55,000원, REJECTED 1건 99,000원; REQUESTED 0건 | 과거 사유 컬럼 자체가 없으며 복원 불가. 상태·금액·일시는 보존 |
++| 고액 경계 주문 | DELIVERED에 1,000,000 / 1,000,001 / 1,350,000 / 2,300,000원 각 1건 | 주문 전액을 요청한다면 3건이 금액 기준 대기 대상; 실제 접수 자격·요청액은 별도 판단 |
++| 31~60일 주문 | 2026-10-16 기준 정규화 VIP 5건, STANDARD 3건, NULL 등급 1건 | VIP 기간 연장 영향을 직접 확인할 표본; 잔여 환불 가능액까지 보장하는 집계는 아님 |
++| 환불 스키마 | id, order_id, amount, status, requested_at, decided_at의 6컬럼 | 사유 저장용 확장 필요; 기존 행에 가짜 사유를 채우지 않음 |
++
++## 5. 위험 및 하위호환 시나리오
++| 시나리오 | 영향과 대응 방향 | 근거 |
++|---|---|---|
++| 구버전이 amount만 전송 | 필수 필드 추가 시 기본 검증은 422. 웹도 현재 검증 오류 배열을 `err.message`로 읽어 안내가 깨질 수 있어 입력 안내 처리가 필요 | `app/static/index.html:134` |
++| 문서와 트래픽 도구의 모바일 가정 불일치 | 문서는 3.1~3.3 모두 사유 미전송, 도구는 3.3을 전송으로 가정. 실제 버전별 계약 확인 필요; 도구 비율을 실사용 비율로 보고하지 않음 | `scripts/simulate_traffic.py:17` |
++| VIP 변형값·기간 경계 | 화면은 이미 trim/대문자화한다. 서버가 다른 기준이면 VIP 표시 고객의 45일 주문이 거절됨; 일반 30/31일, VIP 45/60/61일 및 NULL 검증 | `app/static/index.html:103` |
++| 고액·배송 중·부분 환불 | 고액에도 기존 대기 흐름(REQUESTED·decided_at=NULL·승인 전 알림 없음)을 적용. 대기액도 기존 총액 한도에 포함; 1,000,000/1,000,001원, 승인/반려·재결정 방지 검증 | `app/services/refund_service.py:35` |
++| 구·신 서버가 같은 DB 사용 및 롤백 | NULL 허용 컬럼 확장으로 구버전 INSERT를 보존하되 구서버는 사유·고액 통제를 적용하지 못함. 정책 전환 뒤 구서버로 요청이 가지 않게 설계; 단순 코드 롤백은 통제 후퇴 | `app/services/refund_service.py:42` |
++| 무중단·데이터 보존 | 현재 서비스 중지 후 기동하며 롤백도 동일. 담당자와 중단 없는 전환 절차를 설계하고 동시 요청·DDL 잠금 검증; 추가 컬럼은 유지하고 신규 접수 유실을 부르는 과거 백업 덮어쓰기 금지 | `scripts/deploy.sh:107` |
++| 사유·감사 추적 | 사유 길이 제한·공백 정리, SQL 바인딩, 화면 출력 이스케이프 적용. 사유/개인정보 원문은 접근·감사 로그에 남기지 않고 환불 ID로 저장 이력과 연결; 기존 접수·결정 감사 이벤트 보존 | `docs/standards/security-checklist.md:8` |
++
++## 6. 결정 필요 사항 및 배포 전 체크리스트
++| 우선 | 사람이 정할 사항 | 선택지·장단점 | 추천안 |
++|---|---|---|---|
++| 1 | 구버전 앱의 사유 필수 전환 | A: 누락 거절+웹 사유 입력 접수 안내(요건 충족, 앱 내 접수 제한) / B: 앱 업데이트까지 적용 시점 조정(전환 혼란 감소, 일정 영향) | A. 사전 공지·웹 대체 경로 마련; 사유 자동 채움이나 무사유 허용은 R2 충족으로 간주하지 않음 |
++| 2 | 등급 판정 기준 | A: 공백 제거·대소문자 통일 후 VIP, NULL은 일반(화면과 일치, NULL VIP 가능성 확인 필요) / B: 원본 완전일치(단순하나 변형 VIP 누락) | A. 원본 데이터 수정 없이 판정만 정규화 |
++| 3 | 시행 전 구매 주문의 신규 접수 | A: 시행 후 모든 신규 접수에 적용(기존 VIP도 혜택, 처리량 증가 가능) / B: 시행 후 구매분만 적용(영향 축소, 기존 45일 VIP 기대와 충돌 가능) | A. 기존 환불 상태·사유 미수집 이력은 소급 변경하지 않음 |
++
++배포 전 체크리스트(외부 확인 항목이지 별도 기능 요구나 추가 승인 게이트가 아님):
++- 모바일 담당자: 버전별 reason 전송·오류 안내·웹 대체 경로 확인 및 사전 공지. 근거: `docs/architecture.md:16`
++- 운영 담당자: 실제 DB 등급 분포·현재 배포 전환 방식 확인, 무중단/롤백 검증 절차 구체화. 근거: `scripts/deploy.sh:107`
++- 알림 담당자: 외부 발송 워커와 기존 대기 이메일의 정책 문구 처리 확인. 근거: `docs/architecture.md:8`
++- 도구 담당자: 보호된 트래픽 도구는 기본 422 응답의 detail 배열 처리 시 실패 가능하므로 검증 시나리오 정합성 확인. 근거: `scripts/simulate_traffic.py:66`
++
++## 7. 다음 단계 제안
++위 3개 결정을 반영해 `02-design.md`에 API·데이터 확장·정책 전환·검증·롤백을 구체화한다. 설계 승인① 전 구현하지 않는다.
++이후 구현 기록→테스트→리뷰→코드 승인②→릴리스 계획·staging 검증→운영 배포 승인③→운영 보고 순으로 추적한다. 근거: `docs/standards/release-policy.md:9`
++이번 작업은 본 분석서만 생성했으며 코드·DB·설정·보호 경로는 변경하지 않았다.
+diff --git a/docs/cr/CR-2026-014/02-design.md b/docs/cr/CR-2026-014/02-design.md
+new file mode 100644
+index 0000000..20dbe5c
+--- /dev/null
++++ b/docs/cr/CR-2026-014/02-design.md
+@@ -0,0 +1,70 @@
++- CR: CR-2026-014 / - 상태: 승인 대기 / - 작성: change-analyst → solution-architect
++## 1. 결정 사항
++| 질문 | 사람이 선택한 내용 | 이유·효과 |
++|---|---|---|
++| 구버전 앱 전환은? | 앱 3.1~3.3은 2026-12-01까지 사유 누락 허용·경고 로그, 이후 필수 | 사용자 지정안. R2의 한시 예외이며 자동 사유 채움은 하지 않음 |
++| 등급 판정은? | 앞뒤 공백 제거·대문자화 후 VIP, NULL·그 외는 일반 | 사용자 선택. 현재 화면과 일치하며 원본 등급은 보존 |
++| 기존 구매 주문은? | 시행 후 모든 신규 접수에 적용, 과거 환불 이력은 그대로 유지 | 사용자 선택. 기존 VIP의 구매 45일 주문도 대상 |
++
++## 2. 변경 개요
++VIP는 60일, 일반은 30일까지 접수하고 사유를 저장한다. 1,000,000원 초과 건은 관리자 승인 대기로 접수하며 승인 전 환불 처리·승인 이메일을 생성하지 않는다.
++웹·안내 이메일·정책 문구를 맞추며, 구앱의 사유 누락만 기한부로 허용한다.
++요청서 R1~R4를 따르되 R2 한시 예외는 본 설계 승인 대상으로 명시한다. 근거: `docs/requirements/CR-2026-014.md:18`
++
++## 3. 상세 설계
++| 예상 변경 파일 | 역할 |
++|---|---|
++| `app/services/refund_policy.py` | 기간·임계액·유예 종료일·대상 버전 상수 및 판정 집중, 시간은 app.clock 사용 |
++| `app/services/refund_service.py` | 등급·사유·고액 규칙 적용, 사유 INSERT, 기존 총액 검증·승인·반려 재사용 |
++| `app/schemas.py`, `app/routers/orders.py` | 선택형 reason 검증 후 서비스에 전달, User-Agent에서 앱 버전만 추출 |
++| `app/main.py` | 성공한 무사유 예외 접수에 구조화된 WARNING 기록; 기존 오류 응답 형식 유지 |
++| `db/migrations/002_refund_reason.sql` | NULL 허용 reason 컬럼만 추가, 기존 001은 수정 금지 |
++| `app/static/index.html` | 사유 필수 입력·오류 안내·정책 문구, 기존 관리자 대기 목록 유지 |
++| `app/notifications.py`, `docs/policy/refund-policy.md`, `docs/architecture.md` | 승인·반려 이메일 및 문서의 정책·구앱 예외 동기화 |
++| `tests/test_refunds.py`, `tests/test_ui.py`, 신규 `tests/test_migrations.py` | 정상·경계·권한·로그·데이터 보존 회귀 검증 |
++
++| 조건 | 결과·업무 규칙 |
++|---|---|
++| 취소 주문 / 기간 초과 / 잔여 한도 초과 | 기존 거절 유지. REQUESTED·APPROVED 합계로 잔여 한도 계산 |
++| 정규화 등급 VIP / 그 외 | 구매일부터 UTC 날짜 차이 ≤60일 / ≤30일 허용 |
++| 정수 금액 >1,000,000원 또는 배송 중 | REQUESTED, decided_at=NULL. 정확히 1,000,000원은 배송 중이 아니면 자동 승인 |
++| 사유 문자열 입력 | 앞뒤 공백 제거 후 1~200자. 빈 값·공백만·초과 길이는 구앱도 거절 |
++| 사유 누락 또는 null + 대상 구앱 + 유예 중 | reason=NULL 저장, 경고 기록. 금액·기간·승인 규칙은 동일 적용 |
++| 그 외 사유 누락 또는 null | 400 REASON_REQUIRED, “환불 사유를 입력해 주세요. 구앱은 웹에서 접수해 주세요.” |
++| 관리자 승인 / 반려 | 기존 require_admin 유지, REQUESTED만 변경. 승인/반려 이메일은 결정 후 대기열 적재 |
++
++유예는 기존 UTC 날짜 기준으로 2026-12-01을 포함하며 2026-12-02 00:00 UTC부터 종료한다(한국시간 09:00). 근거: `app/clock.py:6`
++대상 식별은 User-Agent의 `ShopFlowMobile/3.1`, `ShopFlowMobile/3.2`, `ShopFlowMobile/3.3` 완전일치만 허용한다. 미식별·다른 버전에는 예외를 주지 않는다.
++API: `POST /orders/{id}/refund` 요청 예시는 `{"amount":1000001,"reason":"상품 불량"}`; 유예 구앱만 `{"amount":1000001}` 허용.
++201 응답 예시: `{"id":3,"order_id":1015,"amount":1000001,"status":"REQUESTED","requested_at":"2026-11-02T00:00:00+00:00","decided_at":null}`.
++응답 필드는 기존 그대로 두고 사유 원문은 공개 조회에 추가하지 않는다. 예외 외 amount-only 요청 거절은 의도적인 계약 변경으로 사전 안내한다.
++reason은 스키마에서 선택형으로 받고 문자열 공백·길이를 검증한다. 누락 필수 여부는 서비스에서 판정; 웹은 기존 400 객체와 422 배열 모두 입력 안내로 변환한다.
++DB SQL 초안: `ALTER TABLE refunds ADD COLUMN reason TEXT;` (NULL 허용, 과거 사유는 미수집 상태로 보존).
++확장: 백업 검증 후 컬럼 추가 → 전환: 신서버·웹 적용 및 유예 종료 자동 판정 → 축소: 이번 CR에는 없음, 컬럼·과거 행 유지.
++화면·이메일·문서: “일반 30일·VIP 60일 / 사유 필수(구앱 기한부 예외) / 100만원 초과 관리자 승인”을 공통 안내한다.
++기존 REQUESTED 목록을 재사용하며 사유 표시 UI·새 상태·신규 대기 이메일은 추가하지 않는다. 근거: `app/static/index.html:140`
++로그·감사: 기존 refund.requested/approved/rejected를 유지하고 접수 detail에 CR ID·reason_missing·legacy_exception을 추가한다.
++무사유 예외 성공 시 라우터가 request.state에 환불 ID·주문 ID·버전을 설정하고 기존 접근 로그에 level=WARNING·code=LEGACY_REASON_MISSING을 기록한다.
++사유 원문·고객 이름·이메일·토큰은 추가 로그에 금지. 사유 SQL은 바인딩, 사용자 입력 안내는 textContent 등 안전한 출력 사용. 근거: `docs/standards/security-checklist.md:8`
++
++## 4. 테스트 전략
++| 요구·제약 | 시나리오와 기대 결과 |
++|---|---|
++| R1 | 일반 30일 허용·31/45일 거절, VIP 45/60일 허용·61일 거절; vip·VIP 공백·NULL 판정 |
++| R2 | 정상·앞뒤 공백·1/200자 저장; 빈 값·공백만·201자·형식 오류 거절; 누락 안내 확인 |
++| R2 한시 예외 | 3.1/3.2/3.3 각각 누락·null 허용, NULL 저장·WARNING·감사 확인; 웹·다른/미식별 버전은 거절 |
++| 유예 경계 | UTC 12-01 23:59:59 허용·12-02 00:00 거절; clock.now/today 함께 고정, 사유 입력은 양쪽 모두 정상 |
++| R3 | 1,000,000원 자동 승인·1,000,001원 대기; 배송 중 대기·승인 전 알림 없음·관리자 승인/반려 |
++| R4·보안 회귀 | 웹·양쪽 이메일·문서 문구 일치; 400/422 안내·안전한 출력·원문 로그 부재·미인증 승인 거절 |
++| 데이터·기존 동작 | 구스키마→확장 후 기존 행 보존·구버전 INSERT 성공·재적용 무변경; 부분 환불 한도·취소·재결정 거절 |
++
++## 5. 배포·롤백 계획
++① 설계 승인→구현·테스트/린트→② 코드 승인→staging 스모크→③ 운영 승인→운영 전환·스모크·운영 보고 순으로 진행한다.
++배포는 검증된 백업→DB 확장→동일 DB의 신서버 준비→요청 전환→구서버 요청 종료 순서다. 무중단 전환 수단은 운영 담당자 확인 필요.
++배포 전 체크리스트: 실제 무중단 전환 수단·DDL 잠금 영향, 앱 UA/사전 공지, 외부 이메일 대기열, 보호된 트래픽 도구 오류 처리를 확인한다. 현행 stop/start 자체는 무중단이 아니다. 근거: `scripts/deploy.sh:107`
++롤백은 확장 컬럼·신규 행을 유지하고 동일 정책을 지키는 검증본으로 코드/웹만 복귀한다; 무통제 구버전·과거 DB 덮어쓰기는 금지, 적합한 복귀본이 없으면 수정 배포한다.
++모니터링: 버전별 REASON_REQUIRED·예외 WARNING 건수, 고액 초기 상태 REQUESTED, 대기 중 승인 알림 0건, 5xx·DB 잠금·헬스 및 승인 감사 누락.
++
++## 6. 리스크와 대응
++UA는 자가신고이므로 위장 우회 가능: 인증 수단이 아니며 경고로 추적하고 기한 후 예외를 차단한다. 구앱 접수 전환·등급 NULL·발송 워커는 사전 안내 및 배포 전 체크리스트로 관리한다.
++후속 과제: 개인별 관리자 인증·누적 고액 통제·동시성 고도화·무중단 인프라 개선은 이번 범위에서 제외한다.
+diff --git a/docs/cr/CR-2026-014/03-implementation-notes.md b/docs/cr/CR-2026-014/03-implementation-notes.md
+new file mode 100644
+index 0000000..633cea8
+--- /dev/null
++++ b/docs/cr/CR-2026-014/03-implementation-notes.md
+@@ -0,0 +1,55 @@
++# CR-2026-014 구현 노트
++
++| 항목 | 결과 |
++|---|---|
++| 상태 | 기능 구현·로컬 검증 완료, QA·코드 승인② 전 |
++| 기준 | 승인된 `02-design.md` 유지, 구현 시작 전 설계 승인 유효성 확인 |
++| 브랜치 | `feature/CR-2026-014-refund-policy` |
++| 변경 파일 수 | 구현 13개(코드·SQL·정책·기존 테스트·본 노트), 선행 분석·설계 2개 별도 |
++
++## 1. 변경 파일과 내용
++| 영역·파일 | 구현 내용 | 근거 |
++|---|---|---|
++| `db/migrations/002_refund_reason.sql` | NULL 허용 reason 추가, 001·기존 행 수정 없음 | `db/migrations/002_refund_reason.sql:1` |
++| `app/services/refund_policy.py` | 일반 30일·VIP 60일, 등급 정규화, 임계액·길이·유예 설정 집중 | `app/services/refund_policy.py:5` |
++| `app/services/refund_service.py` | 사유 저장·고액 REQUESTED·기존 한도 검사, CR ID·누락/예외 감사 정보 | `app/services/refund_service.py:35` |
++| `app/schemas.py`, `app/routers/orders.py` | 사유 공백 정리·1~200자, UA 완전일치 버전 전달, 기존 응답 필드 유지 | `app/schemas.py:19` |
++| `app/main.py` | 구앱 무사유 예외 접수 성공 시 WARNING·환불/주문 ID·버전 기록 | `app/main.py:47` |
++| `app/static/index.html` | 사유 필수 입력·전송·초기화, 400/422 안내, textContent로 오류 출력 | `app/static/index.html:114` |
++| `app/notifications.py`, `docs/policy/refund-policy.md` | 기간·사유·고액 승인·구앱 예외 안내 동기화 | `app/notifications.py:12` |
++| `tests/test_refunds.py`, `tests/test_seed.py`, `tests/test_ui.py` | 깨진 기존 호출 최소 수정 및 변경 정책·마이그레이션 회귀 검증 | `tests/test_seed.py:25` |
++
++구앱 대상은 `ShopFlowMobile/3.1`, `ShopFlowMobile/3.2`, `ShopFlowMobile/3.3` 완전일치다.
++UTC 2026-12-01까지 누락·null만 허용하고 12-02 00:00 UTC부터 거절한다. 빈 문자열·공백만·잘못된 타입·초과 길이는 유예 중에도 거절한다.
++고액·배송 중 REQUESTED는 decided_at=NULL이며 승인 전 이메일이 없다. 관리자 인증·승인/반려·재결정 거절·대기액 포함 한도는 유지했다.
++사유는 DB에만 저장하며 조회 응답·접근 로그·감사 로그에는 원문을 추가하지 않았다.
++
++## 2. 설계 대비 차이
++| 항목 | 차이와 처리 |
++|---|---|
++| 아키텍처 설명 | `docs/architecture.md`는 개발자 수정 가능 경로 밖이므로 미반영. 담당자에게 API·정책·모바일 예외 설명 동기화 인계 |
++| 마이그레이션 테스트 위치 | 신규 `tests/test_migrations.py` 대신 기존 `tests/test_seed.py`에 구스키마 확장·데이터 보존·구버전 INSERT 검증 추가 |
++| 포맷 실행 범위 | 보호된 scripts의 기존 포맷 차이를 확인해 `ruff format app tests`만 실행. 보호 경로·승인 산출물은 수정하지 않음 |
++
++## 3. 검증 결과
++| 검증 | 명령·방법 | 결과 |
++|---|---|---|
++| 전체 린트 | `.venv/bin/ruff check .` | 통과 |
++| 전체 테스트 | `.venv/bin/pytest -q -o addopts='' --tb=short` | 82 passed |
++| 수정 가능 코드 포맷 | `.venv/bin/ruff format --check app tests` | 24 files already formatted |
++| 전체 포맷 사전 검사 | `.venv/bin/ruff format --check .` | 보호된 scripts의 기존 차이로 실패; 아래 4개 파일은 미수정 |
++| 웹 동작 실행 | Node VM·DOM 스텁으로 원본 화면 스크립트 실행 | 누락 안내·공백 정리 전송·400/422 안내·안전한 출력·주문 전환 초기화 통과 |
++| DB 호환성 | 임시 DB에서 001→002, 재적용, 과거 행 비교, 구버전 INSERT | 통과; 운영·로컬 데이터 DB에는 마이그레이션 미실행 |
++
++기존 포맷 차이: `scripts/gate.py`, `scripts/hooks/guard.py`, `scripts/simulate_traffic.py`, `scripts/smoke_test.py`.
++실제 브라우저·staging·운영 배포는 수행하지 않았다. Node 검증은 브라우저 E2E를 대체하지 않는다.
++
++## 4. 남은 이슈·인계
++| 담당 | 확인·후속 작업 |
++|---|---|
++| qa-engineer | 실제 브라우저·모바일 계약·정책 문구 일치·승인/반려 및 마이그레이션을 독립 검증하고 `04-test-report.md` 작성 |
++| 문서 담당자 | `docs/architecture.md` 설명 동기화. 승인된 설계·분석서는 직접 수정하지 않음 |
++| 운영·앱·알림 담당자 | 설계의 배포 전 체크리스트 확인: 실제 UA, 사전 공지, 무중단 전환·DDL 잠금, 외부 이메일 대기열·보호된 트래픽 도구 |
++| 리뷰·배포 담당자 | 리뷰 보고→코드 승인②→릴리스 계획·staging 검증→운영 승인③ 순서 준수; 무통제 구버전·과거 DB 덮어쓰기 롤백 금지 |
++
++UA 자가신고에 따른 위장 가능성은 승인 설계의 알려진 한계다. 인증 완화·새 승인 상태·누적 고액 통제·인프라 개편은 추가하지 않았다.
+diff --git a/docs/cr/CR-2026-014/04-test-report.md b/docs/cr/CR-2026-014/04-test-report.md
+new file mode 100644
+index 0000000..06eabbf
+--- /dev/null
++++ b/docs/cr/CR-2026-014/04-test-report.md
+@@ -0,0 +1,61 @@
++# CR-2026-014 테스트 보고서
++
++## 1. 현업 요약
++| 항목 | 결과 |
++|---|---|
++| 판정 | 자동 검증 통과. 실제 브라우저·모바일·무중단 배포까지 검증한 판정은 아님 |
++| 검증 대상 | 구현 커밋 `c65f316`, 승인 설계의 구앱 사유 한시 예외 포함 |
++| 추가 테스트 | 11개 함수·파라미터 포함 35개 사례, 기존 테스트 파일 2개에 추가 |
++| 전체 결과 | **117 통과 / 0 실패 / 0 건너뜀** |
++| 앱 커버리지 | **99%**(도구 표시), 274문 중 270문 실행·4문 미실행 |
++| 발견 사항 | 신규 재현 구현 결함 0건. 기존 아키텍처 설명 미동기화는 별도 인계 |
++| 변경 범위 | `tests/test_refunds.py`, `tests/test_ui.py`, 본 보고서만 변경. 운영 코드는 미수정 |
++
++## 2. 요구사항 추적표
++테스트 이름은 각 파일에서 검색할 수 있으며, 기존 테스트와 신규 독립 검증을 함께 실행했다.
++| 요구 | 테스트 이름·위치 | 확인 내용 |
++|---|---|---|
++| R1 | `test_refund_on_window_boundary_is_allowed`, `test_refund_outside_window_is_rejected` | 일반 30/31/45일, VIP 45/60/61일, NULL 등급 |
++| R1 레거시 | `test_레거시_등급은_정규화하되_원본을_보존한다` | 공백·대소문자 VIP, 미상 등급의 일반 처리, 원본 등급 보존 |
++| R2 | `test_refund_reason_validation_and_storage`, `test_사유는_공백정리후_길이를_검증하고_잘못된_입력을_저장하지_않는다` | 1/200/201자·공백·타입, 사유 저장·조회 비노출, 거절 시 부작용 없음 |
++| R2 한시 예외 | `test_missing_reason_legacy_deadline_and_warning` | 구앱 3.1~3.3 누락/null 허용, UTC 12-01 23:59:59 / 12-02 00:00 전환, 미식별 버전 거절 |
++| R2 하위호환·경고 | `test_유예중_구앱의_소액_무사유_승인은_표준출력에_경고한다`, `test_유예종료후에도_사유를_입력한_구앱은_접수할_수_있다` | 소액 예외의 WARNING, 종료 후 사유 입력 접수·예외 아님 감사 정보 |
++| R3 경계 | `test_refund_waits_for_manual_approval`, `test_고액_판정은_주문총액이_아닌_건별_요청액을_사용한다` | 1,000,000/1,000,001원, PAID/DELIVERED/SHIPPED, 대기 목록·미결정·승인 전 알림 없음 |
++| R3 통제·감사·알림 | `test_고액_결정은_감사와_알림을_한번만_남긴다`, `test_고액_무인증_결정은_대기상태와_감사이력을_바꾸지_않는다` | 승인/반려·결정 시각·행위자·단일 알림·재결정 거절, 무토큰/오토큰 거절 |
++| R3 부분 환불 | `test_반려된_고액의_예약금액은_재접수_한도에서_제외된다`, `test_승인액과_고액_대기액을_합산해_주문한도를_지킨다` | 대기액 한도 예약·반려 후 해제, 승인액+대기액 합계 한도 |
++| R4 | `test_웹_환불입력과_오류안내를_실행한다`, `test_고객화면과_양쪽_이메일과_정책문서가_동일한_정책을_안내한다` | 웹 누락 안내·전송·초기화·400/422·안전 출력, 화면/승인·반려 이메일/정책 문구 일치 |
++| 데이터 보존 | `tests/test_seed.py::test_reason_migration_preserves_data_and_legacy_inserts` | 기존 고객·주문·환불 보존, 사유 NULL, 구버전 INSERT·마이그레이션 재적용 |
++
++신규 함수 위치: `tests/test_refunds.py:251`, 웹 실행 검증 위치: `tests/test_ui.py:19`.
++기간·금액·유예 기대값은 승인된 요구에 따라 독립적으로 지정했으며 운영 정책 상수를 가져와 정답으로 사용하지 않았다.
++
++## 3. 실행 결과와 재현 명령
++| 구분 | 명령·방법 | 결과 |
++|---|---|---|
++| 신규 사례 우선 실행 | pytest로 신규 한국어 이름을 선택 실행 | 35 passed, 기존 70 deselected |
++| 전체 테스트·커버리지 | 아래 명령 | 117 passed, 2.84초, 커버리지 99% |
++| 전체 린트 | `.venv/bin/ruff check .` | 통과 |
++| 테스트 포맷 | `.venv/bin/ruff format --check tests` | 8 files already formatted |
++| 변경 공백 검사 | `git diff --check` | 통과 |
++
++```sh
++.venv/bin/pytest -q --cov=app --cov-report=term-missing -o addopts='' --tb=short
++```
++`-o addopts=''`는 저장소의 기본 `-q` 중복을 없애 통과 수를 표시하기 위한 옵션이다.
++웹 테스트는 설치된 Node.js에서 원본 화면 스크립트를 실행하며 DOM·fetch만 대체한다. 4개 사례 모두 실행됐고 실제 브라우저 E2E는 아니다.
++Node.js가 없는 환경에서는 해당 4개 사례를 이유와 함께 건너뛰므로, 전체 통과 수와 skip 여부를 반드시 함께 확인해야 한다.
++
++## 4. 결함·미검증 항목
++| 구분 | 상태·근거 | 처리 |
++|---|---|---|
++| 신규 구현 결함 | 자동 테스트에서 재현된 실패 없음 | 운영 코드 수정 없음. 실패 사례의 숨김·xfail 처리 없음 |
++| 기존 문서 편차 DOC-01 | `docs/architecture.md:24`는 고액 승인 대기 설명 누락 | 구현 노트에 이미 인계된 문서 미동기화. 문서 담당자가 동기화 |
++| 미실행 코드 | `app/clock.py:7`의 현재 시각, 11의 today; config.py:29의 VERSION 부재, refund_service.py:22의 환불 미존재 | 4문 미실행을 공개하며 커버리지만 올리기 위한 테스트는 추가하지 않음 |
++| 실제 브라우저·앱 | 모바일 바이너리·화면 렌더링·접근성은 미검증 | 배포 전 체크리스트: 실제 UA와 사전 공지·입력 안내 확인 |
++| 외부 알림 | DB 발송 대기열까지만 검증 | 외부 발송 워커·기존 대기 이메일은 담당자 확인 |
++| 운영·무중단·롤백 | staging/production 미실행, 임시 DB만 사용 | DDL 잠금·요청 전환·정책 유지 롤백은 운영 검증 필요 |
++| UA 자가신고 | 위장 가능성은 승인 설계에 명시된 한계 | 범위 밖 인증 기능을 추가하지 않고 기존 예외 기한·경고 동작만 확인 |
++
++## 5. 다음 단계
++`code-reviewer`가 코드·본 보고서·DOC-01 및 배포 전 체크리스트를 검토하고 `05-review-report.md`를 작성한다.
++코드 승인②·staging 검증·운영 승인③ 없이 배포 단계로 넘어가지 않는다.
+diff --git a/docs/cr/CR-2026-014/05-review-report.md b/docs/cr/CR-2026-014/05-review-report.md
+new file mode 100644
+index 0000000..bd0b6c4
+--- /dev/null
++++ b/docs/cr/CR-2026-014/05-review-report.md
+@@ -0,0 +1,66 @@
++# CR-2026-014 코드 리뷰 보고서
++
++## 1. 결론
++| 항목 | 결과 |
++|---|---|
++| 결론 | **승인 권고**. 차단할 구현 결함 없음. 코드 승인②는 별도로 사람이 결정 |
++| 발견 건수 | **Blocker 0 / Major 0 / Minor 1** |
++| 대상 | `main...HEAD`, 구현 `c65f316`·QA `1457420`; 승인된 02-design.md와 사내 표준 대조 |
++| 보안 심층 점검 | 내장 security-review에 위임, 변경에서 도입·악화된 고확신 취약점 0건 |
++| 범위 | 코드·DB·정책·테스트·문서 읽기 검토. 본 보고서 외 수정 없음 |
++
++## 2. 설계·규칙 일치
++| 항목 | 판단 | 근거 |
++|---|---|---|
++| R1 기간·등급 | 일반 30일/VIP 60일, trim/upper·NULL 일반, 기존 주문에도 신규 접수 시 적용 | `app/services/refund_policy.py:27` |
++| R2 사유 | 입력 문자열 공백 정리 후 1~200자, 누락 판정은 서비스, 저장은 NULL 허용 확장 | `app/schemas.py:19` |
++| R2 한시 예외 | 정확한 구앱 버전만 12-01 UTC까지 허용, 이후 자동 종료; 누락 경고·감사 정보 있음 | `app/services/refund_policy.py:34` |
++| R3 고액 통제 | 요청액 >1,000,000 또는 배송 중은 REQUESTED, 대기액도 한도 계산, 승인 전 알림 없음 | `app/services/refund_service.py:58` |
++| R4 고객 안내 | 웹·승인/반려 이메일·정책 문구 동기화 및 입력 안내. 아키텍처 설명은 DOC-01 | `tests/test_ui.py:107` |
++| 코딩 표준 | 업무 판정은 서비스, 정책 상수 집중, 새 SQL 바인딩·clock 사용, 경계 테스트 있음 | `app/services/refund_policy.py:5` |
++
++## 3. 발견 사항
++| ID | 등급 | 발견 내용·영향 | 근거 | 수정 제안 |
++|---|---|---|---|---|
++| DOC-01 | Minor | 아키텍처의 환불 API 설명이 배송 중만 대기라고 명시해 고액 처리·사유 전환 안내와 불일치. 구현·QA에서 이미 인계한 문서 편차 | `docs/architecture.md:24` | 담당자가 고액 REQUESTED·사유 필수 및 구앱 유예 계약으로 동기화 |
++
++DOC-01은 비차단 문서 개선 권고이며 코드 결함·보안 취약점으로 집계하지 않는다. 스타일 및 변경 전부터 존재한 포맷 차이는 지적에서 제외했다.
++추측성 결함은 추가하지 않았다. 실제 환경 확인이 필요한 사항은 아래 배포 전 체크리스트로 분리한다.
++
++## 4. 보안 점검표와 심층 점검 결과
++| 항목 | 판단·확인 내용 | 근거 |
++|---|---|---|
++| S1 관리자 인증 | 목록·승인·반려 모두 기존 require_admin 유지 | `app/routers/admin.py:21` |
++| S2 SQL | 사유 포함 신규 INSERT는 값 바인딩, 입력으로 SQL을 조립하지 않음 | `app/services/refund_service.py:65` |
++| S3 개인정보 로그 | 신규 감사에는 ID·금액·상태·누락 여부만, 사유·고객 개인정보 원문 추가 없음 | `app/services/refund_service.py:74` |
++| S4 자유 입력 | 공백·길이 검증, 오류 안내는 textContent로 출력 | `app/static/index.html:114` |
++| S5 입력 검증 | 양의 금액 및 사유 길이 스키마 검증, 유예도 입력된 부적합 문자열은 거절 | `app/schemas.py:17` |
++| S6 시크릿 | 새 시크릿·토큰 추가 없음, 기존 데모용 토큰·인증 구조는 변경하지 않음 | `app/routers/orders.py:21` |
++| S7 권한·승인 | 관리자 권한 완화 없음. 고액 통제 강화, 사유 한시 예외는 승인 설계에 명시 | `docs/cr/CR-2026-014/02-design.md:5` |
++
++security-review 결과 요약(기존 문제·승인된 UA 자가신고 위험은 신규 발견으로 중복 집계하지 않음):
++| # | Severity | File | Lines | Vulnerability | Confidence |
++|---|----------|------|-------|---------------|------------|
++| — | — | — | — | 변경에서 확인된 고확신 취약점 없음 | — |
++
++## 5. 테스트 충분성·DB·하위호환
++| 항목 | 판단·한계 | 근거 |
++|---|---|---|
++| 자동 테스트 | QA 결과 117 통과·0 실패·0 skip, 앱 커버리지 99%. 리뷰에서는 코드·추적표 대조, 재실행 결과로 오기하지 않음 | `docs/cr/CR-2026-014/04-test-report.md:9` |
++| 테스트 범위 | 기간·금액·사유·UTC 유예 경계·구앱·미인증·감사·단일 알림·부분 환불 검증 충분 | `tests/test_refunds.py:345` |
++| DB 확장 | 002에서 NULL 허용 컬럼만 추가, 001·기존 행 미수정. 확장→전환, 축소 없음 | `db/migrations/002_refund_reason.sql:1` |
++| 구버전 서버 호환 | 데이터 보존·구버전 INSERT·재적용 검증 있음. 스키마 호환이 구버전의 새 정책 준수를 뜻하지는 않음 | `tests/test_seed.py:25` |
++| API 호환 | 응답 필드 유지·사유 비노출. 웹/미식별 앱의 무사유 거절은 승인된 의도적 변경 | `app/services/refund_service.py:17` |
++| 롤백 | 추가 컬럼·신규 행 유지, 동일 정책을 지키는 검증본 복귀 또는 수정 배포라는 설계 방향 타당 | `docs/cr/CR-2026-014/02-design.md:65` |
++
++## 6. 배포 전 체크리스트·승인 요청
++| 담당 | 확인 필요 사항 | 근거 |
++|---|---|---|
++| 문서 담당 | DOC-01 설명 동기화 | `docs/architecture.md:24` |
++| 운영 담당 | 실제 무중단 전환 수단·DDL 잠금·정책 유지 롤백본 검증. 현행 stop/start만으로 무중단을 주장하지 않음 | `scripts/deploy.sh:107` |
++| 앱·QA 담당 | 실제 UA·사전 공지·유예 종료 후 입력 안내, Node 스텁과 별개인 실제 브라우저·앱 확인 | `docs/cr/CR-2026-014/04-test-report.md:54` |
++| 알림·도구 담당 | 외부 발송 워커·기존 이메일 대기열·보호된 트래픽 도구 확인 | `docs/cr/CR-2026-014/02-design.md:64` |
++
++위 외부 확인은 배포 전 체크리스트이며 별도 기능 요구·추가 코드 승인 게이트가 아니다.
++요약을 안내한 뒤 `.venv/bin/python scripts/gate.py request code CR-2026-014`로 코드 승인②를 요청한다.
++실제 승인 여부는 gate 실행 결과와 승인 기록으로 확인한다. 코드 승인은 운영 배포 승인③을 대신하지 않는다.
+diff --git a/docs/cr/CR-2026-014/06-release-plan.md b/docs/cr/CR-2026-014/06-release-plan.md
+new file mode 100644
+index 0000000..5b9bb7e
+--- /dev/null
++++ b/docs/cr/CR-2026-014/06-release-plan.md
+@@ -0,0 +1,68 @@
++# CR-2026-014 릴리스 계획
++
++## 1. 현업용 릴리스 노트
++| 항목 | 내용·고객 영향 |
++|---|---|
++| 버전 | **1.1.0**, main 병합 `523f7cc`, 버전 커밋 `1081fda`, 태그 `v1.1.0` |
++| 기간 | 일반 30일 유지, VIP 60일로 확대. 시행 전 구매 주문도 신규 접수에는 적용 |
++| 사유 | 앞뒤 공백 제외 1~200자 입력. 구앱 3.1~3.3은 2026-12-01 UTC까지 누락 허용·경고, 이후 필수 |
++| 고액 | 건별 요청액 1,000,000원 초과는 관리자 승인 대기. 승인 전 환불·승인 이메일 없음 |
++| 안내 | 고객 화면·승인/반려 이메일·정책 문구 동기화. 입력 불가능한 구앱은 웹 접수 안내 |
++| 데이터 | 사유 컬럼만 NULL 허용 확장. 과거 고객·주문·환불과 사유 미수집 이력은 유지 |
++
++## 2. 배포 순서
++| 순서 | 작업 | 결과·상태 |
++|---|---|---|
++| 1 | 코드 승인② 유효 확인, 전체 린트·테스트 | 유효, 린트 통과·117 passed |
++| 2 | 기능 브랜치 main에 --no-ff 병합, 다음 마이너 버전 커밋·태그 | 완료. 원격 push 없음 |
++| 3 | `scripts/deploy.sh staging` | v1.1.0 배포·헬스 정상, staging 기록 유효 |
++| 4 | staging 기본 스모크·신규 정책 추가 검증 | 기본 6/6·신규 정책 8/8, 승인/알림 재확인 포함 |
++| 5 | staging 결과 안내 후 `scripts/deploy.sh production` | 사람 승인③을 거쳐 운영 배포 성공 |
++| 6 | 운영 헬스·스모크·DB 확인, 결과 기록 | v1.1.0 헬스 정상·기본 스모크 6/6·002 적용·기존 행 보존·백업/현재 DB 무결성 ok |
++
++추가 staging 검증: VIP/일반 구매 45일 차이, 웹 무사유 거절·구앱 예외 경고, 정확히 100만원 자동 승인·초과 대기, 관리자 승인 전후 알림.
++추가 검증 중 승인 응답 직후 외부 DB 알림 건수 조회가 먼저 끝나 최초 1회 실패했다. 재확인에서 승인 상태·알림 반영을 확인했으며, 별도 재검증도 즉시 5건→3초 제한 내 6건으로 단일 증가했다.
++이 타이밍 차이를 숨기지 않고 기록한다. 앱 코드는 변경하지 않았으며, 승인/알림 반영 완료와 웹 안내까지 다시 확인해 추가 검증을 완료했다.
++운영에는 별도 업무 요청을 직접 생성하지 않고, 배포 스크립트의 표준 스모크만 사용한다.
++표준 스모크는 환경마다 **점검 주문 1건·환불 1건(1,000원)**을 API로 생성한다.
++
++## 3. DB 백업·마이그레이션
++| 항목 | 절차·확인 |
++|---|---|
++| 배포 전 상태 | staging/production 모두 v1.0.0·001_init·무결성 ok; 고객 12·주문 20·환불 2·감사 0·알림 0건 |
++| 백업 | 스크립트가 `.deploy/<env>/backups/orders-<시각>.db` 생성. 배포 후 백업과 현재 DB를 읽기 전용 무결성 검사 |
++| 확장 | `002_refund_reason`: reason TEXT NULL 허용 추가. 001 수정·행 삭제·가짜 사유 보완 없음 |
++| 전환·축소 | 새 서버 교체 후 정책 적용, 유예 종료는 UTC 날짜로 자동 판정. 이번 릴리스에 축소 없음 |
++| 보존 확인 | 기존 건수와 스모크 증가분, 기존 환불 reason=NULL, 002 적용 기록·무결성 확인 |
++
++## 4. 롤백 방법과 제한
++기술적 코드 복귀 명령: `scripts/deploy.sh staging --rollback` / `scripts/deploy.sh production --rollback`.
++스크립트는 previous 릴리스로 복귀하며 DB 컬럼·신규 접수 행은 유지한다. 과거 DB 백업을 통째로 덮어써 신규 접수를 유실시키지 않는다.
++현재 직전 릴리스는 1.0.0으로 VIP·사유·고액 통제를 충족하지 못한다. **자동·수동 코드 복귀는 새 정책의 유지까지 보장하지 않는다.**
++따라서 정책을 유지하는 검증본으로 복귀하거나 수정 배포를 우선한다. 1.0.0 복귀의 정책 후퇴는 운영 담당자가 위험을 확인해야 하며 무조건 실행하지 않는다.
++배포 검증 실패 시 스크립트의 자동 복귀 결과와 헬스를 먼저 확인하고 실패 상태를 그대로 보고한다.
++
++## 5. 모니터링·배포 전 체크리스트
++| 담당·구분 | 확인 요청·관측 항목 | 근거 |
++|---|---|---|
++| 운영 | 현행 stop/start는 일시 중단 가능. 실제 무중단 전환·DDL 잠금·정책 유지 롤백본 확인 요청 | `scripts/deploy.sh:107` |
++| 앱·QA | 실제 UA·브라우저·사전 공지·2026-12-02 UTC부터 웹 대체 접수 안내 확인 요청 | `docs/cr/CR-2026-014/04-test-report.md:54` |
++| 알림·도구 | 외부 발송 워커·기존 이메일 대기열·보호된 트래픽 도구 확인 요청 | `docs/cr/CR-2026-014/02-design.md:64` |
++| 문서 | DOC-01 아키텍처 설명 동기화 요청 | `docs/architecture.md:24` |
++| 관측 | /health 버전·5xx·DB 잠금, REASON_REQUIRED·LEGACY_REASON_MISSING, 고액 REQUESTED·승인 전 알림 0, 승인 감사 누락 | `app/services/refund_service.py:58` |
++
++외부 확인은 배포 전 체크리스트로 안내하며 별도 차단 게이트를 추가하지 않는다. 이번 작업에서 무중단·실앱·실제 메일 발송까지 검증했다고 주장하지 않는다.
++
++## 6. 승인 이력
++| 단계 | 기록 |
++|---|---|
++| 설계① | 홍길동 책임(운영 담당), 2026-10-16 15:40:08 +09:00, 유효 |
++| 코드② | 홍길동 책임(운영 담당), 2026-10-16 15:55:24 +09:00, 병합·VERSION 변경 후에도 코드 해시 유효 |
++| staging | system, 2026-10-16 15:58:23 +09:00, 스모크 통과·검증 기록 유효 |
++| 운영③ | production 스크립트로 사람 승인 후 배포 완료. 기록: 홍길동 책임(운영 담당), 2026-10-16 16:01:11 +09:00 |
++
++## 7. 배포 결과
++| 환경 | 버전·URL | 배포·스모크·DB 결과 | 백업·릴리스 |
++|---|---|---|---|
++| staging | **1.1.0** · http://127.0.0.1:8101 | 성공, 기본 6/6·추가 8/8. 002 적용·기존 행 보존·무결성 ok. 고객 12·주문 27·환불 8·감사 8·알림 6 | 백업 `orders-20261016-155821.db`, 릴리스 `20261016-155820-v1.1.0` |
++| production | **1.1.0** · http://127.0.0.1:8100 | 성공, 기본 6/6. 002 적용·기존 행 보존·무결성 ok. 고객 12·주문 21·환불 3·감사 1·알림 1 | 백업 `orders-20261016-160110.db`, 릴리스 `20261016-160110-v1.1.0` |
+diff --git a/docs/policy/refund-policy.md b/docs/policy/refund-policy.md
+index 2e4818f..4212c02 100644
+--- a/docs/policy/refund-policy.md
++++ b/docs/policy/refund-policy.md
+@@ -2,10 +2,15 @@
+ 
+ ShopFlow에서 구매하신 상품은 아래 기준으로 환불해 드립니다.
+ 
+-1. **환불 기간**: 구매일로부터 **30일 이내**에 신청하실 수 있습니다.
++1. **환불 기간**: 구매일로부터 **일반 고객 30일·VIP 고객 60일 이내**에 신청하실 수 있습니다. UTC 날짜 기준이며, 정책 시행 전 구매 주문도 시행 후 신규 접수에는 같은 기준을 적용합니다.
+ 2. **환불 금액**: 주문 금액을 한도로, 부분 환불도 가능합니다.
+ 3. **배송 중 주문**: 물류 확인 후 담당자가 승인하며, 승인 결과는 이메일로 안내해 드립니다.
+ 4. **환급 시점**: 승인 후 영업일 기준 3일 이내에 결제수단으로 환급됩니다.
+ 5. **취소된 주문**은 환불 대상이 아닙니다.
++6. **환불 사유**: 앞뒤 공백을 제외한 1~200자의 사유를 입력해야 합니다. 사유가 없거나 공백뿐이면 입력 안내가 표시됩니다.
++7. **고액 환불**: 건별 요청 금액이 **1,000,000원을 초과**하면 관리자 승인 대기로 접수되며, 승인 전에는 환불되지 않습니다. 정확히 1,000,000원은 금액에 따른 대기 대상은 아니지만 배송 중 주문의 승인 절차는 유지합니다.
++8. **구앱 한시 예외**: 모바일 앱 **3.1~3.3**은 **2026-12-01(UTC)까지** 사유 누락 접수를 허용합니다. 2026-12-02 00:00 UTC(한국시간 09:00)부터는 필수이며, 사유 입력이 불가능한 구앱에서는 웹으로 접수해 주세요. 사유를 입력한 경우에는 구앱도 동일한 길이·공백 검증을 적용합니다.
++
++기존 환불의 상태·금액·일시는 유지하며 과거에 수집하지 않은 사유를 임의로 채우지 않습니다.
+ 
+ 문의: 고객센터 1588-0000
+diff --git a/tests/test_refunds.py b/tests/test_refunds.py
+index 54c6bcc..a3e9bff 100644
+--- a/tests/test_refunds.py
++++ b/tests/test_refunds.py
+@@ -1,24 +1,37 @@
+ import json
++from datetime import datetime
++
++import pytest
++
++from app import clock
+ 
+ 
+ def refund(client, order_id, amount):
+-    return client.post(f"/orders/{order_id}/refund", json={"amount": amount})
++    return client.post(f"/orders/{order_id}/refund", json={"amount": amount, "reason": "상품 불량"})
+ 
+ 
+-def test_refund_within_window_is_auto_approved(client, make_customer, make_order):
+-    order = make_order(make_customer(), amount=80_000, days_ago=10)
+-    res = refund(client, order, 80_000)
++@pytest.mark.parametrize("amount", [80_000, 1_000_000])
++def test_refund_within_window_is_auto_approved(client, make_customer, make_order, amount):
++    order = make_order(make_customer(), amount=amount, days_ago=10)
++    res = refund(client, order, amount)
+     assert res.status_code == 201
+     assert res.json()["status"] == "APPROVED"
+ 
+ 
+-def test_refund_on_day_30_is_allowed(client, make_customer, make_order):
+-    order = make_order(make_customer(), days_ago=30)
++@pytest.mark.parametrize(
++    ("tier", "days"),
++    [("STANDARD", 30), (None, 30), ("VIP", 45), ("VIP", 60), ("vip", 45), ("VIP ", 60)],
++)
++def test_refund_on_window_boundary_is_allowed(client, make_customer, make_order, tier, days):
++    order = make_order(make_customer(tier=tier), days_ago=days)
+     assert refund(client, order, 10_000).status_code == 201
+ 
+ 
+-def test_refund_on_day_31_is_rejected(client, make_customer, make_order):
+-    order = make_order(make_customer(), days_ago=31)
++@pytest.mark.parametrize(
++    ("tier", "days"), [("STANDARD", 31), ("STANDARD", 45), ("VIP", 61), (None, 45)]
++)
++def test_refund_outside_window_is_rejected(client, make_customer, make_order, tier, days):
++    order = make_order(make_customer(tier=tier), days_ago=days)
+     res = refund(client, order, 10_000)
+     assert res.status_code == 400
+     assert res.json()["detail"]["code"] == "WINDOW_EXPIRED"
+@@ -45,29 +58,42 @@ def test_cancelled_order_cannot_be_refunded(client, make_customer, make_order):
+     assert res.json()["detail"]["code"] == "ORDER_CANCELLED"
+ 
+ 
+-def test_shipped_order_refund_waits_for_manual_approval(client, make_customer, make_order, query):
+-    order = make_order(make_customer(), days_ago=2, status="SHIPPED")
+-    res = refund(client, order, 10_000)
++@pytest.mark.parametrize(("status", "amount"), [("SHIPPED", 10_000), ("DELIVERED", 1_000_001)])
++def test_refund_waits_for_manual_approval(
++    client, make_customer, make_order, query, admin_headers, status, amount
++):
++    order = make_order(make_customer(), amount=amount, days_ago=2, status=status)
++    res = refund(client, order, amount)
++    assert res.status_code == 201
+     assert res.json()["status"] == "REQUESTED"
++    assert res.json()["decided_at"] is None
+     assert query("SELECT * FROM notifications") == []
++    pending = client.get("/admin/refunds?status=REQUESTED", headers=admin_headers).json()
++    assert [row["id"] for row in pending] == [res.json()["id"]]
++    assert refund(client, order, 1).json()["detail"]["code"] == "AMOUNT_EXCEEDED"
+ 
+ 
++@pytest.mark.parametrize(("status", "amount"), [("SHIPPED", 10_000), ("DELIVERED", 1_000_001)])
+ def test_admin_approves_requested_refund_and_customer_is_notified(
+-    client, make_customer, make_order, admin_headers, query
++    client, make_customer, make_order, admin_headers, query, status, amount
+ ):
+-    order = make_order(make_customer(), days_ago=2, status="SHIPPED")
+-    rid = refund(client, order, 10_000).json()["id"]
++    order = make_order(make_customer(), amount=amount, days_ago=2, status=status)
++    rid = refund(client, order, amount).json()["id"]
+     res = client.post(f"/admin/refunds/{rid}/approve", headers=admin_headers)
+     assert res.status_code == 200
+     assert res.json()["status"] == "APPROVED"
+     assert len(query("SELECT * FROM notifications")) == 1
+ 
+ 
+-def test_admin_rejects_requested_refund(client, make_customer, make_order, admin_headers):
+-    order = make_order(make_customer(), days_ago=2, status="SHIPPED")
+-    rid = refund(client, order, 10_000).json()["id"]
++@pytest.mark.parametrize(("status", "amount"), [("SHIPPED", 10_000), ("DELIVERED", 1_000_001)])
++def test_admin_rejects_requested_refund(
++    client, make_customer, make_order, admin_headers, query, status, amount
++):
++    order = make_order(make_customer(), amount=amount, days_ago=2, status=status)
++    rid = refund(client, order, amount).json()["id"]
+     res = client.post(f"/admin/refunds/{rid}/reject", headers=admin_headers)
+     assert res.json()["status"] == "REJECTED"
++    assert "일반 30일·VIP 60일" in query("SELECT body FROM notifications")[0]["body"]
+ 
+ 
+ def test_admin_endpoints_require_token(client):
+@@ -89,14 +115,314 @@ def test_refund_request_is_written_to_audit_log(client, make_customer, make_orde
+     rows = query("SELECT actor, action, detail FROM audit_log")
+     assert rows[0]["action"] == "refund.requested"
+     assert json.loads(rows[0]["detail"])["amount"] == 30_000
++    assert json.loads(rows[0]["detail"])["cr_id"] == "CR-2026-014"
++    assert json.loads(rows[0]["detail"])["legacy_exception"] is False
+ 
+ 
+ def test_approved_refund_email_mentions_refund_window(client, make_customer, make_order, query):
+     order = make_order(make_customer(), amount=30_000)
+     refund(client, order, 30_000)
+     body = query("SELECT body FROM notifications")[0]["body"]
+-    assert "30일" in body
++    assert "일반 30일·VIP 60일" in body
++    assert "환불 사유는 필수" in body
++    assert "1,000,000원 초과" in body
++    assert "2026-12-01(UTC)까지" in body
+ 
+ 
+ def test_unknown_order_returns_404(client):
+     assert refund(client, 424242, 1_000).status_code == 404
++
++
++@pytest.mark.parametrize(
++    ("reason", "expected"),
++    [
++        ("가", 201),
++        ("가" * 200, 201),
++        ("  사유원문금지  ", 201),
++        ("", 422),
++        (" \t\n", 422),
++        ("가" * 201, 422),
++        (123, 422),
++    ],
++)
++def test_refund_reason_validation_and_storage(
++    client, make_customer, make_order, query, tmp_path, monkeypatch, reason, expected
++):
++    log_path = tmp_path / "access.log"
++    monkeypatch.setenv("LOG_PATH", str(log_path))
++    order = make_order(make_customer())
++    res = client.post(
++        f"/orders/{order}/refund",
++        json={"amount": 1_000, "reason": reason},
++        headers={"User-Agent": "ShopFlowMobile/3.1"},
++    )
++    assert res.status_code == expected
++    if expected == 201:
++        assert query("SELECT reason FROM refunds") == [{"reason": reason.strip()}]
++        assert "reason" not in res.json()
++        assert "reason" not in client.get(f"/refunds/{res.json()['id']}").json()
++    else:
++        assert query("SELECT * FROM refunds") == []
++    assert "사유원문금지" not in log_path.read_text()
++    assert all("사유원문금지" not in row["detail"] for row in query("SELECT detail FROM audit_log"))
++
++
++@pytest.mark.parametrize(
++    "user_agent",
++    [
++        "ShopFlowMobile/3.1",
++        "ShopFlowMobile/3.2",
++        "ShopFlowMobile/3.3",
++        "ShopFlowWeb/2.4",
++        "ShopFlowMobile/3.4",
++        "ShopFlowMobile/3.10",
++        "3.1",
++        "ShopFlowMobile/3.1 extra",
++        "",
++    ],
++)
++@pytest.mark.parametrize("instant", ["2026-12-01T23:59:59+00:00", "2026-12-02T00:00:00+00:00"])
++@pytest.mark.parametrize("send_null", [False, True])
++def test_missing_reason_legacy_deadline_and_warning(
++    client,
++    make_customer,
++    query,
++    tmp_path,
++    monkeypatch,
++    user_agent,
++    instant,
++    send_null,
++):
++    now = datetime.fromisoformat(instant)
++    monkeypatch.setattr(clock, "now", lambda: now)
++    monkeypatch.setattr(clock, "today", lambda: now.date())
++    log_path = tmp_path / "access.log"
++    monkeypatch.setenv("LOG_PATH", str(log_path))
++    customer = make_customer(name="로그금지이름", email="private@example.test")
++    order = client.post("/orders", json={"customer_id": customer, "total_amount": 1_000_001})
++    body = {"amount": 1_000_001}
++    if send_null:
++        body["reason"] = None
++    res = client.post(
++        f"/orders/{order.json()['id']}/refund", json=body, headers={"User-Agent": user_agent}
++    )
++    allowed = user_agent in (
++        "ShopFlowMobile/3.1",
++        "ShopFlowMobile/3.2",
++        "ShopFlowMobile/3.3",
++    ) and instant.startswith("2026-12-01")
++    entries = [json.loads(line) for line in log_path.read_text().splitlines()]
++    warnings = [entry for entry in entries if entry.get("level") == "WARNING"]
++    if allowed:
++        assert res.status_code == 201
++        assert res.json()["status"] == "REQUESTED"
++        assert query("SELECT reason FROM refunds") == [{"reason": None}]
++        assert len(warnings) == 1
++        assert warnings[0]["code"] == "LEGACY_REASON_MISSING"
++        assert warnings[0]["refund_id"] == res.json()["id"]
++        assert warnings[0]["order_id"] == order.json()["id"]
++        assert warnings[0]["client_version"] == user_agent.split("/")[1]
++        detail = json.loads(query("SELECT detail FROM audit_log")[0]["detail"])
++        assert detail["reason_missing"] is True
++        assert detail["legacy_exception"] is True
++    else:
++        assert res.status_code == 400
++        assert res.json()["detail"]["code"] == "REASON_REQUIRED"
++        assert "환불 사유를 입력" in res.json()["detail"]["message"]
++        assert query("SELECT * FROM refunds") == []
++        assert query("SELECT * FROM audit_log") == []
++        assert warnings == []
++    assert query("SELECT * FROM notifications") == []
++    assert "로그금지이름" not in log_path.read_text()
++    assert "private@example.test" not in log_path.read_text()
++    assert refund(client, order.json()["id"], 1_000_001).status_code == (400 if allowed else 201)
++
++
++@pytest.mark.parametrize(
++    ("tier", "days", "expected"),
++    [
++        ("\tVip \n", 60, 201),
++        (" vIp ", 61, 400),
++        ("", 31, 400),
++        ("GOLD", 30, 201),
++        ("GOLD", 31, 400),
++    ],
++)
++def test_레거시_등급은_정규화하되_원본을_보존한다(
++    client, make_customer, make_order, query, tier, days, expected
++):
++    customer = make_customer(tier=tier)
++    order = make_order(customer, days_ago=days)
++    res = refund(client, order, 1_000)
++    assert res.status_code == expected
++    if expected == 400:
++        assert res.json()["detail"]["code"] == "WINDOW_EXPIRED"
++    assert query("SELECT tier FROM customers WHERE id = ?", (customer,)) == [{"tier": tier}]
++
++
++@pytest.mark.parametrize(
++    ("reason", "expected"),
++    [
++        (" \t" + "가" * 200 + "\n ", 201),
++        (" " + "가" * 201 + " ", 422),
++        (False, 422),
++        ({"reason": "상품 불량"}, 422),
++    ],
++)
++def test_사유는_공백정리후_길이를_검증하고_잘못된_입력을_저장하지_않는다(
++    client, make_customer, make_order, query, reason, expected
++):
++    order = make_order(make_customer())
++    res = client.post(f"/orders/{order}/refund", json={"amount": 1_000, "reason": reason})
++    assert res.status_code == expected
++    if expected == 201:
++        assert query("SELECT reason FROM refunds") == [{"reason": "가" * 200}]
++    else:
++        assert query("SELECT * FROM refunds") == []
++        assert query("SELECT * FROM audit_log") == []
++        assert query("SELECT * FROM notifications") == []
++
++
++@pytest.mark.parametrize("version", ["3.1", "3.2", "3.3"])
++def test_유예중_구앱의_소액_무사유_승인은_표준출력에_경고한다(
++    client, make_customer, make_order, monkeypatch, capsys, version
++):
++    monkeypatch.delenv("LOG_PATH", raising=False)
++    order = make_order(make_customer())
++    res = client.post(
++        f"/orders/{order}/refund",
++        json={"amount": 1_000},
++        headers={"User-Agent": f"ShopFlowMobile/{version}"},
++    )
++    assert res.status_code == 201
++    assert res.json()["status"] == "APPROVED"
++    events = [json.loads(line) for line in capsys.readouterr().out.splitlines()]
++    assert len(events) == 1
++    assert events[0]["level"] == "WARNING"
++    assert events[0]["code"] == "LEGACY_REASON_MISSING"
++    assert events[0]["refund_id"] == res.json()["id"]
++    assert events[0]["client_version"] == version
++
++
++@pytest.mark.parametrize("version", ["3.1", "3.2", "3.3"])
++def test_유예종료후에도_사유를_입력한_구앱은_접수할_수_있다(
++    client, make_customer, query, monkeypatch, capsys, version
++):
++    now = datetime.fromisoformat("2026-12-02T00:00:00+00:00")
++    monkeypatch.setattr(clock, "now", lambda: now)
++    monkeypatch.setattr(clock, "today", lambda: now.date())
++    monkeypatch.delenv("LOG_PATH", raising=False)
++    order = client.post(
++        "/orders", json={"customer_id": make_customer(), "total_amount": 1_000}
++    ).json()["id"]
++    res = client.post(
++        f"/orders/{order}/refund",
++        json={"amount": 1_000, "reason": "고유사유원문"},
++        headers={"User-Agent": f"ShopFlowMobile/{version}"},
++    )
++    assert res.status_code == 201
++    assert query("SELECT reason FROM refunds") == [{"reason": "고유사유원문"}]
++    output = capsys.readouterr().out
++    assert "LEGACY_REASON_MISSING" not in output
++    assert "고유사유원문" not in output
++    detail = json.loads(query("SELECT detail FROM audit_log")[0]["detail"])
++    assert detail["reason_missing"] is False
++    assert detail["legacy_exception"] is False
++    assert "고유사유원문" not in json.dumps(detail, ensure_ascii=False)
++
++
++@pytest.mark.parametrize(
++    ("order_status", "amount", "expected"),
++    [
++        ("PAID", 1_000_000, "APPROVED"),
++        ("PAID", 1_000_001, "REQUESTED"),
++        ("DELIVERED", 1_000_000, "APPROVED"),
++        ("DELIVERED", 1_000_001, "REQUESTED"),
++        ("SHIPPED", 1_000_000, "REQUESTED"),
++        ("SHIPPED", 1_000_001, "REQUESTED"),
++    ],
++)
++def test_고액_판정은_주문총액이_아닌_건별_요청액을_사용한다(
++    client, make_customer, make_order, order_status, amount, expected
++):
++    order = make_order(make_customer(), amount=2_000_000, status=order_status)
++    res = refund(client, order, amount)
++    assert res.status_code == 201
++    assert res.json()["status"] == expected
++
++
++@pytest.mark.parametrize(
++    ("action", "status", "subject"),
++    [
++        ("approve", "APPROVED", "환불이 승인되었습니다"),
++        ("reject", "REJECTED", "환불 요청이 반려되었습니다"),
++    ],
++)
++def test_고액_결정은_감사와_알림을_한번만_남긴다(
++    client, make_customer, make_order, query, admin_headers, action, status, subject
++):
++    order = make_order(make_customer(), amount=1_000_001)
++    created = refund(client, order, 1_000_001).json()
++    assert query("SELECT * FROM notifications") == []
++    res = client.post(f"/admin/refunds/{created['id']}/{action}", headers=admin_headers)
++    assert res.status_code == 200
++    assert res.json() == {**created, "status": status, "decided_at": clock.now().isoformat()}
++    events = query("SELECT actor, action, detail FROM audit_log ORDER BY id")
++    assert [(event["actor"], event["action"]) for event in events] == [
++        ("customer", "refund.requested"),
++        ("admin", f"refund.{status.lower()}"),
++    ]
++    assert json.loads(events[1]["detail"]) == {"refund_id": created["id"]}
++    assert query("SELECT reason FROM refunds") == [{"reason": "상품 불량"}]
++    notifications = query("SELECT subject, body FROM notifications")
++    assert len(notifications) == 1
++    assert subject in notifications[0]["subject"]
++    if action == "approve":
++        assert "1,000,001원" in notifications[0]["body"]
++    assert client.get("/admin/refunds?status=REQUESTED", headers=admin_headers).json() == []
++    for repeat in ("approve", "reject"):
++        denied = client.post(f"/admin/refunds/{created['id']}/{repeat}", headers=admin_headers)
++        assert denied.status_code == 400
++        assert denied.json()["detail"]["code"] == "NOT_PENDING"
++    assert query("SELECT actor, action, detail FROM audit_log ORDER BY id") == events
++    assert query("SELECT subject, body FROM notifications") == notifications
++
++
++@pytest.mark.parametrize("action", ["approve", "reject"])
++@pytest.mark.parametrize("headers", [{}, {"X-Admin-Token": "invalid-test-token"}])
++def test_고액_무인증_결정은_대기상태와_감사이력을_바꾸지_않는다(
++    client, make_customer, make_order, query, action, headers
++):
++    order = make_order(make_customer(), amount=1_000_001)
++    created = refund(client, order, 1_000_001).json()
++    events = query("SELECT * FROM audit_log")
++    res = client.post(f"/admin/refunds/{created['id']}/{action}", headers=headers)
++    assert res.status_code == 401
++    assert res.json()["detail"]["code"] == "UNAUTHORIZED"
++    assert client.get(f"/refunds/{created['id']}").json() == created
++    assert query("SELECT * FROM audit_log") == events
++    assert query("SELECT * FROM notifications") == []
++
++
++def test_반려된_고액의_예약금액은_재접수_한도에서_제외된다(
++    client, make_customer, make_order, admin_headers
++):
++    order = make_order(make_customer(), amount=1_000_001)
++    rid = refund(client, order, 1_000_001).json()["id"]
++    assert refund(client, order, 1).json()["detail"]["code"] == "AMOUNT_EXCEEDED"
++    rejected = client.post(f"/admin/refunds/{rid}/reject", headers=admin_headers)
++    assert rejected.status_code == 200
++    retried = refund(client, order, 1_000_001)
++    assert retried.status_code == 201
++    assert retried.json()["status"] == "REQUESTED"
++    assert retried.json()["id"] != rid
++
++
++def test_승인액과_고액_대기액을_합산해_주문한도를_지킨다(client, make_customer, make_order, query):
++    order = make_order(make_customer(), amount=2_000_001)
++    assert refund(client, order, 1_000_000).json()["status"] == "APPROVED"
++    assert refund(client, order, 1_000_001).json()["status"] == "REQUESTED"
++    denied = refund(client, order, 1)
++    assert denied.status_code == 400
++    assert denied.json()["detail"]["code"] == "AMOUNT_EXCEEDED"
++    assert len(query("SELECT id FROM refunds")) == 2
+diff --git a/tests/test_seed.py b/tests/test_seed.py
+index 892ba10..8e14a69 100644
+--- a/tests/test_seed.py
++++ b/tests/test_seed.py
+@@ -1,5 +1,8 @@
+ import sqlite3
++from contextlib import closing
+ 
++from app import clock
++from scripts import migrate
+ from scripts.seed import seed
+ 
+ 
+@@ -17,3 +20,42 @@ def test_seed_is_idempotent(db_path):
+     conn = sqlite3.connect(db_path)
+     assert conn.execute("SELECT COUNT(*) FROM customers").fetchone()[0] == 12
+     conn.close()
++
++
++def test_reason_migration_preserves_data_and_legacy_inserts(tmp_path, monkeypatch):
++    migrations = migrate.MIGRATIONS
++    legacy_dir = tmp_path / "legacy_migrations"
++    legacy_dir.mkdir()
++    (legacy_dir / "001_init.sql").write_text(
++        (migrations / "001_init.sql").read_text(encoding="utf-8"), encoding="utf-8"
++    )
++    path = str(tmp_path / "legacy.db")
++    monkeypatch.setattr(migrate, "MIGRATIONS", legacy_dir)
++    migrate.apply_migrations(path)
++    seed(path, today=clock.today())
++    with closing(sqlite3.connect(path)) as conn:
++        customers = conn.execute("SELECT * FROM customers ORDER BY id").fetchall()
++        orders = conn.execute("SELECT * FROM orders ORDER BY id").fetchall()
++        refunds = conn.execute("SELECT * FROM refunds ORDER BY id").fetchall()
++    monkeypatch.setattr(migrate, "MIGRATIONS", migrations)
++    assert migrate.apply_migrations(path) == ["002_refund_reason"]
++    assert migrate.apply_migrations(path) == []
++    with closing(sqlite3.connect(path)) as conn:
++        assert conn.execute("SELECT * FROM customers ORDER BY id").fetchall() == customers
++        assert conn.execute("SELECT * FROM orders ORDER BY id").fetchall() == orders
++        assert (
++            conn.execute(
++                "SELECT id, order_id, amount, status, requested_at, decided_at"
++                " FROM refunds ORDER BY id"
++            ).fetchall()
++            == refunds
++        )
++        conn.execute(
++            "INSERT INTO refunds (order_id, amount, status, requested_at, decided_at)"
++            " VALUES (?, ?, ?, ?, ?)",
++            (refunds[0][1], 1, "REQUESTED", clock.now().isoformat(), None),
++        )
++        conn.commit()
++        assert conn.execute("SELECT reason FROM refunds").fetchall() == [(None,)] * (
++            len(refunds) + 1
++        )
+diff --git a/tests/test_ui.py b/tests/test_ui.py
+index f5f3850..d0b5ae9 100644
+--- a/tests/test_ui.py
++++ b/tests/test_ui.py
+@@ -1,4 +1,129 @@
++import re
++import shutil
++import subprocess
++from pathlib import Path
++
++import pytest
++
++
+ def test_home_page_shows_refund_policy_notice(client):
+     res = client.get("/")
+     assert res.status_code == 200
+-    assert "환불은 구매 후 30일 이내" in res.text
++    assert "환불은 구매 후 일반 30일·VIP 60일 이내" in res.text
++    assert "1,000,000원 초과는 관리자 승인 대기" in res.text
++    assert "2026-12-01(UTC)까지 사유 누락을 허용" in res.text
++    assert 'id="reason" required' in res.text
++
++
++@pytest.mark.parametrize("scenario", ["누락안내", "전송과초기화", "422안내", "400안전출력"])
++def test_웹_환불입력과_오류안내를_실행한다(scenario):
++    node = shutil.which("node")
++    if node is None:
++        pytest.skip("웹 JavaScript 실행 검증에는 Node.js가 필요합니다.")
++    source = Path(__file__).resolve().parents[1] / "app" / "static" / "index.html"
++    script = r"""
++const assert = require("node:assert/strict");
++const fs = require("node:fs");
++const vm = require("node:vm");
++const scenario = process.argv[2];
++const elements = new Map();
++function element(id) {
++  if (!elements.has(id)) elements.set(id, {
++    value: id === "customer" ? "1" : "", innerHTML: "", textContent: "",
++    listeners: {}, classList: { add() {}, remove() {} },
++    addEventListener(event, handler) { this.listeners[event] = handler; },
++    replaceChildren(...children) { this.children = children; },
++    focus() { this.focused = true; }
++  });
++  return elements.get(id);
++}
++const requests = [];
++const unsafe = "<img src=x onerror=alert(1)>입력 안내";
++const context = vm.createContext({
++  document: { getElementById: element, querySelectorAll: () => [],
++              createElement: () => ({}) },
++  fetch: async (path, options = {}) => {
++    let body;
++    if (options.method === "POST") {
++      requests.push({ path, body: JSON.parse(options.body) });
++      if (scenario === "422안내") return {
++        ok: false, json: async () => ({
++          detail: [{ loc: ["body", "reason"], msg: "invalid reason" }]
++        })
++      };
++      if (scenario === "400안전출력") return {
++        ok: false, json: async () => ({
++          detail: { code: "REASON_REQUIRED", message: unsafe }
++        })
++      };
++      body = { id: 1, status: "REQUESTED" };
++    } else if (path === "/health") body = { env: "test", version: "test" };
++    else if (path === "/customers") body = [{ id: 1, name: "test", tier: "VIP" }];
++    else body = [];
++    return { ok: true, json: async () => body };
++  }
++});
++const html = fs.readFileSync(process.argv[1], "utf8");
++vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1], context);
++(async () => {
++  await new Promise(resolve => setImmediate(resolve));
++  const select = id => element("orders").listeners.click({
++    target: { closest: () => ({ dataset: { order: id, amount: "1000001" } }) }
++  });
++  select("42");
++  element("reason").value = scenario === "누락안내" ? " \t " : "  상품 불량  ";
++  await element("submit-refund").listeners.click();
++  if (scenario === "누락안내") {
++    assert.equal(requests.length, 0);
++    assert.equal(element("result").children[0].textContent, "환불 사유를 입력해 주세요.");
++    assert.equal(element("reason").focused, true);
++  } else if (scenario === "전송과초기화") {
++    assert.deepEqual(requests, [{
++      path: "/orders/42/refund", body: { amount: 1000001, reason: "상품 불량" }
++    }]);
++    assert.match(element("result").innerHTML, /REQUESTED/);
++    select("43");
++    assert.equal(element("reason").value, "");
++  } else if (scenario === "422안내") {
++    assert.match(element("result").children[0].textContent, /환불 사유.*1~200/);
++  } else {
++    const notice = element("result").children[0];
++    assert.equal(notice.textContent, unsafe);
++    assert.equal(notice.innerHTML, undefined);
++  }
++})().catch(error => { console.error(error); process.exitCode = 1; });
++"""
++    result = subprocess.run(
++        [node, "-e", script, str(source), scenario],
++        capture_output=True,
++        text=True,
++        timeout=15,
++        check=False,
++    )
++    assert result.returncode == 0, result.stderr
++
++
++@pytest.mark.parametrize("action", ["approve", "reject"])
++def test_고객화면과_양쪽_이메일과_정책문서가_동일한_정책을_안내한다(
++    client, make_customer, make_order, query, admin_headers, action
++):
++    order = make_order(make_customer(tier="VIP"), days_ago=45, status="SHIPPED")
++    created = client.post(
++        f"/orders/{order}/refund", json={"amount": 1_000, "reason": "정책 안내 검증"}
++    )
++    assert created.status_code == 201
++    decided = client.post(f"/admin/refunds/{created.json()['id']}/{action}", headers=admin_headers)
++    assert decided.status_code == 200
++    policy_path = Path(__file__).resolve().parents[1] / "docs" / "policy" / "refund-policy.md"
++    messages = [
++        client.get("/").text,
++        query("SELECT body FROM notifications")[0]["body"],
++        policy_path.read_text(encoding="utf-8").replace("**", ""),
++    ]
++    for message in messages:
++        assert re.search(r"일반(?: 고객)?\s*30일", message)
++        assert re.search(r"VIP(?: 고객)?\s*60일", message)
++        assert re.search(r"1,000,000원(?:을)?\s*초과", message)
++        assert "사유" in message and "필수" in message
++        assert "2026-12-01" in message
++        assert "UTC" in message

@@ -1,0 +1,30 @@
+ [Current]  Sessions   Issues   Pull requests   Gists
+
+                                                                                                                       ┃
+ ● Edit  Create docs/cr/CR-2026-014/01-impact-analysis.md                                                              ┃
+                                                                                                                       ┃
+ ❯ Thought for 1s                                                                                                      ┃
+                                                                                                                       ┃
+ $ Shell 분석서 분량과 변경 범위 확인 2 lines…                                                                         ┃
+   wc -l docs/cr/CR-2026-014/01-impact-analysis.md && git --no-pager diff --check && git --no-pager status --short     ┃
+                                                                                                                       ┃
+ MD Read 01-impact-analysis.md L1:95 (77 lines read)                                                                   ┃
+                                                                                                                       ┃
+ ❯ Thought for 4s                                                                                                      ┃
+                                                                                                                       ┃
+ ● Edit  Edit docs/cr/CR-2026-014/01-impact-analysis.md                                                                ┃
+ ● Edit  Edit docs/cr/CR-2026-014/01-impact-analysis.md                                                                ┃
+                                                                                                                       ┃
+ ● 저장:  docs/cr/CR-2026-014/01-impact-analysis.md                                                                    ┃
+                                                                                                                       ┃
+   • API·DB·화면·이메일·문서·모바일·운영 영향과 파일·줄 근거를 정리했습니다.                                           ┃
+   • 실제 DB에서 VIP 표기 혼재와 사유 컬럼 부재를 확인했습니다.                                                        ┃
+   • 핵심 위험은 구버전 앱의 사유 누락과 현행 배포 방식의 서비스 중단입니다.                                           ┃
+   • 고액 환불은 기존 승인 대기 흐름을 재사용할 수 있으며, 코드·DB는 변경하지 않았습니다.                              ┃
+   • 결정 필요: 구버전 접수 전환 방식, 등급 판정 기준, 시행 전 구매 주문의 적용 범위.                                  ┃
+                                                                                                                       ┃
+ ~/Documents/Microsoft Scout/GHCP_CLI_Demo_Kit/shopflow-orders [⎇ main%]                        Session: 18.49 AIC used
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ← open sidebar · Interactive · Manual Approval · / commands       ctrl+t show reasoning · change-analyst · GPT-6.1 Sol

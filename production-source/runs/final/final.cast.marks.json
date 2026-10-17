@@ -1,0 +1,4179 @@
+[
+  {
+    "t": 0.171922,
+    "wall": 1792132447.244698,
+    "kind": "op_start",
+    "screen_hash": "a0bdb7e71846a959",
+    "index": 0,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stages_def",
+        "stages": [
+          {
+            "id": 1,
+            "label": "분석"
+          },
+          {
+            "id": 2,
+            "label": "설계"
+          },
+          {
+            "id": 3,
+            "label": "구현"
+          },
+          {
+            "id": 4,
+            "label": "테스트"
+          },
+          {
+            "id": 5,
+            "label": "리뷰"
+          },
+          {
+            "id": 6,
+            "label": "배포"
+          },
+          {
+            "id": 7,
+            "label": "운영"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "t": 0.173738,
+    "wall": 1792132447.2465112,
+    "kind": "marker",
+    "screen_hash": "a0bdb7e71846a959",
+    "data": {
+      "k": "stages_def",
+      "stages": [
+        {
+          "id": 1,
+          "label": "분석"
+        },
+        {
+          "id": 2,
+          "label": "설계"
+        },
+        {
+          "id": 3,
+          "label": "구현"
+        },
+        {
+          "id": 4,
+          "label": "테스트"
+        },
+        {
+          "id": 5,
+          "label": "리뷰"
+        },
+        {
+          "id": 6,
+          "label": "배포"
+        },
+        {
+          "id": 7,
+          "label": "운영"
+        }
+      ]
+    }
+  },
+  {
+    "t": 0.175502,
+    "wall": 1792132447.248275,
+    "kind": "op_end",
+    "screen_hash": "a0bdb7e71846a959",
+    "index": 0,
+    "op": "mark"
+  },
+  {
+    "t": 0.177069,
+    "wall": 1792132447.249842,
+    "kind": "op_start",
+    "screen_hash": "a0bdb7e71846a959",
+    "index": 1,
+    "op": "wait_for",
+    "step": {
+      "op": "wait_for",
+      "pattern": "(?m)^❯",
+      "timeout": 60
+    }
+  },
+  {
+    "t": 1.201768,
+    "wall": 1792132448.2745411,
+    "kind": "op_end",
+    "screen_hash": "056e0db0e636ccf9",
+    "index": 1,
+    "op": "wait_for"
+  },
+  {
+    "t": 1.204024,
+    "wall": 1792132448.276798,
+    "kind": "op_start",
+    "screen_hash": "056e0db0e636ccf9",
+    "index": 2,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 1.5
+    }
+  },
+  {
+    "t": 2.709494,
+    "wall": 1792132449.782269,
+    "kind": "op_end",
+    "screen_hash": "5015805759e00a3b",
+    "index": 2,
+    "op": "sleep"
+  },
+  {
+    "t": 2.722717,
+    "wall": 1792132449.79549,
+    "kind": "op_start",
+    "screen_hash": "5015805759e00a3b",
+    "index": 3,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 2.733597,
+    "wall": 1792132449.80637,
+    "kind": "marker",
+    "screen_hash": "5015805759e00a3b",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 2.741623,
+    "wall": 1792132449.814396,
+    "kind": "op_end",
+    "screen_hash": "5015805759e00a3b",
+    "index": 3,
+    "op": "mark"
+  },
+  {
+    "t": 2.748501,
+    "wall": 1792132449.821274,
+    "kind": "op_start",
+    "screen_hash": "5015805759e00a3b",
+    "index": 4,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 1,
+        "label": "분석",
+        "agent": "change-analyst"
+      }
+    }
+  },
+  {
+    "t": 2.755026,
+    "wall": 1792132449.827799,
+    "kind": "marker",
+    "screen_hash": "5015805759e00a3b",
+    "data": {
+      "k": "stage",
+      "id": 1,
+      "label": "분석",
+      "agent": "change-analyst"
+    }
+  },
+  {
+    "t": 2.762298,
+    "wall": 1792132449.835071,
+    "kind": "op_end",
+    "screen_hash": "5015805759e00a3b",
+    "index": 4,
+    "op": "mark"
+  },
+  {
+    "t": 2.769133,
+    "wall": 1792132449.841908,
+    "kind": "op_start",
+    "screen_hash": "5015805759e00a3b",
+    "index": 5,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "현업의 변경 요청서를 '변경 분석가' 에이전트에게 맡깁니다"
+      }
+    }
+  },
+  {
+    "t": 2.775669,
+    "wall": 1792132449.848442,
+    "kind": "marker",
+    "screen_hash": "5015805759e00a3b",
+    "data": {
+      "k": "caption",
+      "text": "현업의 변경 요청서를 '변경 분석가' 에이전트에게 맡깁니다"
+    }
+  },
+  {
+    "t": 2.781449,
+    "wall": 1792132449.854223,
+    "kind": "op_end",
+    "screen_hash": "5015805759e00a3b",
+    "index": 5,
+    "op": "mark"
+  },
+  {
+    "t": 2.787124,
+    "wall": 1792132449.8598971,
+    "kind": "op_start",
+    "screen_hash": "5015805759e00a3b",
+    "index": 6,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 3.693135,
+    "wall": 1792132450.765908,
+    "kind": "op_end",
+    "screen_hash": "eb1233a585c8015c",
+    "index": 6,
+    "op": "type"
+  },
+  {
+    "t": 3.7041,
+    "wall": 1792132450.776874,
+    "kind": "op_start",
+    "screen_hash": "eb1233a585c8015c",
+    "index": 7,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.5
+    }
+  },
+  {
+    "t": 6.217235,
+    "wall": 1792132453.290019,
+    "kind": "op_end",
+    "screen_hash": "da699e0031123ec3",
+    "index": 7,
+    "op": "sleep"
+  },
+  {
+    "t": 6.228302,
+    "wall": 1792132453.30108,
+    "kind": "op_start",
+    "screen_hash": "da699e0031123ec3",
+    "index": 8,
+    "op": "key",
+    "step": {
+      "op": "key",
+      "keys": [
+        "Down",
+        "Down"
+      ],
+      "delay": 0.8
+    }
+  },
+  {
+    "t": 7.948115,
+    "wall": 1792132455.020889,
+    "kind": "op_end",
+    "screen_hash": "21194b325c10b830",
+    "index": 8,
+    "op": "key"
+  },
+  {
+    "t": 7.961124,
+    "wall": 1792132455.0338979,
+    "kind": "op_start",
+    "screen_hash": "21194b325c10b830",
+    "index": 9,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 1.5
+    }
+  },
+  {
+    "t": 9.476437,
+    "wall": 1792132456.54922,
+    "kind": "op_end",
+    "screen_hash": "65ae749251365718",
+    "index": 9,
+    "op": "sleep"
+  },
+  {
+    "t": 9.492255,
+    "wall": 1792132456.565032,
+    "kind": "op_start",
+    "screen_hash": "65ae749251365718",
+    "index": 10,
+    "op": "key",
+    "step": {
+      "op": "key",
+      "keys": [
+        "Enter"
+      ]
+    }
+  },
+  {
+    "t": 9.683144,
+    "wall": 1792132456.755917,
+    "kind": "op_end",
+    "screen_hash": "19ee82ba98a4e56c",
+    "index": 10,
+    "op": "key"
+  },
+  {
+    "t": 9.696597,
+    "wall": 1792132456.76937,
+    "kind": "op_start",
+    "screen_hash": "19ee82ba98a4e56c",
+    "index": 11,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 1.5
+    }
+  },
+  {
+    "t": 11.211514,
+    "wall": 1792132458.2843,
+    "kind": "op_end",
+    "screen_hash": "9dd5a011d6c4146a",
+    "index": 11,
+    "op": "sleep"
+  },
+  {
+    "t": 11.229188,
+    "wall": 1792132458.3019679,
+    "kind": "op_start",
+    "screen_hash": "9dd5a011d6c4146a",
+    "index": 12,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "CR-2026-014 변경 요청서(docs/requirements/CR-2026-014.md)의 영향도를 분석해줘.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 20.941121,
+    "wall": 1792132468.013896,
+    "kind": "op_end",
+    "screen_hash": "617c8330640c58df",
+    "index": 12,
+    "op": "type"
+  },
+  {
+    "t": 20.960628,
+    "wall": 1792132468.033406,
+    "kind": "op_start",
+    "screen_hash": "617c8330640c58df",
+    "index": 13,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "코드·문서·실제 데이터를 직접 읽고 영향 범위를 찾는 중 (대기 시간은 배속 처리)"
+      }
+    }
+  },
+  {
+    "t": 20.97102,
+    "wall": 1792132468.043793,
+    "kind": "marker",
+    "screen_hash": "617c8330640c58df",
+    "data": {
+      "k": "caption",
+      "text": "코드·문서·실제 데이터를 직접 읽고 영향 범위를 찾는 중 (대기 시간은 배속 처리)"
+    }
+  },
+  {
+    "t": 20.977653,
+    "wall": 1792132468.05043,
+    "kind": "op_end",
+    "screen_hash": "617c8330640c58df",
+    "index": 13,
+    "op": "mark"
+  },
+  {
+    "t": 20.983694,
+    "wall": 1792132468.056469,
+    "kind": "op_start",
+    "screen_hash": "617c8330640c58df",
+    "index": 14,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 8
+      }
+    }
+  },
+  {
+    "t": 20.991422,
+    "wall": 1792132468.0641952,
+    "kind": "marker",
+    "screen_hash": "617c8330640c58df",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 20.998078,
+    "wall": 1792132468.070855,
+    "kind": "op_end",
+    "screen_hash": "617c8330640c58df",
+    "index": 14,
+    "op": "mark"
+  },
+  {
+    "t": 21.00386,
+    "wall": 1792132468.076635,
+    "kind": "op_start",
+    "screen_hash": "617c8330640c58df",
+    "index": 15,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 1500,
+      "quiet": 9,
+      "handlers": [
+        {
+          "name": "decision",
+          "pattern": "Copilot needs information",
+          "anchor": "Copilot needs information",
+          "snapshot": "decision",
+          "settle": 0.8,
+          "hold": 6.0,
+          "max": 6,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "사람이 결정합니다",
+              "text": "AI가 선택지와 추천안을 제시하고, 결정은 사람이 합니다"
+            }
+          ],
+          "rules": [
+            {
+              "if": "구버전|구앱|모바일",
+              "once": true,
+              "select": "Other \\(type",
+              "text": "구앱(3.1~3.3)은 2026-12-01까지 사유 누락을 허용하고 경고 로그를 남기며, 이후 필수로 전환한다"
+            },
+            {
+              "keys": [
+                "Enter"
+              ]
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "분석서와 사내 표준을 읽고 설계안을 만드는 중 (대기 시간은 배속 처리)"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "unexpected-permission",
+          "settle": 0.6,
+          "hold": 2.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 6
+        }
+      ]
+    }
+  },
+  {
+    "t": 150.186301,
+    "wall": 1792132597.259085,
+    "kind": "op_end",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 15,
+    "op": "auto"
+  },
+  {
+    "t": 150.202232,
+    "wall": 1792132597.27501,
+    "kind": "op_start",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 16,
+    "op": "expect_file",
+    "step": {
+      "op": "expect_file",
+      "path": "docs/cr/CR-2026-014/01-impact-analysis.md",
+      "timeout": 180
+    }
+  },
+  {
+    "t": 150.318193,
+    "wall": 1792132597.390977,
+    "kind": "op_end",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 16,
+    "op": "expect_file"
+  },
+  {
+    "t": 150.335483,
+    "wall": 1792132597.40826,
+    "kind": "op_start",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 17,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "stage1-done"
+    }
+  },
+  {
+    "t": 150.349953,
+    "wall": 1792132597.422734,
+    "kind": "snapshot",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "name": "stage1-done",
+    "path": "../runs/final/final.cast.snapshots/stage1-done.txt"
+  },
+  {
+    "t": 150.36019,
+    "wall": 1792132597.4329689,
+    "kind": "op_end",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 17,
+    "op": "snapshot"
+  },
+  {
+    "t": 150.370967,
+    "wall": 1792132597.443744,
+    "kind": "op_start",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 18,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 150.380864,
+    "wall": 1792132597.4536378,
+    "kind": "marker",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 150.390832,
+    "wall": 1792132597.463609,
+    "kind": "op_end",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 18,
+    "op": "mark"
+  },
+  {
+    "t": 150.40056,
+    "wall": 1792132597.473335,
+    "kind": "op_start",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 19,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "분석 완료 — 영향 범위 · 데이터 이상 · 결정 필요 사항을 요약했습니다"
+      }
+    }
+  },
+  {
+    "t": 150.410694,
+    "wall": 1792132597.483467,
+    "kind": "marker",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "data": {
+      "k": "caption",
+      "text": "분석 완료 — 영향 범위 · 데이터 이상 · 결정 필요 사항을 요약했습니다"
+    }
+  },
+  {
+    "t": 150.421212,
+    "wall": 1792132597.493988,
+    "kind": "op_end",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 19,
+    "op": "mark"
+  },
+  {
+    "t": 150.431952,
+    "wall": 1792132597.504728,
+    "kind": "op_start",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 20,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 150.442644,
+    "wall": 1792132597.515418,
+    "kind": "marker",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 150.451761,
+    "wall": 1792132597.524537,
+    "kind": "op_end",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 20,
+    "op": "mark"
+  },
+  {
+    "t": 150.461906,
+    "wall": 1792132597.534683,
+    "kind": "op_start",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 21,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 150.471905,
+    "wall": 1792132597.544679,
+    "kind": "marker",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 150.481416,
+    "wall": 1792132597.5541928,
+    "kind": "op_end",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 21,
+    "op": "mark"
+  },
+  {
+    "t": 150.490036,
+    "wall": 1792132597.5628119,
+    "kind": "op_start",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 22,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 2,
+        "label": "설계",
+        "agent": "solution-architect"
+      }
+    }
+  },
+  {
+    "t": 150.499141,
+    "wall": 1792132597.571914,
+    "kind": "marker",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "data": {
+      "k": "stage",
+      "id": 2,
+      "label": "설계",
+      "agent": "solution-architect"
+    }
+  },
+  {
+    "t": 150.506801,
+    "wall": 1792132597.579577,
+    "kind": "op_end",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 22,
+    "op": "mark"
+  },
+  {
+    "t": 150.51483,
+    "wall": 1792132597.587605,
+    "kind": "op_start",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 23,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "'설계자' 에이전트가 설계하고, 중요한 결정은 사람에게 묻습니다"
+      }
+    }
+  },
+  {
+    "t": 150.523837,
+    "wall": 1792132597.59661,
+    "kind": "marker",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "data": {
+      "k": "caption",
+      "text": "'설계자' 에이전트가 설계하고, 중요한 결정은 사람에게 묻습니다"
+    }
+  },
+  {
+    "t": 150.533536,
+    "wall": 1792132597.606314,
+    "kind": "op_end",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 23,
+    "op": "mark"
+  },
+  {
+    "t": 150.542129,
+    "wall": 1792132597.6149042,
+    "kind": "op_start",
+    "screen_hash": "5cbbfe94d7c0de59",
+    "index": 24,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent solution-architect",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 154.140139,
+    "wall": 1792132601.212915,
+    "kind": "op_end",
+    "screen_hash": "27663dd2ec054683",
+    "index": 24,
+    "op": "type"
+  },
+  {
+    "t": 154.152343,
+    "wall": 1792132601.22512,
+    "kind": "op_start",
+    "screen_hash": "27663dd2ec054683",
+    "index": 25,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 156.169272,
+    "wall": 1792132603.242059,
+    "kind": "op_end",
+    "screen_hash": "cdf14d52108cfe50",
+    "index": 25,
+    "op": "sleep"
+  },
+  {
+    "t": 156.181025,
+    "wall": 1792132603.253803,
+    "kind": "op_start",
+    "screen_hash": "cdf14d52108cfe50",
+    "index": 26,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "분석서를 바탕으로 설계해줘. 결정이 필요한 건 나에게 물어봐줘.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 161.44725,
+    "wall": 1792132608.520025,
+    "kind": "op_end",
+    "screen_hash": "18769041101e9a85",
+    "index": 26,
+    "op": "type"
+  },
+  {
+    "t": 161.466395,
+    "wall": 1792132608.5391748,
+    "kind": "op_start",
+    "screen_hash": "18769041101e9a85",
+    "index": 27,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "분석서와 사내 표준을 읽고 설계안을 만드는 중 (대기 시간은 배속 처리)"
+      }
+    }
+  },
+  {
+    "t": 161.479893,
+    "wall": 1792132608.5526662,
+    "kind": "marker",
+    "screen_hash": "18769041101e9a85",
+    "data": {
+      "k": "caption",
+      "text": "분석서와 사내 표준을 읽고 설계안을 만드는 중 (대기 시간은 배속 처리)"
+    }
+  },
+  {
+    "t": 161.487101,
+    "wall": 1792132608.5598788,
+    "kind": "op_end",
+    "screen_hash": "18769041101e9a85",
+    "index": 27,
+    "op": "mark"
+  },
+  {
+    "t": 161.494857,
+    "wall": 1792132608.567632,
+    "kind": "op_start",
+    "screen_hash": "18769041101e9a85",
+    "index": 28,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 8
+      }
+    }
+  },
+  {
+    "t": 161.502031,
+    "wall": 1792132608.574804,
+    "kind": "marker",
+    "screen_hash": "18769041101e9a85",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 161.509959,
+    "wall": 1792132608.582737,
+    "kind": "op_end",
+    "screen_hash": "18769041101e9a85",
+    "index": 28,
+    "op": "mark"
+  },
+  {
+    "t": 161.518476,
+    "wall": 1792132608.591251,
+    "kind": "op_start",
+    "screen_hash": "18769041101e9a85",
+    "index": 29,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 1500,
+      "quiet": 9,
+      "handlers": [
+        {
+          "name": "gate-design",
+          "pattern": "(?s)Hook permission request.*설계 승인",
+          "snapshot": "gate-design",
+          "settle": 0.8,
+          "hold": 7.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 1,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "① 설계 승인",
+              "text": "시스템이 승인을 요구합니다 · 승인 후 설계서가 바뀌면 자동 무효"
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "설계 승인 완료 — 이제부터 코드 수정이 허용됩니다"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "decision",
+          "pattern": "Copilot needs information",
+          "anchor": "Copilot needs information",
+          "snapshot": "decision",
+          "settle": 0.8,
+          "hold": 6.0,
+          "max": 6,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "사람이 결정합니다",
+              "text": "AI가 선택지와 추천안을 제시하고, 결정은 사람이 합니다"
+            }
+          ],
+          "rules": [
+            {
+              "if": "구버전|구앱|모바일",
+              "once": true,
+              "select": "Other \\(type",
+              "text": "구앱(3.1~3.3)은 2026-12-01까지 사유 누락을 허용하고 경고 로그를 남기며, 이후 필수로 전환한다"
+            },
+            {
+              "keys": [
+                "Enter"
+              ]
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "분석서와 사내 표준을 읽고 설계안을 만드는 중 (대기 시간은 배속 처리)"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "unexpected-permission",
+          "settle": 0.6,
+          "hold": 2.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 6
+        }
+      ]
+    }
+  },
+  {
+    "t": 172.107782,
+    "wall": 1792132619.180555,
+    "kind": "auto_handler",
+    "screen_hash": "c6ecf7f486b06e5a",
+    "name": "decision",
+    "count": 1
+  },
+  {
+    "t": 172.926587,
+    "wall": 1792132619.999361,
+    "kind": "marker",
+    "screen_hash": "b5fffe4a63131f4f",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 172.938627,
+    "wall": 1792132620.011402,
+    "kind": "marker",
+    "screen_hash": "b5fffe4a63131f4f",
+    "data": {
+      "k": "gate",
+      "label": "사람이 결정합니다",
+      "text": "AI가 선택지와 추천안을 제시하고, 결정은 사람이 합니다"
+    }
+  },
+  {
+    "t": 190.807823,
+    "wall": 1792132637.8805969,
+    "kind": "marker",
+    "screen_hash": "e850a09675df959f",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 190.822535,
+    "wall": 1792132637.895309,
+    "kind": "marker",
+    "screen_hash": "e850a09675df959f",
+    "data": {
+      "k": "caption",
+      "text": "분석서와 사내 표준을 읽고 설계안을 만드는 중 (대기 시간은 배속 처리)"
+    }
+  },
+  {
+    "t": 190.834737,
+    "wall": 1792132637.90751,
+    "kind": "marker",
+    "screen_hash": "e850a09675df959f",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 204.218008,
+    "wall": 1792132651.290783,
+    "kind": "auto_handler",
+    "screen_hash": "c3265d4e78a15f73",
+    "name": "decision",
+    "count": 2
+  },
+  {
+    "t": 205.036663,
+    "wall": 1792132652.1094358,
+    "kind": "marker",
+    "screen_hash": "72181a3c8850e44f",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 205.051975,
+    "wall": 1792132652.124751,
+    "kind": "marker",
+    "screen_hash": "72181a3c8850e44f",
+    "data": {
+      "k": "gate",
+      "label": "사람이 결정합니다",
+      "text": "AI가 선택지와 추천안을 제시하고, 결정은 사람이 합니다"
+    }
+  },
+  {
+    "t": 211.484628,
+    "wall": 1792132658.5574028,
+    "kind": "marker",
+    "screen_hash": "2a41ce7847743365",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 211.499351,
+    "wall": 1792132658.5721269,
+    "kind": "marker",
+    "screen_hash": "2a41ce7847743365",
+    "data": {
+      "k": "caption",
+      "text": "분석서와 사내 표준을 읽고 설계안을 만드는 중 (대기 시간은 배속 처리)"
+    }
+  },
+  {
+    "t": 211.509925,
+    "wall": 1792132658.5826979,
+    "kind": "marker",
+    "screen_hash": "2a41ce7847743365",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 217.5219,
+    "wall": 1792132664.594673,
+    "kind": "auto_handler",
+    "screen_hash": "e6f804b800b84eea",
+    "name": "decision",
+    "count": 3
+  },
+  {
+    "t": 218.345753,
+    "wall": 1792132665.418527,
+    "kind": "marker",
+    "screen_hash": "13405ad1ba3b1b18",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 218.358881,
+    "wall": 1792132665.431654,
+    "kind": "marker",
+    "screen_hash": "13405ad1ba3b1b18",
+    "data": {
+      "k": "gate",
+      "label": "사람이 결정합니다",
+      "text": "AI가 선택지와 추천안을 제시하고, 결정은 사람이 합니다"
+    }
+  },
+  {
+    "t": 224.786078,
+    "wall": 1792132671.8588521,
+    "kind": "marker",
+    "screen_hash": "c83158ed74e6b15c",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 224.797695,
+    "wall": 1792132671.870469,
+    "kind": "marker",
+    "screen_hash": "c83158ed74e6b15c",
+    "data": {
+      "k": "caption",
+      "text": "분석서와 사내 표준을 읽고 설계안을 만드는 중 (대기 시간은 배속 처리)"
+    }
+  },
+  {
+    "t": 224.808878,
+    "wall": 1792132671.8816519,
+    "kind": "marker",
+    "screen_hash": "c83158ed74e6b15c",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 353.743329,
+    "wall": 1792132800.816105,
+    "kind": "auto_handler",
+    "screen_hash": "21c504f7b8763a93",
+    "name": "gate-design",
+    "count": 1
+  },
+  {
+    "t": 354.561652,
+    "wall": 1792132801.634426,
+    "kind": "marker",
+    "screen_hash": "f747e037f86f70fe",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 354.575968,
+    "wall": 1792132801.648742,
+    "kind": "marker",
+    "screen_hash": "f747e037f86f70fe",
+    "data": {
+      "k": "gate",
+      "label": "① 설계 승인",
+      "text": "시스템이 승인을 요구합니다 · 승인 후 설계서가 바뀌면 자동 무효"
+    }
+  },
+  {
+    "t": 362.008573,
+    "wall": 1792132809.081346,
+    "kind": "marker",
+    "screen_hash": "eb51aa511baa2ff3",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 362.022299,
+    "wall": 1792132809.095072,
+    "kind": "marker",
+    "screen_hash": "eb51aa511baa2ff3",
+    "data": {
+      "k": "caption",
+      "text": "설계 승인 완료 — 이제부터 코드 수정이 허용됩니다"
+    }
+  },
+  {
+    "t": 362.0298,
+    "wall": 1792132809.1025732,
+    "kind": "marker",
+    "screen_hash": "eb51aa511baa2ff3",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 376.108601,
+    "wall": 1792132823.181379,
+    "kind": "op_end",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 29,
+    "op": "auto"
+  },
+  {
+    "t": 376.117667,
+    "wall": 1792132823.190444,
+    "kind": "op_start",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 30,
+    "op": "expect_file",
+    "step": {
+      "op": "expect_file",
+      "path": "approvals/CR-2026-014/design.json",
+      "timeout": 180
+    }
+  },
+  {
+    "t": 376.234166,
+    "wall": 1792132823.3069482,
+    "kind": "op_end",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 30,
+    "op": "expect_file"
+  },
+  {
+    "t": 376.251746,
+    "wall": 1792132823.324526,
+    "kind": "op_start",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 31,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "stage2-done"
+    }
+  },
+  {
+    "t": 376.26971,
+    "wall": 1792132823.3424928,
+    "kind": "snapshot",
+    "screen_hash": "bfc379786b8c0797",
+    "name": "stage2-done",
+    "path": "../runs/final/final.cast.snapshots/stage2-done.txt"
+  },
+  {
+    "t": 376.280135,
+    "wall": 1792132823.352916,
+    "kind": "op_end",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 31,
+    "op": "snapshot"
+  },
+  {
+    "t": 376.289105,
+    "wall": 1792132823.361881,
+    "kind": "op_start",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 32,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 376.297087,
+    "wall": 1792132823.3698611,
+    "kind": "marker",
+    "screen_hash": "bfc379786b8c0797",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 376.30454,
+    "wall": 1792132823.377321,
+    "kind": "op_end",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 32,
+    "op": "mark"
+  },
+  {
+    "t": 376.312056,
+    "wall": 1792132823.384831,
+    "kind": "op_start",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 33,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "설계 승인 완료 — 이제부터 코드 수정이 허용됩니다"
+      }
+    }
+  },
+  {
+    "t": 376.319067,
+    "wall": 1792132823.39184,
+    "kind": "marker",
+    "screen_hash": "bfc379786b8c0797",
+    "data": {
+      "k": "caption",
+      "text": "설계 승인 완료 — 이제부터 코드 수정이 허용됩니다"
+    }
+  },
+  {
+    "t": 376.326379,
+    "wall": 1792132823.3991628,
+    "kind": "op_end",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 33,
+    "op": "mark"
+  },
+  {
+    "t": 376.334624,
+    "wall": 1792132823.4074,
+    "kind": "op_start",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 34,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 376.34238,
+    "wall": 1792132823.415154,
+    "kind": "marker",
+    "screen_hash": "bfc379786b8c0797",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 376.349965,
+    "wall": 1792132823.422741,
+    "kind": "op_end",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 34,
+    "op": "mark"
+  },
+  {
+    "t": 376.357055,
+    "wall": 1792132823.429834,
+    "kind": "op_start",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 35,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 376.365266,
+    "wall": 1792132823.438039,
+    "kind": "marker",
+    "screen_hash": "bfc379786b8c0797",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 376.373486,
+    "wall": 1792132823.446267,
+    "kind": "op_end",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 35,
+    "op": "mark"
+  },
+  {
+    "t": 376.381657,
+    "wall": 1792132823.454432,
+    "kind": "op_start",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 36,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 3,
+        "label": "구현",
+        "agent": "app-developer"
+      }
+    }
+  },
+  {
+    "t": 376.389436,
+    "wall": 1792132823.462209,
+    "kind": "marker",
+    "screen_hash": "bfc379786b8c0797",
+    "data": {
+      "k": "stage",
+      "id": 3,
+      "label": "구현",
+      "agent": "app-developer"
+    }
+  },
+  {
+    "t": 376.396824,
+    "wall": 1792132823.469602,
+    "kind": "op_end",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 36,
+    "op": "mark"
+  },
+  {
+    "t": 376.404206,
+    "wall": 1792132823.476981,
+    "kind": "op_start",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 37,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "'개발자' 에이전트가 승인된 설계 그대로 구현합니다"
+      }
+    }
+  },
+  {
+    "t": 376.411614,
+    "wall": 1792132823.4843872,
+    "kind": "marker",
+    "screen_hash": "bfc379786b8c0797",
+    "data": {
+      "k": "caption",
+      "text": "'개발자' 에이전트가 승인된 설계 그대로 구현합니다"
+    }
+  },
+  {
+    "t": 376.419084,
+    "wall": 1792132823.491859,
+    "kind": "op_end",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 37,
+    "op": "mark"
+  },
+  {
+    "t": 376.42656,
+    "wall": 1792132823.4993348,
+    "kind": "op_start",
+    "screen_hash": "bfc379786b8c0797",
+    "index": 38,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent app-developer",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 379.353677,
+    "wall": 1792132826.426452,
+    "kind": "op_end",
+    "screen_hash": "fd302f73a6d01b16",
+    "index": 38,
+    "op": "type"
+  },
+  {
+    "t": 379.367012,
+    "wall": 1792132826.4397912,
+    "kind": "op_start",
+    "screen_hash": "fd302f73a6d01b16",
+    "index": 39,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 381.382818,
+    "wall": 1792132828.455598,
+    "kind": "op_end",
+    "screen_hash": "5ce76b045bfc6d11",
+    "index": 39,
+    "op": "sleep"
+  },
+  {
+    "t": 381.393223,
+    "wall": 1792132828.4659991,
+    "kind": "op_start",
+    "screen_hash": "5ce76b045bfc6d11",
+    "index": 40,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "승인된 설계대로 구현해줘.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 383.495479,
+    "wall": 1792132830.568254,
+    "kind": "op_end",
+    "screen_hash": "c1e606b316ded1d0",
+    "index": 40,
+    "op": "type"
+  },
+  {
+    "t": 383.513383,
+    "wall": 1792132830.586163,
+    "kind": "op_start",
+    "screen_hash": "c1e606b316ded1d0",
+    "index": 41,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "DB 마이그레이션 · 업무 규칙 · 화면 · 이메일 문구를 수정하는 중 (배속)"
+      }
+    }
+  },
+  {
+    "t": 383.528037,
+    "wall": 1792132830.600811,
+    "kind": "marker",
+    "screen_hash": "c1e606b316ded1d0",
+    "data": {
+      "k": "caption",
+      "text": "DB 마이그레이션 · 업무 규칙 · 화면 · 이메일 문구를 수정하는 중 (배속)"
+    }
+  },
+  {
+    "t": 383.538032,
+    "wall": 1792132830.610812,
+    "kind": "op_end",
+    "screen_hash": "c1e606b316ded1d0",
+    "index": 41,
+    "op": "mark"
+  },
+  {
+    "t": 383.548926,
+    "wall": 1792132830.621703,
+    "kind": "op_start",
+    "screen_hash": "c1e606b316ded1d0",
+    "index": 42,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 8
+      }
+    }
+  },
+  {
+    "t": 383.556299,
+    "wall": 1792132830.629072,
+    "kind": "marker",
+    "screen_hash": "c1e606b316ded1d0",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 383.564914,
+    "wall": 1792132830.637694,
+    "kind": "op_end",
+    "screen_hash": "c1e606b316ded1d0",
+    "index": 42,
+    "op": "mark"
+  },
+  {
+    "t": 383.573136,
+    "wall": 1792132830.6459122,
+    "kind": "op_start",
+    "screen_hash": "c1e606b316ded1d0",
+    "index": 43,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 1500,
+      "quiet": 9,
+      "handlers": [
+        {
+          "name": "decision",
+          "pattern": "Copilot needs information",
+          "anchor": "Copilot needs information",
+          "snapshot": "decision",
+          "settle": 0.8,
+          "hold": 6.0,
+          "max": 6,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "사람이 결정합니다",
+              "text": "AI가 선택지와 추천안을 제시하고, 결정은 사람이 합니다"
+            }
+          ],
+          "rules": [
+            {
+              "if": "구버전|구앱|모바일",
+              "once": true,
+              "select": "Other \\(type",
+              "text": "구앱(3.1~3.3)은 2026-12-01까지 사유 누락을 허용하고 경고 로그를 남기며, 이후 필수로 전환한다"
+            },
+            {
+              "keys": [
+                "Enter"
+              ]
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "분석서와 사내 표준을 읽고 설계안을 만드는 중 (대기 시간은 배속 처리)"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "unexpected-permission",
+          "settle": 0.6,
+          "hold": 2.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 6
+        }
+      ]
+    }
+  },
+  {
+    "t": 744.473796,
+    "wall": 1792133191.546585,
+    "kind": "op_end",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 43,
+    "op": "auto"
+  },
+  {
+    "t": 744.491101,
+    "wall": 1792133191.563881,
+    "kind": "op_start",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 44,
+    "op": "expect_file",
+    "step": {
+      "op": "expect_file",
+      "path": "docs/cr/CR-2026-014/03-implementation-notes.md",
+      "timeout": 180
+    }
+  },
+  {
+    "t": 744.610459,
+    "wall": 1792133191.683248,
+    "kind": "op_end",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 44,
+    "op": "expect_file"
+  },
+  {
+    "t": 744.627017,
+    "wall": 1792133191.699796,
+    "kind": "op_start",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 45,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "stage3-done"
+    }
+  },
+  {
+    "t": 744.646725,
+    "wall": 1792133191.719509,
+    "kind": "snapshot",
+    "screen_hash": "2704ed757660b9f2",
+    "name": "stage3-done",
+    "path": "../runs/final/final.cast.snapshots/stage3-done.txt"
+  },
+  {
+    "t": 744.660199,
+    "wall": 1792133191.732981,
+    "kind": "op_end",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 45,
+    "op": "snapshot"
+  },
+  {
+    "t": 744.674503,
+    "wall": 1792133191.747285,
+    "kind": "op_start",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 46,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 744.688391,
+    "wall": 1792133191.761166,
+    "kind": "marker",
+    "screen_hash": "2704ed757660b9f2",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 744.701587,
+    "wall": 1792133191.774368,
+    "kind": "op_end",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 46,
+    "op": "mark"
+  },
+  {
+    "t": 744.716123,
+    "wall": 1792133191.788901,
+    "kind": "op_start",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 47,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "구현 완료 — 변경 내용은 커밋으로 남았습니다"
+      }
+    }
+  },
+  {
+    "t": 744.729819,
+    "wall": 1792133191.802593,
+    "kind": "marker",
+    "screen_hash": "2704ed757660b9f2",
+    "data": {
+      "k": "caption",
+      "text": "구현 완료 — 변경 내용은 커밋으로 남았습니다"
+    }
+  },
+  {
+    "t": 744.743521,
+    "wall": 1792133191.816303,
+    "kind": "op_end",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 47,
+    "op": "mark"
+  },
+  {
+    "t": 744.75404,
+    "wall": 1792133191.826818,
+    "kind": "op_start",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 48,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 744.76358,
+    "wall": 1792133191.836354,
+    "kind": "marker",
+    "screen_hash": "2704ed757660b9f2",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 744.773892,
+    "wall": 1792133191.846675,
+    "kind": "op_end",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 48,
+    "op": "mark"
+  },
+  {
+    "t": 744.783964,
+    "wall": 1792133191.856742,
+    "kind": "op_start",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 49,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 744.795523,
+    "wall": 1792133191.8682969,
+    "kind": "marker",
+    "screen_hash": "2704ed757660b9f2",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 744.807101,
+    "wall": 1792133191.879882,
+    "kind": "op_end",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 49,
+    "op": "mark"
+  },
+  {
+    "t": 744.819804,
+    "wall": 1792133191.892582,
+    "kind": "op_start",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 50,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 4,
+        "label": "테스트",
+        "agent": "qa-engineer"
+      }
+    }
+  },
+  {
+    "t": 744.831963,
+    "wall": 1792133191.904737,
+    "kind": "marker",
+    "screen_hash": "2704ed757660b9f2",
+    "data": {
+      "k": "stage",
+      "id": 4,
+      "label": "테스트",
+      "agent": "qa-engineer"
+    }
+  },
+  {
+    "t": 744.843341,
+    "wall": 1792133191.916126,
+    "kind": "op_end",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 50,
+    "op": "mark"
+  },
+  {
+    "t": 744.85527,
+    "wall": 1792133191.9280481,
+    "kind": "op_start",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 51,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "'테스터' 에이전트가 개발자와 독립적으로 검증합니다"
+      }
+    }
+  },
+  {
+    "t": 744.867075,
+    "wall": 1792133191.939849,
+    "kind": "marker",
+    "screen_hash": "2704ed757660b9f2",
+    "data": {
+      "k": "caption",
+      "text": "'테스터' 에이전트가 개발자와 독립적으로 검증합니다"
+    }
+  },
+  {
+    "t": 744.876914,
+    "wall": 1792133191.949696,
+    "kind": "op_end",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 51,
+    "op": "mark"
+  },
+  {
+    "t": 744.888019,
+    "wall": 1792133191.9607959,
+    "kind": "op_start",
+    "screen_hash": "2704ed757660b9f2",
+    "index": 52,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent qa-engineer",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 747.414058,
+    "wall": 1792133194.4868338,
+    "kind": "op_end",
+    "screen_hash": "2e95aa4282df7870",
+    "index": 52,
+    "op": "type"
+  },
+  {
+    "t": 747.432866,
+    "wall": 1792133194.505642,
+    "kind": "op_start",
+    "screen_hash": "2e95aa4282df7870",
+    "index": 53,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 749.443593,
+    "wall": 1792133196.5163789,
+    "kind": "op_end",
+    "screen_hash": "7c99d90d6cb2fef7",
+    "index": 53,
+    "op": "sleep"
+  },
+  {
+    "t": 749.463258,
+    "wall": 1792133196.536041,
+    "kind": "op_start",
+    "screen_hash": "7c99d90d6cb2fef7",
+    "index": 54,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "구현된 변경을 검증하는 테스트를 작성하고 실행해줘.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 753.728427,
+    "wall": 1792133200.8012009,
+    "kind": "op_end",
+    "screen_hash": "d8e5119c5e0fbdd1",
+    "index": 54,
+    "op": "type"
+  },
+  {
+    "t": 753.745817,
+    "wall": 1792133200.8185961,
+    "kind": "op_start",
+    "screen_hash": "d8e5119c5e0fbdd1",
+    "index": 55,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "요구사항별 경계값 테스트를 작성하고 실행하는 중 (배속)"
+      }
+    }
+  },
+  {
+    "t": 753.758497,
+    "wall": 1792133200.831271,
+    "kind": "marker",
+    "screen_hash": "d8e5119c5e0fbdd1",
+    "data": {
+      "k": "caption",
+      "text": "요구사항별 경계값 테스트를 작성하고 실행하는 중 (배속)"
+    }
+  },
+  {
+    "t": 753.767158,
+    "wall": 1792133200.839935,
+    "kind": "op_end",
+    "screen_hash": "d8e5119c5e0fbdd1",
+    "index": 55,
+    "op": "mark"
+  },
+  {
+    "t": 753.774654,
+    "wall": 1792133200.847429,
+    "kind": "op_start",
+    "screen_hash": "d8e5119c5e0fbdd1",
+    "index": 56,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 8
+      }
+    }
+  },
+  {
+    "t": 753.781694,
+    "wall": 1792133200.854468,
+    "kind": "marker",
+    "screen_hash": "d8e5119c5e0fbdd1",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 753.78991,
+    "wall": 1792133200.862686,
+    "kind": "op_end",
+    "screen_hash": "d8e5119c5e0fbdd1",
+    "index": 56,
+    "op": "mark"
+  },
+  {
+    "t": 753.797207,
+    "wall": 1792133200.869982,
+    "kind": "op_start",
+    "screen_hash": "d8e5119c5e0fbdd1",
+    "index": 57,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 1500,
+      "quiet": 9,
+      "handlers": [
+        {
+          "name": "decision",
+          "pattern": "Copilot needs information",
+          "anchor": "Copilot needs information",
+          "snapshot": "decision",
+          "settle": 0.8,
+          "hold": 6.0,
+          "max": 6,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "사람이 결정합니다",
+              "text": "AI가 선택지와 추천안을 제시하고, 결정은 사람이 합니다"
+            }
+          ],
+          "rules": [
+            {
+              "if": "구버전|구앱|모바일",
+              "once": true,
+              "select": "Other \\(type",
+              "text": "구앱(3.1~3.3)은 2026-12-01까지 사유 누락을 허용하고 경고 로그를 남기며, 이후 필수로 전환한다"
+            },
+            {
+              "keys": [
+                "Enter"
+              ]
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "분석서와 사내 표준을 읽고 설계안을 만드는 중 (대기 시간은 배속 처리)"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "unexpected-permission",
+          "settle": 0.6,
+          "hold": 2.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 6
+        }
+      ]
+    }
+  },
+  {
+    "t": 1051.684621,
+    "wall": 1792133498.757406,
+    "kind": "op_end",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 57,
+    "op": "auto"
+  },
+  {
+    "t": 1051.700077,
+    "wall": 1792133498.772855,
+    "kind": "op_start",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 58,
+    "op": "expect_file",
+    "step": {
+      "op": "expect_file",
+      "path": "docs/cr/CR-2026-014/04-test-report.md",
+      "timeout": 180
+    }
+  },
+  {
+    "t": 1051.815941,
+    "wall": 1792133498.888727,
+    "kind": "op_end",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 58,
+    "op": "expect_file"
+  },
+  {
+    "t": 1051.834476,
+    "wall": 1792133498.907254,
+    "kind": "op_start",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 59,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "stage4-done"
+    }
+  },
+  {
+    "t": 1051.854767,
+    "wall": 1792133498.927548,
+    "kind": "snapshot",
+    "screen_hash": "d9be9a21c606a82a",
+    "name": "stage4-done",
+    "path": "../runs/final/final.cast.snapshots/stage4-done.txt"
+  },
+  {
+    "t": 1051.86799,
+    "wall": 1792133498.940774,
+    "kind": "op_end",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 59,
+    "op": "snapshot"
+  },
+  {
+    "t": 1051.881456,
+    "wall": 1792133498.9542341,
+    "kind": "op_start",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 60,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 1051.893198,
+    "wall": 1792133498.965972,
+    "kind": "marker",
+    "screen_hash": "d9be9a21c606a82a",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1051.90455,
+    "wall": 1792133498.9773288,
+    "kind": "op_end",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 60,
+    "op": "mark"
+  },
+  {
+    "t": 1051.915664,
+    "wall": 1792133498.98844,
+    "kind": "op_start",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 61,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "테스트 완료 — 요구사항별 추적표가 포함된 리포트가 생성되었습니다"
+      }
+    }
+  },
+  {
+    "t": 1051.926744,
+    "wall": 1792133498.999518,
+    "kind": "marker",
+    "screen_hash": "d9be9a21c606a82a",
+    "data": {
+      "k": "caption",
+      "text": "테스트 완료 — 요구사항별 추적표가 포함된 리포트가 생성되었습니다"
+    }
+  },
+  {
+    "t": 1051.937912,
+    "wall": 1792133499.0106912,
+    "kind": "op_end",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 61,
+    "op": "mark"
+  },
+  {
+    "t": 1051.950172,
+    "wall": 1792133499.022948,
+    "kind": "op_start",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 62,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 1051.962945,
+    "wall": 1792133499.035718,
+    "kind": "marker",
+    "screen_hash": "d9be9a21c606a82a",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 1051.97431,
+    "wall": 1792133499.0470881,
+    "kind": "op_end",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 62,
+    "op": "mark"
+  },
+  {
+    "t": 1051.985698,
+    "wall": 1792133499.058474,
+    "kind": "op_start",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 63,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 1051.998337,
+    "wall": 1792133499.071111,
+    "kind": "marker",
+    "screen_hash": "d9be9a21c606a82a",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1052.009642,
+    "wall": 1792133499.082421,
+    "kind": "op_end",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 63,
+    "op": "mark"
+  },
+  {
+    "t": 1052.022764,
+    "wall": 1792133499.095541,
+    "kind": "op_start",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 64,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 5,
+        "label": "리뷰",
+        "agent": "code-reviewer"
+      }
+    }
+  },
+  {
+    "t": 1052.035359,
+    "wall": 1792133499.1081321,
+    "kind": "marker",
+    "screen_hash": "d9be9a21c606a82a",
+    "data": {
+      "k": "stage",
+      "id": 5,
+      "label": "리뷰",
+      "agent": "code-reviewer"
+    }
+  },
+  {
+    "t": 1052.048065,
+    "wall": 1792133499.120845,
+    "kind": "op_end",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 64,
+    "op": "mark"
+  },
+  {
+    "t": 1052.061041,
+    "wall": 1792133499.1338189,
+    "kind": "op_start",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 65,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "'리뷰어' 에이전트가 설계·사내 표준·보안을 점검합니다"
+      }
+    }
+  },
+  {
+    "t": 1052.074996,
+    "wall": 1792133499.147769,
+    "kind": "marker",
+    "screen_hash": "d9be9a21c606a82a",
+    "data": {
+      "k": "caption",
+      "text": "'리뷰어' 에이전트가 설계·사내 표준·보안을 점검합니다"
+    }
+  },
+  {
+    "t": 1052.088171,
+    "wall": 1792133499.1609511,
+    "kind": "op_end",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 65,
+    "op": "mark"
+  },
+  {
+    "t": 1052.100417,
+    "wall": 1792133499.173194,
+    "kind": "op_start",
+    "screen_hash": "d9be9a21c606a82a",
+    "index": 66,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent code-reviewer",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 1055.099886,
+    "wall": 1792133502.172661,
+    "kind": "op_end",
+    "screen_hash": "21e08ae753c8af7c",
+    "index": 66,
+    "op": "type"
+  },
+  {
+    "t": 1055.1185,
+    "wall": 1792133502.191276,
+    "kind": "op_start",
+    "screen_hash": "21e08ae753c8af7c",
+    "index": 67,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 1057.133345,
+    "wall": 1792133504.206133,
+    "kind": "op_end",
+    "screen_hash": "b36a04921500862e",
+    "index": 67,
+    "op": "sleep"
+  },
+  {
+    "t": 1057.155911,
+    "wall": 1792133504.228689,
+    "kind": "op_start",
+    "screen_hash": "b36a04921500862e",
+    "index": 68,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "변경 사항을 리뷰해줘. 문제가 없으면 코드 승인을 요청해줘.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 1062.22404,
+    "wall": 1792133509.296816,
+    "kind": "op_end",
+    "screen_hash": "7f69c3d2af3c215b",
+    "index": 68,
+    "op": "type"
+  },
+  {
+    "t": 1062.24736,
+    "wall": 1792133509.3201401,
+    "kind": "op_start",
+    "screen_hash": "7f69c3d2af3c215b",
+    "index": 69,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "변경분을 설계서·보안 점검표와 대조하는 중 (배속)"
+      }
+    }
+  },
+  {
+    "t": 1062.25711,
+    "wall": 1792133509.3298838,
+    "kind": "marker",
+    "screen_hash": "7f69c3d2af3c215b",
+    "data": {
+      "k": "caption",
+      "text": "변경분을 설계서·보안 점검표와 대조하는 중 (배속)"
+    }
+  },
+  {
+    "t": 1062.265421,
+    "wall": 1792133509.338198,
+    "kind": "op_end",
+    "screen_hash": "7f69c3d2af3c215b",
+    "index": 69,
+    "op": "mark"
+  },
+  {
+    "t": 1062.276086,
+    "wall": 1792133509.348861,
+    "kind": "op_start",
+    "screen_hash": "7f69c3d2af3c215b",
+    "index": 70,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 8
+      }
+    }
+  },
+  {
+    "t": 1062.284509,
+    "wall": 1792133509.357283,
+    "kind": "marker",
+    "screen_hash": "7f69c3d2af3c215b",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 1062.291946,
+    "wall": 1792133509.3647208,
+    "kind": "op_end",
+    "screen_hash": "7f69c3d2af3c215b",
+    "index": 70,
+    "op": "mark"
+  },
+  {
+    "t": 1062.300061,
+    "wall": 1792133509.372836,
+    "kind": "op_start",
+    "screen_hash": "7f69c3d2af3c215b",
+    "index": 71,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 1500,
+      "quiet": 9,
+      "handlers": [
+        {
+          "name": "gate-code",
+          "pattern": "(?s)Hook permission request.*코드 승인",
+          "snapshot": "gate-code",
+          "settle": 0.8,
+          "hold": 7.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 1,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "② 코드 승인",
+              "text": "승인한 코드와 해시가 일치하는 코드만 배포할 수 있습니다"
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "리뷰 완료 — 사람이 코드 승인을 마쳤습니다"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "decision",
+          "pattern": "Copilot needs information",
+          "anchor": "Copilot needs information",
+          "snapshot": "decision",
+          "settle": 0.8,
+          "hold": 6.0,
+          "max": 6,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "사람이 결정합니다",
+              "text": "AI가 선택지와 추천안을 제시하고, 결정은 사람이 합니다"
+            }
+          ],
+          "rules": [
+            {
+              "if": "구버전|구앱|모바일",
+              "once": true,
+              "select": "Other \\(type",
+              "text": "구앱(3.1~3.3)은 2026-12-01까지 사유 누락을 허용하고 경고 로그를 남기며, 이후 필수로 전환한다"
+            },
+            {
+              "keys": [
+                "Enter"
+              ]
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "분석서와 사내 표준을 읽고 설계안을 만드는 중 (대기 시간은 배속 처리)"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "unexpected-permission",
+          "settle": 0.6,
+          "hold": 2.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 6
+        }
+      ]
+    }
+  },
+  {
+    "t": 1269.062226,
+    "wall": 1792133716.135,
+    "kind": "auto_handler",
+    "screen_hash": "d6d776cac4b2d4dd",
+    "name": "gate-code",
+    "count": 1
+  },
+  {
+    "t": 1269.887967,
+    "wall": 1792133716.960741,
+    "kind": "marker",
+    "screen_hash": "e398ccfcd4f6ad05",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1269.904362,
+    "wall": 1792133716.9771352,
+    "kind": "marker",
+    "screen_hash": "e398ccfcd4f6ad05",
+    "data": {
+      "k": "gate",
+      "label": "② 코드 승인",
+      "text": "승인한 코드와 해시가 일치하는 코드만 배포할 수 있습니다"
+    }
+  },
+  {
+    "t": 1277.333966,
+    "wall": 1792133724.40674,
+    "kind": "marker",
+    "screen_hash": "7d8a29e36542e12f",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 1277.351505,
+    "wall": 1792133724.424278,
+    "kind": "marker",
+    "screen_hash": "7d8a29e36542e12f",
+    "data": {
+      "k": "caption",
+      "text": "리뷰 완료 — 사람이 코드 승인을 마쳤습니다"
+    }
+  },
+  {
+    "t": 1277.361409,
+    "wall": 1792133724.434182,
+    "kind": "marker",
+    "screen_hash": "7d8a29e36542e12f",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 1297.42371,
+    "wall": 1792133744.496491,
+    "kind": "op_end",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 71,
+    "op": "auto"
+  },
+  {
+    "t": 1297.439589,
+    "wall": 1792133744.512367,
+    "kind": "op_start",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 72,
+    "op": "expect_file",
+    "step": {
+      "op": "expect_file",
+      "path": "approvals/CR-2026-014/code.json",
+      "timeout": 180
+    }
+  },
+  {
+    "t": 1297.554704,
+    "wall": 1792133744.627481,
+    "kind": "op_end",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 72,
+    "op": "expect_file"
+  },
+  {
+    "t": 1297.569019,
+    "wall": 1792133744.6417978,
+    "kind": "op_start",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 73,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "stage5-done"
+    }
+  },
+  {
+    "t": 1297.587649,
+    "wall": 1792133744.660429,
+    "kind": "snapshot",
+    "screen_hash": "464084d2bd82f2bd",
+    "name": "stage5-done",
+    "path": "../runs/final/final.cast.snapshots/stage5-done.txt"
+  },
+  {
+    "t": 1297.601385,
+    "wall": 1792133744.674162,
+    "kind": "op_end",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 73,
+    "op": "snapshot"
+  },
+  {
+    "t": 1297.613726,
+    "wall": 1792133744.686502,
+    "kind": "op_start",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 74,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 1297.627138,
+    "wall": 1792133744.6999109,
+    "kind": "marker",
+    "screen_hash": "464084d2bd82f2bd",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1297.640582,
+    "wall": 1792133744.7133608,
+    "kind": "op_end",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 74,
+    "op": "mark"
+  },
+  {
+    "t": 1297.65467,
+    "wall": 1792133744.727446,
+    "kind": "op_start",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 75,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "리뷰 완료 — 사람이 코드 승인을 마쳤습니다"
+      }
+    }
+  },
+  {
+    "t": 1297.667071,
+    "wall": 1792133744.739844,
+    "kind": "marker",
+    "screen_hash": "464084d2bd82f2bd",
+    "data": {
+      "k": "caption",
+      "text": "리뷰 완료 — 사람이 코드 승인을 마쳤습니다"
+    }
+  },
+  {
+    "t": 1297.678994,
+    "wall": 1792133744.751771,
+    "kind": "op_end",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 75,
+    "op": "mark"
+  },
+  {
+    "t": 1297.691007,
+    "wall": 1792133744.763784,
+    "kind": "op_start",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 76,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 1297.704715,
+    "wall": 1792133744.7774878,
+    "kind": "marker",
+    "screen_hash": "464084d2bd82f2bd",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 1297.717257,
+    "wall": 1792133744.790036,
+    "kind": "op_end",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 76,
+    "op": "mark"
+  },
+  {
+    "t": 1297.728784,
+    "wall": 1792133744.801559,
+    "kind": "op_start",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 77,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 1297.741201,
+    "wall": 1792133744.813974,
+    "kind": "marker",
+    "screen_hash": "464084d2bd82f2bd",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1297.752697,
+    "wall": 1792133744.825481,
+    "kind": "op_end",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 77,
+    "op": "mark"
+  },
+  {
+    "t": 1297.764707,
+    "wall": 1792133744.837482,
+    "kind": "op_start",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 78,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 6,
+        "label": "배포",
+        "agent": "release-manager"
+      }
+    }
+  },
+  {
+    "t": 1297.775738,
+    "wall": 1792133744.848511,
+    "kind": "marker",
+    "screen_hash": "464084d2bd82f2bd",
+    "data": {
+      "k": "stage",
+      "id": 6,
+      "label": "배포",
+      "agent": "release-manager"
+    }
+  },
+  {
+    "t": 1297.786729,
+    "wall": 1792133744.859512,
+    "kind": "op_end",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 78,
+    "op": "mark"
+  },
+  {
+    "t": 1297.798108,
+    "wall": 1792133744.870883,
+    "kind": "op_start",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 79,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "'배포 관리자' 에이전트가 병합 → staging 배포 → 운영 배포를 준비합니다"
+      }
+    }
+  },
+  {
+    "t": 1297.809005,
+    "wall": 1792133744.881779,
+    "kind": "marker",
+    "screen_hash": "464084d2bd82f2bd",
+    "data": {
+      "k": "caption",
+      "text": "'배포 관리자' 에이전트가 병합 → staging 배포 → 운영 배포를 준비합니다"
+    }
+  },
+  {
+    "t": 1297.819554,
+    "wall": 1792133744.89233,
+    "kind": "op_end",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 79,
+    "op": "mark"
+  },
+  {
+    "t": 1297.831522,
+    "wall": 1792133744.904298,
+    "kind": "op_start",
+    "screen_hash": "464084d2bd82f2bd",
+    "index": 80,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent release-manager",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 1301.015178,
+    "wall": 1792133748.087955,
+    "kind": "op_end",
+    "screen_hash": "149aa3ff2506372f",
+    "index": 80,
+    "op": "type"
+  },
+  {
+    "t": 1301.030582,
+    "wall": 1792133748.1033611,
+    "kind": "op_start",
+    "screen_hash": "149aa3ff2506372f",
+    "index": 81,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 1303.050775,
+    "wall": 1792133750.12356,
+    "kind": "op_end",
+    "screen_hash": "3b450e175c0fcfcd",
+    "index": 81,
+    "op": "sleep"
+  },
+  {
+    "t": 1303.070164,
+    "wall": 1792133750.142943,
+    "kind": "op_start",
+    "screen_hash": "3b450e175c0fcfcd",
+    "index": 82,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "main에 병합하고 staging에 배포해서 검증한 뒤, 운영 배포까지 진행해줘.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 1309.879763,
+    "wall": 1792133756.952537,
+    "kind": "op_end",
+    "screen_hash": "72f601b85c0c1927",
+    "index": 82,
+    "op": "type"
+  },
+  {
+    "t": 1309.90247,
+    "wall": 1792133756.9752462,
+    "kind": "op_start",
+    "screen_hash": "72f601b85c0c1927",
+    "index": 83,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "병합 · 릴리스 계획 · staging 배포 · 스모크 테스트 (배속)"
+      }
+    }
+  },
+  {
+    "t": 1309.920625,
+    "wall": 1792133756.9933991,
+    "kind": "marker",
+    "screen_hash": "72f601b85c0c1927",
+    "data": {
+      "k": "caption",
+      "text": "병합 · 릴리스 계획 · staging 배포 · 스모크 테스트 (배속)"
+    }
+  },
+  {
+    "t": 1309.932454,
+    "wall": 1792133757.005236,
+    "kind": "op_end",
+    "screen_hash": "72f601b85c0c1927",
+    "index": 83,
+    "op": "mark"
+  },
+  {
+    "t": 1309.948723,
+    "wall": 1792133757.0214999,
+    "kind": "op_start",
+    "screen_hash": "72f601b85c0c1927",
+    "index": 84,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 8
+      }
+    }
+  },
+  {
+    "t": 1309.962775,
+    "wall": 1792133757.035549,
+    "kind": "marker",
+    "screen_hash": "72f601b85c0c1927",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 1310.009496,
+    "wall": 1792133757.082279,
+    "kind": "op_end",
+    "screen_hash": "72f601b85c0c1927",
+    "index": 84,
+    "op": "mark"
+  },
+  {
+    "t": 1310.068566,
+    "wall": 1792133757.141346,
+    "kind": "op_start",
+    "screen_hash": "72f601b85c0c1927",
+    "index": 85,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 1500,
+      "quiet": 9,
+      "handlers": [
+        {
+          "name": "gate-prod",
+          "pattern": "(?s)Hook permission request.*운영 배포 승인",
+          "snapshot": "gate-prod",
+          "settle": 0.8,
+          "hold": 7.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 1,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "③ 운영 배포 승인",
+              "text": "운영 환경은 사람이 승인해야만 배포됩니다 (Hook 이 강제)"
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "운영 배포 완료 — 롤백 방법도 준비되어 있습니다"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "decision",
+          "pattern": "Copilot needs information",
+          "anchor": "Copilot needs information",
+          "snapshot": "decision",
+          "settle": 0.8,
+          "hold": 6.0,
+          "max": 6,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "사람이 결정합니다",
+              "text": "AI가 선택지와 추천안을 제시하고, 결정은 사람이 합니다"
+            }
+          ],
+          "rules": [
+            {
+              "if": "구버전|구앱|모바일",
+              "once": true,
+              "select": "Other \\(type",
+              "text": "구앱(3.1~3.3)은 2026-12-01까지 사유 누락을 허용하고 경고 로그를 남기며, 이후 필수로 전환한다"
+            },
+            {
+              "keys": [
+                "Enter"
+              ]
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "분석서와 사내 표준을 읽고 설계안을 만드는 중 (대기 시간은 배속 처리)"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "unexpected-permission",
+          "settle": 0.6,
+          "hold": 2.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 6
+        }
+      ]
+    }
+  },
+  {
+    "t": 1611.915393,
+    "wall": 1792134058.9881659,
+    "kind": "auto_handler",
+    "screen_hash": "848270b0bcfc2f74",
+    "name": "gate-prod",
+    "count": 1
+  },
+  {
+    "t": 1612.737624,
+    "wall": 1792134059.8103979,
+    "kind": "marker",
+    "screen_hash": "e0a862ef76113290",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1612.755136,
+    "wall": 1792134059.82791,
+    "kind": "marker",
+    "screen_hash": "e0a862ef76113290",
+    "data": {
+      "k": "gate",
+      "label": "③ 운영 배포 승인",
+      "text": "운영 환경은 사람이 승인해야만 배포됩니다 (Hook 이 강제)"
+    }
+  },
+  {
+    "t": 1620.185805,
+    "wall": 1792134067.2585778,
+    "kind": "marker",
+    "screen_hash": "e270fa653a4bafe2",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 1620.195695,
+    "wall": 1792134067.268468,
+    "kind": "marker",
+    "screen_hash": "e270fa653a4bafe2",
+    "data": {
+      "k": "caption",
+      "text": "운영 배포 완료 — 롤백 방법도 준비되어 있습니다"
+    }
+  },
+  {
+    "t": 1620.204259,
+    "wall": 1792134067.277032,
+    "kind": "marker",
+    "screen_hash": "e270fa653a4bafe2",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 1703.534004,
+    "wall": 1792134150.606786,
+    "kind": "op_end",
+    "screen_hash": "cdcb84b048521436",
+    "index": 85,
+    "op": "auto"
+  },
+  {
+    "t": 1703.552113,
+    "wall": 1792134150.6248882,
+    "kind": "op_start",
+    "screen_hash": "cdcb84b048521436",
+    "index": 86,
+    "op": "expect_file",
+    "step": {
+      "op": "expect_file",
+      "path": "approvals/CR-2026-014/production.json",
+      "timeout": 180
+    }
+  },
+  {
+    "t": 1703.673843,
+    "wall": 1792134150.7466218,
+    "kind": "op_end",
+    "screen_hash": "cdcb84b048521436",
+    "index": 86,
+    "op": "expect_file"
+  },
+  {
+    "t": 1703.691977,
+    "wall": 1792134150.764752,
+    "kind": "op_start",
+    "screen_hash": "cdcb84b048521436",
+    "index": 87,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "stage6-done"
+    }
+  },
+  {
+    "t": 1703.707473,
+    "wall": 1792134150.780252,
+    "kind": "snapshot",
+    "screen_hash": "cdcb84b048521436",
+    "name": "stage6-done",
+    "path": "../runs/final/final.cast.snapshots/stage6-done.txt"
+  },
+  {
+    "t": 1703.72064,
+    "wall": 1792134150.793417,
+    "kind": "op_end",
+    "screen_hash": "cdcb84b048521436",
+    "index": 87,
+    "op": "snapshot"
+  },
+  {
+    "t": 1703.733745,
+    "wall": 1792134150.80652,
+    "kind": "op_start",
+    "screen_hash": "cdcb84b048521436",
+    "index": 88,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 1703.747835,
+    "wall": 1792134150.820609,
+    "kind": "marker",
+    "screen_hash": "cdcb84b048521436",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1703.76135,
+    "wall": 1792134150.834128,
+    "kind": "op_end",
+    "screen_hash": "cdcb84b048521436",
+    "index": 88,
+    "op": "mark"
+  },
+  {
+    "t": 1703.774,
+    "wall": 1792134150.846775,
+    "kind": "op_start",
+    "screen_hash": "cdcb84b048521436",
+    "index": 89,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "운영 배포 완료 — 롤백 방법도 준비되어 있습니다"
+      }
+    }
+  },
+  {
+    "t": 1703.786144,
+    "wall": 1792134150.858918,
+    "kind": "marker",
+    "screen_hash": "cdcb84b048521436",
+    "data": {
+      "k": "caption",
+      "text": "운영 배포 완료 — 롤백 방법도 준비되어 있습니다"
+    }
+  },
+  {
+    "t": 1703.797755,
+    "wall": 1792134150.870541,
+    "kind": "op_end",
+    "screen_hash": "cdcb84b048521436",
+    "index": 89,
+    "op": "mark"
+  },
+  {
+    "t": 1703.81281,
+    "wall": 1792134150.885588,
+    "kind": "op_start",
+    "screen_hash": "cdcb84b048521436",
+    "index": 90,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 1703.825795,
+    "wall": 1792134150.898568,
+    "kind": "marker",
+    "screen_hash": "cdcb84b048521436",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 1703.837946,
+    "wall": 1792134150.910731,
+    "kind": "op_end",
+    "screen_hash": "cdcb84b048521436",
+    "index": 90,
+    "op": "mark"
+  },
+  {
+    "t": 1703.849896,
+    "wall": 1792134150.922671,
+    "kind": "op_start",
+    "screen_hash": "cdcb84b048521436",
+    "index": 91,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 1703.860868,
+    "wall": 1792134150.933641,
+    "kind": "marker",
+    "screen_hash": "cdcb84b048521436",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1703.869528,
+    "wall": 1792134150.942303,
+    "kind": "op_end",
+    "screen_hash": "cdcb84b048521436",
+    "index": 91,
+    "op": "mark"
+  },
+  {
+    "t": 1703.879983,
+    "wall": 1792134150.952757,
+    "kind": "op_start",
+    "screen_hash": "cdcb84b048521436",
+    "index": 92,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 7,
+        "label": "운영",
+        "agent": "ops-analyst"
+      }
+    }
+  },
+  {
+    "t": 1703.888863,
+    "wall": 1792134150.961636,
+    "kind": "marker",
+    "screen_hash": "cdcb84b048521436",
+    "data": {
+      "k": "stage",
+      "id": 7,
+      "label": "운영",
+      "agent": "ops-analyst"
+    }
+  },
+  {
+    "t": 1703.897819,
+    "wall": 1792134150.970593,
+    "kind": "op_end",
+    "screen_hash": "cdcb84b048521436",
+    "index": 92,
+    "op": "mark"
+  },
+  {
+    "t": 1703.906845,
+    "wall": 1792134150.97962,
+    "kind": "op_start",
+    "screen_hash": "cdcb84b048521436",
+    "index": 93,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "(시연용) 운영 환경에 하루치 환불 트래픽을 흘려보냅니다"
+      }
+    }
+  },
+  {
+    "t": 1703.915965,
+    "wall": 1792134150.9887412,
+    "kind": "marker",
+    "screen_hash": "cdcb84b048521436",
+    "data": {
+      "k": "caption",
+      "text": "(시연용) 운영 환경에 하루치 환불 트래픽을 흘려보냅니다"
+    }
+  },
+  {
+    "t": 1703.926379,
+    "wall": 1792134150.999156,
+    "kind": "op_end",
+    "screen_hash": "cdcb84b048521436",
+    "index": 93,
+    "op": "mark"
+  },
+  {
+    "t": 1703.93612,
+    "wall": 1792134151.008895,
+    "kind": "op_start",
+    "screen_hash": "cdcb84b048521436",
+    "index": 94,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "!.venv/bin/python scripts/simulate_traffic.py http://127.0.0.1:8100 --count 150",
+      "cps": 14,
+      "enter": true
+    }
+  },
+  {
+    "t": 1714.98552,
+    "wall": 1792134162.058295,
+    "kind": "op_end",
+    "screen_hash": "91f2e83b1fc6df27",
+    "index": 94,
+    "op": "type"
+  },
+  {
+    "t": 1715.003131,
+    "wall": 1792134162.075907,
+    "kind": "op_start",
+    "screen_hash": "91f2e83b1fc6df27",
+    "index": 95,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 12
+    }
+  },
+  {
+    "t": 1727.024641,
+    "wall": 1792134174.097425,
+    "kind": "op_end",
+    "screen_hash": "b2477f1a009168a9",
+    "index": 95,
+    "op": "sleep"
+  },
+  {
+    "t": 1727.045801,
+    "wall": 1792134174.118578,
+    "kind": "op_start",
+    "screen_hash": "b2477f1a009168a9",
+    "index": 96,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 1727.059536,
+    "wall": 1792134174.13231,
+    "kind": "marker",
+    "screen_hash": "b2477f1a009168a9",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1727.071467,
+    "wall": 1792134174.144244,
+    "kind": "op_end",
+    "screen_hash": "b2477f1a009168a9",
+    "index": 96,
+    "op": "mark"
+  },
+  {
+    "t": 1727.082694,
+    "wall": 1792134174.155469,
+    "kind": "op_start",
+    "screen_hash": "b2477f1a009168a9",
+    "index": 97,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 7,
+        "label": "운영",
+        "agent": "ops-analyst"
+      }
+    }
+  },
+  {
+    "t": 1727.096218,
+    "wall": 1792134174.168992,
+    "kind": "marker",
+    "screen_hash": "b2477f1a009168a9",
+    "data": {
+      "k": "stage",
+      "id": 7,
+      "label": "운영",
+      "agent": "ops-analyst"
+    }
+  },
+  {
+    "t": 1727.111118,
+    "wall": 1792134174.1839051,
+    "kind": "op_end",
+    "screen_hash": "b2477f1a009168a9",
+    "index": 97,
+    "op": "mark"
+  },
+  {
+    "t": 1727.124178,
+    "wall": 1792134174.196954,
+    "kind": "op_start",
+    "screen_hash": "b2477f1a009168a9",
+    "index": 98,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "'운영 분석가' 에이전트가 운영 로그와 DB를 읽기 전용으로 분석합니다"
+      }
+    }
+  },
+  {
+    "t": 1727.13656,
+    "wall": 1792134174.2093341,
+    "kind": "marker",
+    "screen_hash": "b2477f1a009168a9",
+    "data": {
+      "k": "caption",
+      "text": "'운영 분석가' 에이전트가 운영 로그와 DB를 읽기 전용으로 분석합니다"
+    }
+  },
+  {
+    "t": 1727.148995,
+    "wall": 1792134174.2217689,
+    "kind": "op_end",
+    "screen_hash": "b2477f1a009168a9",
+    "index": 98,
+    "op": "mark"
+  },
+  {
+    "t": 1727.160334,
+    "wall": 1792134174.2331069,
+    "kind": "op_start",
+    "screen_hash": "b2477f1a009168a9",
+    "index": 99,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent ops-analyst",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 1729.964447,
+    "wall": 1792134177.037222,
+    "kind": "op_end",
+    "screen_hash": "5d23ef74103c3218",
+    "index": 99,
+    "op": "type"
+  },
+  {
+    "t": 1729.985004,
+    "wall": 1792134177.0577788,
+    "kind": "op_start",
+    "screen_hash": "5d23ef74103c3218",
+    "index": 100,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 1731.999188,
+    "wall": 1792134179.0719738,
+    "kind": "op_end",
+    "screen_hash": "4194a0aa505c1a6d",
+    "index": 100,
+    "op": "sleep"
+  },
+  {
+    "t": 1732.023008,
+    "wall": 1792134179.095785,
+    "kind": "op_start",
+    "screen_hash": "4194a0aa505c1a6d",
+    "index": 101,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "운영 환경 로그와 DB를 분석해서 운영 리포트를 작성해줘.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 1737.084481,
+    "wall": 1792134184.157256,
+    "kind": "op_end",
+    "screen_hash": "a46594283759eea9",
+    "index": 101,
+    "op": "type"
+  },
+  {
+    "t": 1737.106965,
+    "wall": 1792134184.179744,
+    "kind": "op_start",
+    "screen_hash": "a46594283759eea9",
+    "index": 102,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "운영 로그와 DB를 집계하는 중 (배속)"
+      }
+    }
+  },
+  {
+    "t": 1737.117651,
+    "wall": 1792134184.1904252,
+    "kind": "marker",
+    "screen_hash": "a46594283759eea9",
+    "data": {
+      "k": "caption",
+      "text": "운영 로그와 DB를 집계하는 중 (배속)"
+    }
+  },
+  {
+    "t": 1737.125893,
+    "wall": 1792134184.198669,
+    "kind": "op_end",
+    "screen_hash": "a46594283759eea9",
+    "index": 102,
+    "op": "mark"
+  },
+  {
+    "t": 1737.13484,
+    "wall": 1792134184.207616,
+    "kind": "op_start",
+    "screen_hash": "a46594283759eea9",
+    "index": 103,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 8
+      }
+    }
+  },
+  {
+    "t": 1737.143335,
+    "wall": 1792134184.216108,
+    "kind": "marker",
+    "screen_hash": "a46594283759eea9",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 1737.151521,
+    "wall": 1792134184.224298,
+    "kind": "op_end",
+    "screen_hash": "a46594283759eea9",
+    "index": 103,
+    "op": "mark"
+  },
+  {
+    "t": 1737.160435,
+    "wall": 1792134184.23321,
+    "kind": "op_start",
+    "screen_hash": "a46594283759eea9",
+    "index": 104,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 1500,
+      "quiet": 9,
+      "handlers": [
+        {
+          "name": "decision",
+          "pattern": "Copilot needs information",
+          "anchor": "Copilot needs information",
+          "snapshot": "decision",
+          "settle": 0.8,
+          "hold": 6.0,
+          "max": 6,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "사람이 결정합니다",
+              "text": "AI가 선택지와 추천안을 제시하고, 결정은 사람이 합니다"
+            }
+          ],
+          "rules": [
+            {
+              "if": "구버전|구앱|모바일",
+              "once": true,
+              "select": "Other \\(type",
+              "text": "구앱(3.1~3.3)은 2026-12-01까지 사유 누락을 허용하고 경고 로그를 남기며, 이후 필수로 전환한다"
+            },
+            {
+              "keys": [
+                "Enter"
+              ]
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "분석서와 사내 표준을 읽고 설계안을 만드는 중 (대기 시간은 배속 처리)"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "unexpected-permission",
+          "settle": 0.6,
+          "hold": 2.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 6
+        }
+      ]
+    }
+  },
+  {
+    "t": 2258.06714,
+    "wall": 1792134705.1399198,
+    "kind": "op_end",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 104,
+    "op": "auto"
+  },
+  {
+    "t": 2258.085359,
+    "wall": 1792134705.158135,
+    "kind": "op_start",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 105,
+    "op": "expect_file",
+    "step": {
+      "op": "expect_file",
+      "path": "docs/cr/CR-2026-014/07-ops-report.md",
+      "timeout": 180
+    }
+  },
+  {
+    "t": 2258.208962,
+    "wall": 1792134705.2817438,
+    "kind": "op_end",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 105,
+    "op": "expect_file"
+  },
+  {
+    "t": 2258.231167,
+    "wall": 1792134705.30394,
+    "kind": "op_start",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 106,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "stage7-done"
+    }
+  },
+  {
+    "t": 2258.245761,
+    "wall": 1792134705.318534,
+    "kind": "snapshot",
+    "screen_hash": "c4650f7794837ce5",
+    "name": "stage7-done",
+    "path": "../runs/final/final.cast.snapshots/stage7-done.txt"
+  },
+  {
+    "t": 2258.25661,
+    "wall": 1792134705.329383,
+    "kind": "op_end",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 106,
+    "op": "snapshot"
+  },
+  {
+    "t": 2258.267002,
+    "wall": 1792134705.339775,
+    "kind": "op_start",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 107,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 2258.276522,
+    "wall": 1792134705.3492951,
+    "kind": "marker",
+    "screen_hash": "c4650f7794837ce5",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 2258.287167,
+    "wall": 1792134705.35994,
+    "kind": "op_end",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 107,
+    "op": "mark"
+  },
+  {
+    "t": 2258.296421,
+    "wall": 1792134705.369193,
+    "kind": "op_start",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 108,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "운영 리포트 완료 — 현업이 결정할 사항이 정리되었습니다"
+      }
+    }
+  },
+  {
+    "t": 2258.305701,
+    "wall": 1792134705.378473,
+    "kind": "marker",
+    "screen_hash": "c4650f7794837ce5",
+    "data": {
+      "k": "caption",
+      "text": "운영 리포트 완료 — 현업이 결정할 사항이 정리되었습니다"
+    }
+  },
+  {
+    "t": 2258.314327,
+    "wall": 1792134705.3871,
+    "kind": "op_end",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 108,
+    "op": "mark"
+  },
+  {
+    "t": 2258.323654,
+    "wall": 1792134705.396427,
+    "kind": "op_start",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 109,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 2258.332931,
+    "wall": 1792134705.405704,
+    "kind": "marker",
+    "screen_hash": "c4650f7794837ce5",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 2258.343214,
+    "wall": 1792134705.415987,
+    "kind": "op_end",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 109,
+    "op": "mark"
+  },
+  {
+    "t": 2258.352188,
+    "wall": 1792134705.42496,
+    "kind": "op_start",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 110,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "final"
+    }
+  },
+  {
+    "t": 2258.361988,
+    "wall": 1792134705.434761,
+    "kind": "snapshot",
+    "screen_hash": "c4650f7794837ce5",
+    "name": "final",
+    "path": "../runs/final/final.cast.snapshots/final.txt"
+  },
+  {
+    "t": 2258.37044,
+    "wall": 1792134705.443213,
+    "kind": "op_end",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 110,
+    "op": "snapshot"
+  },
+  {
+    "t": 2258.37838,
+    "wall": 1792134705.4511528,
+    "kind": "op_start",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 111,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "화면 하단에서 세션 전체의 AI 사용량(크레딧)을 바로 확인할 수 있습니다"
+      }
+    }
+  },
+  {
+    "t": 2258.386374,
+    "wall": 1792134705.459147,
+    "kind": "marker",
+    "screen_hash": "c4650f7794837ce5",
+    "data": {
+      "k": "caption",
+      "text": "화면 하단에서 세션 전체의 AI 사용량(크레딧)을 바로 확인할 수 있습니다"
+    }
+  },
+  {
+    "t": 2258.394541,
+    "wall": 1792134705.467314,
+    "kind": "op_end",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 111,
+    "op": "mark"
+  },
+  {
+    "t": 2258.40258,
+    "wall": 1792134705.475353,
+    "kind": "op_start",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 112,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 2258.411221,
+    "wall": 1792134705.483993,
+    "kind": "marker",
+    "screen_hash": "c4650f7794837ce5",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 2258.419867,
+    "wall": 1792134705.492639,
+    "kind": "op_end",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 112,
+    "op": "mark"
+  },
+  {
+    "t": 2258.429171,
+    "wall": 1792134705.501943,
+    "kind": "op_start",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 113,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": ""
+      }
+    }
+  },
+  {
+    "t": 2258.438816,
+    "wall": 1792134705.511589,
+    "kind": "marker",
+    "screen_hash": "c4650f7794837ce5",
+    "data": {
+      "k": "caption",
+      "text": ""
+    }
+  },
+  {
+    "t": 2258.449777,
+    "wall": 1792134705.52255,
+    "kind": "op_end",
+    "screen_hash": "c4650f7794837ce5",
+    "index": 113,
+    "op": "mark"
+  }
+]
