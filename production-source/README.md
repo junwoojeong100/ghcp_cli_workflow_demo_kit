@@ -9,13 +9,12 @@ production-source/
   runs/           녹화본(cast): final(메인 세션), guard2(안전장치 시연) + 단계별 진행 스크립트(steps_*.json)
   shots/          결과 화면 before/after 캡처(고객 화면 · 관리자 콘솔)
   deck/           PPT 빌드 소스 (pptxgenjs) — build.js, 슬라이드 모듈, facts.json(문구), metrics.json(실측값)
-  video/          생성물이 모이는 곳 (git 에는 타이틀·엔딩 카드 PNG 와 .gitkeep 만 있고, 클립·영상은 만들어지거나 Releases 로 받습니다)
+  video/          생성물이 모이는 곳 (git 에는 타이틀·엔딩 카드 PNG 와 .gitkeep 만 있고, 만든 클립·영상은 제외 — 완성본은 저장소 루트의 video/ 에 있습니다)
 ```
 
-> **저장소를 막 clone 했다면**: 슬라이드·영상 파일(MP4·PNG 스틸·PPTX)은 용량 때문에 git 이력에 없습니다.
-> [Releases](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit/releases) 의 `ghcp_cli_workflow_video_assets.zip` 을 **저장소 루트(= `production-source` 의 상위 폴더)** 에 풀면 `video/clips/`, `video/stills/` 가 생기고,
-> 덱 빌드(`deck/build.js`)가 `video/stills/gate-prod-1.png` 를, `make_assets.py slideclips` 가 `video/clips/` 의 클립을 자동으로 찾습니다.
-> 아니면 아래 **A** 로 녹화본에서 직접 만들 수 있습니다.
+> **저장소를 막 clone 했다면**: 완성된 슬라이드·영상은 저장소 루트(= `production-source` 의 상위 폴더)의 `GHCP_CLI_Workflow_Demo_KO.pptx` 와 `video/`(전체 영상 · `clips/` · `stills/`)에 이미 들어 있습니다.
+> 덱 빌드(`deck/build.js`)가 `../video/stills/gate-prod-1.png` 를, `make_assets.py slideclips` 가 `../video/clips/` 의 클립을 자동으로 찾으므로 아래 **B** 는 바로 실행할 수 있습니다.
+> 녹화본에서 영상을 직접 다시 만들려면 **A** 를 따르세요. 결과는 이 폴더의 `video/` 에 만들어지며 git 에서는 제외됩니다.
 
 ## 준비물
 
@@ -50,6 +49,7 @@ node cards.js ../video ../deck/metrics.json                                     
 
 - 캡션·배속·배너는 `runs/steps_full.json` 의 `mark` 항목(`caption`, `speed`, `gate`, `images` 등)에서 정해집니다. 생성기: `python3 tools/make_steps.py --out runs/steps_full.json` (옵션 `--from-stage` `--to-stage` `--speed`).
 - 영상 끝의 before/after 화면은 `tools/make_assets.py` 의 `build_cast_with_images()` 가 `shots/crop-*.png` 로 덧붙입니다.
+- Copilot CLI 가 대화 영역 **오른쪽 끝 열**에 그리는 스크롤바(`┃`)는 영상에서 흰 세로줄로 보여 부자연스러워, 렌더러(`tools/render/page.js` 의 `hideScrollbarColumn`)가 그 열의 `┃` 만 배경색으로 가립니다. 승인 팝업 같은 박스 테두리(`│` `─` `╮` `╯`)와 왼쪽 열의 `┃` 는 그대로입니다. 끄려면 `appendOutput()` 안의 `hideScrollbarColumn()` 호출을 지우세요.
 
 ## B. PPT 다시 만들기
 

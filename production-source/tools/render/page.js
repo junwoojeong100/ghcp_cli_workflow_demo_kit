@@ -63,6 +63,41 @@ function disposeTerminal() {
   xtermMountEl().innerHTML = '';
 }
 
+// Copilot CLI 가 대화 영역 오른쪽 끝 열(마지막 칸)에 스크롤바로 그리는 '┃' 를 가린다.
+// xterm 버퍼는 읽기만 하고, 해당 셀 위치에 터미널 배경색 막대를 덮는다.
+// 마지막 열의 '│' · '─' · '╮' · '╯' 는 승인 팝업 같은 박스 테두리(내용)이고, 왼쪽 팝업 테두리의 '┃' 는 다른 열이라 그대로 둔다.
+const SCROLLBAR_GLYPH = '┃';
+function hideScrollbarColumn() {
+  const term = state.terminal;
+  const mount = xtermMountEl();
+  if (!term || !mount) return;
+  let layer = document.getElementById('scrollbar-mask');
+  if (!layer) {
+    layer = document.createElement('div');
+    layer.id = 'scrollbar-mask';
+    layer.style.cssText = 'position:absolute;left:0;top:0;width:0;height:0;pointer-events:none;z-index:5;';
+    mount.style.position = 'relative';
+    mount.appendChild(layer);
+  }
+  layer.replaceChildren();
+  const { cellW, cellH } = state.metrics;
+  const lastCol = state.config.cols - 1;
+  const buf = term.buffer.active;
+  let runStart = -1;
+  const flush = (endRow) => {
+    if (runStart < 0) return;
+    const bar = document.createElement('div');
+    bar.style.cssText = `position:absolute;background:#0b1117;left:${(lastCol * cellW).toFixed(2)}px;top:${(runStart * cellH).toFixed(2)}px;width:${Math.ceil(cellW) + 1}px;height:${((endRow - runStart) * cellH).toFixed(2)}px;`;
+    layer.appendChild(bar);
+    runStart = -1;
+  };
+  for (let y = 0; y < state.config.rows; y++) {
+    const cell = buf.getLine(y)?.getCell(lastCol);
+    if (cell && cell.getChars() === SCROLLBAR_GLYPH) { if (runStart < 0) runStart = y; } else flush(y);
+  }
+  flush(state.config.rows);
+}
+
 async function nextFrame() {
   await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 }
@@ -324,11 +359,13 @@ window.renderApi = {
   },
   async reset() {
     state.terminal?.reset();
+    document.getElementById('scrollbar-mask')?.replaceChildren();
     await nextFrame();
   },
   async appendOutput(data) {
     if (!data) return;
     await new Promise((resolve) => state.terminal.write(data, resolve));
+    hideScrollbarColumn();
     await nextFrame();
   },
   async setOverlay(overlay) {

@@ -10,7 +10,7 @@
 
 | 저장소 | 역할 |
 |---|---|
-| [`ghcp_cli_workflow_demo_kit`](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit) (**지금 보는 저장소**) | 발표 키트 — 슬라이드 · 영상 · 실제 산출물(`sample-output/`) · 제작 소스(`production-source/`). 큰 파일은 [Releases](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit/releases) 에 있습니다 |
+| [`ghcp_cli_workflow_demo_kit`](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit) (**지금 보는 저장소**) | 발표 키트 — 슬라이드(PPTX) · 영상 · 실제 산출물(`sample-output/`) · 제작 소스(`production-source/`) |
 | [`ghcp_cli_workflow_shopflow_orders`](https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders) | **데모 저장소** — Custom Agent 7종 · Hook · 승인 게이트 · CI/CD 가 들어 있는 시연 대상 앱(ShopFlow). 직접 Copilot CLI 로 같은 흐름을 재현할 때 씁니다 |
 
 ```bash
@@ -21,7 +21,7 @@ git clone https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.gi
 ```
 
 - 이 저장소의 `.gitignore` 가 `shopflow-orders/` 를 제외하므로, 안쪽에 clone 해도 서로의 이력이 섞이지 않습니다. 다른 위치에 두려면 환경 변수 `SHOPFLOW_ROOT` 를 지정하세요.
-- **발표만 하려면** 데모 저장소는 필요 없고, [Releases](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit/releases) 의 PPTX 와 MP4 만 받으면 됩니다.
+- **발표만 하려면** 데모 저장소는 필요 없고, 이 저장소의 `GHCP_CLI_Workflow_Demo_KO.pptx` 와 `video/GHCP_CLI_Workflow_Demo_KO.mp4` 만 받으면 됩니다. 저장소 전체를 clone 하면 약 100MB 이므로, 파일만 받으려면 [Releases](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit/releases) 의 같은 파일을 쓰세요.
 
 | 실측 결과 (한 세션) | |
 |---|---|
@@ -32,21 +32,17 @@ git clone https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.gi
 
 ## 1. 구성
 
-**이 저장소에 있는 것**
-
 | 경로 | 설명 |
 |---|---|
+| `GHCP_CLI_Workflow_Demo_KO.pptx` | 발표 자료 **25장** (단계별 영상 클립 내장, 발표자 노트에 **구어체 발표 스크립트**·영상 재생 시점·근거 수록) |
+| `video/GHCP_CLI_Workflow_Demo_KO.mp4` | 전체 영상 **9분 28초**, 1080p, 챕터 포함 (타이틀 → 7단계 → 결과 화면 → 안전장치 시연 → 정리) |
+| `video/clips/` | 단계별 원본 클립 `01_분석` ~ `07_운영`, `08_안전장치_시연` (1920×1080 전체 화면). PPT 에는 이 클립에서 상단 헤더를 잘라 글자를 키운 슬라이드용 클립이 내장되어 있습니다 |
+| `video/stills/` | 승인 팝업·결정 장면 등 주요 화면 캡처(PNG) — 다른 자료에 재사용 가능 |
 | `sample-output/` | 녹화 세션의 **실제 산출물**: 단계별 문서 01~07, 승인 기록, 감사 로그(231건), 변경 diff, 실측 지표 |
 | `production-source/` | 영상·PPT **제작 소스**: 녹화본(cast)으로 영상 다시 만들기, 덱 빌드 스크립트 (`README.md` 참고). 발표자 노트 원문은 `production-source/deck/notes.md` |
 | `shopflow-orders/` | (저장소에는 없음) 위 시리즈 안내처럼 데모 저장소를 이 이름으로 clone 해 두는 자리 |
 
-**[Releases](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit/releases) 에서 받는 것** — 용량이 커서 git 이력에 넣지 않았습니다.
-
-| 파일 | 설명 |
-|---|---|
-| `GHCP_CLI_Workflow_Demo_KO.pptx` | 발표 자료 **25장** (단계별 영상 클립 내장, 발표자 노트에 **구어체 발표 스크립트**·영상 재생 시점·근거 수록) |
-| `GHCP_CLI_Workflow_Demo_KO.mp4` | 전체 영상 **9분 28초**, 1080p, 챕터 포함 (타이틀 → 7단계 → 결과 화면 → 안전장치 시연 → 정리) |
-| `ghcp_cli_workflow_video_assets.zip` | `video/clips/`(단계별 원본 클립 `01_분석` ~ `07_운영`, `08_안전장치_시연`, 1920×1080 전체 화면)와 `video/stills/`(승인 팝업·결정 장면 등 주요 화면 캡처 PNG). **이 저장소 루트에 풀면** `video/clips/`, `video/stills/` 가 만들어지고, 덱 빌드와 `make_assets.py slideclips` 가 그 위치를 자동으로 찾습니다. PPT 에는 이 클립에서 상단 헤더를 잘라 글자를 키운 슬라이드용 클립이 내장되어 있습니다 |
+PPTX · 영상 · 클립은 용량이 커서(합계 약 93MB) clone 이 무겁습니다. **파일만 받으려면** [Releases](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit/releases) 에서 PPTX · MP4 를 각각 내려받으세요(저장소와 같은 파일입니다).
 
 ## 2. 슬라이드 구성 (25장)
 
@@ -85,7 +81,7 @@ git clone https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.gi
 
 ## 4. 재생·호환 메모
 
-- **PPT 내장 영상은 슬라이드 쇼 모드에서 재생**됩니다(MP4/H.264). 재생이 안 되면 Releases 의 `ghcp_cli_workflow_video_assets.zip` 에 든 `video/clips/` 의 같은 내용의 클립(전체 화면 버전)을 직접 여세요.
+- **PPT 내장 영상은 슬라이드 쇼 모드에서 재생**됩니다(MP4/H.264). 재생이 안 되면 `video/clips/` 의 같은 내용의 클립(전체 화면 버전)을 직접 여세요.
 - 발표장이 크거나 뒷자리까지 글자를 보여 줘야 한다면, 영상을 선택하고 **재생(Playback) 탭 → 전체 화면 재생(Play Full Screen)** 을 켜 두면 재생하는 동안 영상이 화면 전체를 채웁니다.
 - 영상 챕터는 QuickTime Player · VLC 등에서 목록으로 점프할 수 있습니다.
 - 글꼴은 **Apple SD Gothic Neo**(macOS 기본)입니다. Windows 에서는 대체 글꼴로 표시되어 줄바꿈이 달라질 수 있으니 **발표 PC에서 미리 한 번 열어 확인**하세요.
@@ -93,7 +89,7 @@ git clone https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.gi
 
 ## 5. 정확히 알아 둘 점
 
-- 영상은 **실제 Copilot CLI 세션 녹화**입니다. 에이전트가 일하는 대기 시간만 최대 8배속으로 줄였고, 사람이 결정·승인하는 장면은 1배속입니다.
+- 영상은 **실제 Copilot CLI 세션 녹화**입니다. 에이전트가 일하는 대기 시간만 최대 8배속으로 줄였고, 사람이 결정·승인하는 장면은 1배속입니다. 화면 오른쪽 끝에 늘 보이는 스크롤바 표시만 보기 좋게 지웠고, 그 밖의 터미널 내용은 녹화 그대로입니다.
 - 소요 시간·AI 사용량은 **한 번의 녹화 결과**입니다(Copilot CLI 1.0.98, 기본 모델). 모델·요금제·환경에 따라 달라지며, 크레딧이 요금제에 포함되는지는 계약에 따라 다릅니다.
 - `staging` / `production` 은 **로컬 포트로 시뮬레이션**했고, 승인 기록(`gate.py`)·Hook(`guard.py`)은 데모용 구현입니다.
   실제 조직에서는 GitHub PR 승인·브랜치 보호·Environments(필수 검토자)·managed settings 로 대응시킬 수 있습니다(저장소 README 6장).
