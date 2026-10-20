@@ -1,23 +1,25 @@
-# sample-output — 녹화 세션의 실제 산출물
+# sample-output — the real outputs of the recorded session
 
-영상·PPT 의 수치는 모두 이 폴더의 자료(그리고 녹화본)에서 가져왔습니다. `shopflow-orders` 를 직접 재현하면 같은 종류의 파일이 `docs/cr/`, `approvals/`, `.copilot-audit/` 에 생깁니다.
+All numbers in the videos and the PPT come from the material in this folder (and from the recording). If you replay the demo yourself with `shopflow-orders`, the same kinds of files appear in `docs/cr/`, `approvals/` and `.copilot-audit/`.
 
-| 파일 | 내용 |
+| File | Contents |
 |---|---|
-| `docs-cr-CR-2026-014/01-impact-analysis.md` | 변경 분석가: 영향 분석서 (영향 7개 영역, 데이터 이상, 결정 필요 사항) |
-| `docs-cr-CR-2026-014/02-design.md` | 설계자: 설계서 (사람의 결정 3건 반영) → **① 설계 승인** 대상 |
-| `docs-cr-CR-2026-014/03-implementation-notes.md` | 개발자: 구현 노트 |
-| `docs-cr-CR-2026-014/04-test-report.md` | 테스터: 요구사항-테스트 추적표, 117개 통과 · 커버리지 99% |
-| `docs-cr-CR-2026-014/05-review-report.md` | 리뷰어: 치명 0 · 중대 0 · 경미 1 → **② 코드 승인** 요청 |
-| `docs-cr-CR-2026-014/06-release-plan.md` | 배포 관리자: 릴리스 계획 · 롤백 방법 · staging/production 검증 → **③ 운영 배포 승인** |
-| `docs-cr-CR-2026-014/07-ops-report.md` | 운영 분석가: 운영 로그·DB 읽기 전용 분석, 현업이 결정할 사항 |
-| `approvals/CR-2026-014/*.json` | 승인 기록 4건 — design · code · production(사람), staging(시스템). 설계서/코드의 SHA-256 과 묶여 있음 |
-| `audit.jsonl` | 모든 도구 호출의 감사 로그 231건 (허용/차단/승인 요청). 로컬 경로는 `<DEMO_KIT>` 로 치환 |
-| `full-change.diff` | 기준 상태(baseline) 대비 전체 변경 diff (코드·테스트·문서) |
-| `git-log-stat.txt` | 커밋 7개의 요약과 파일별 변경량 |
-| `production-app.log` | 시뮬레이션 운영 환경의 접근 로그 (운영 분석가의 분석 대상) |
-| `run-metrics.json` | 슬라이드에 쓴 실측 지표 (단계별 소요·AI 사용량, 변경 규모, 테스트, 리뷰, 감사) |
+| `docs-cr-CR-2026-014/01-impact-analysis.md` | Change Analyst: impact analysis (impact areas, data anomalies, decisions needed) |
+| `docs-cr-CR-2026-014/02-design.md` | Solution Architect: design document (reflects the three human decisions) → subject of **approval ① (design)** |
+| `docs-cr-CR-2026-014/03-implementation-notes.md` | Developer: implementation notes |
+| `docs-cr-CR-2026-014/04-test-report.md` | Tester: requirements-to-tests traceability table, 100 tests passing · 99% coverage |
+| `docs-cr-CR-2026-014/05-review-report.md` | Reviewer: 0 blocker · 0 major · 0 minor → requests **approval ② (code)** |
+| `docs-cr-CR-2026-014/06-release-plan.md` | Release Manager: release plan · rollback method · staging/production verification → **approval ③ (production deploy)** |
+| `docs-cr-CR-2026-014/07-ops-report.md` | Ops Analyst: read-only analysis of the operations logs and DB, and what the business team must decide |
+| `approvals/CR-2026-014/*.json` | 4 approval records — design · code · production (human), staging (system). Each is bound to the SHA-256 of the design document or the code |
+| `audit.jsonl` | Audit log of every tool call, 171 entries (166 allowed, 3 approval requests, 2 denied). Local paths are replaced with `<DEMO_KIT>` |
+| `full-change.diff` | Full diff of the change against the recording's starting state (tag `baseline-recorded` of the demo repository): code, tests and documents |
+| `git-log-stat.txt` | Summary of the 6 commits with the changes per file |
+| `production-app.log` | Access log of the simulated production environment (what the Ops Analyst analyzed) |
+| `run-metrics.json` | The measured metrics used on the slides (time and AI usage per step, size of the change, tests, review, audit) |
 
-- 이 세션의 사람 개입은 **6번**입니다: 승인 3곳(design · code · production) + 설계 단계의 결정 3건.
-  결정 1건(구버전 앱 처리)은 AI 추천과 다른 내용을 직접 입력했습니다 — `02-design.md` 와 `07-ops-report.md` 에서 확인할 수 있습니다.
-- 모든 이름·데이터는 가상입니다.
+- Human interventions in this session: **6** = 3 approvals (design · code · production) + 3 decisions during the design stage.
+  One of the decisions went against the AI's recommendation: a person let the legacy mobile apps (3.1–3.3) omit the refund reason until 2026-12-01. Details of the human decisions are recorded in `docs-cr-CR-2026-014/02-design.md`.
+- The two denied entries in `audit.jsonl` are real guardrail hits in the main run: the Reviewer (read-only) tried to commit its report, and the Ops Analyst ran a database query that was not clearly read-only.
+- The outputs of the Korean edition come from a separate Korean recording, so their numbers differ. They are in [`ko/sample-output/`](../ko/sample-output/).
+- All names and data are fictional.

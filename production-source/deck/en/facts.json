@@ -1,0 +1,304 @@
+{
+  "cover": {
+    "lines": [
+      [
+        [
+          "$ ",
+          "8B949E"
+        ],
+        [
+          "copilot",
+          "FFFFFF",
+          true
+        ]
+      ],
+      [
+        [
+          "\u276f ",
+          "A371F7"
+        ],
+        [
+          "/agent change-analyst",
+          "FFFFFF"
+        ]
+      ],
+      [
+        [
+          "\u276f ",
+          "A371F7"
+        ],
+        [
+          "Analyze the impact of CR-2026-014",
+          "FFFFFF"
+        ]
+      ],
+      [
+        [
+          "\u25cf ",
+          "58A6FF"
+        ],
+        [
+          "10 impact areas \u00b7 3 data anomalies",
+          "C9D1D9"
+        ]
+      ],
+      [
+        [
+          "\u276f ",
+          "A371F7"
+        ],
+        [
+          "/agent solution-architect",
+          "FFFFFF"
+        ]
+      ],
+      [
+        [
+          "? ",
+          "F0B429",
+          true
+        ],
+        [
+          "You decide (recommended \u00b7 custom)",
+          "F0B429"
+        ]
+      ],
+      [
+        [
+          "\u2714 ",
+          "3FB950"
+        ],
+        [
+          "\u2460 Design approval recorded",
+          "C9D1D9"
+        ]
+      ]
+    ]
+  },
+  "steps": {
+    "1": {
+      "title": "Found 10 impact areas and 3 data anomalies",
+      "scope": "Writes: result docs only",
+      "facts": [
+        {
+          "value": "10",
+          "label": "impact areas"
+        },
+        {
+          "value": "3",
+          "label": "customers with grade data errors"
+        },
+        {
+          "value": "2",
+          "label": "decisions needed"
+        }
+      ],
+      "bullets": [
+        "Read code, docs and tests directly; listed the impact with file and line evidence",
+        "Queried the DB read-only and found mixed customer-grade spellings (vip \u00b7 'VIP ' \u00b7 NULL)",
+        "Warned up front that legacy mobile app versions risk failed submissions"
+      ],
+      "note": "The AI wrote the analysis report (01) but changed no code or data (read-only permissions)."
+    },
+    "2": {
+      "title": "The AI offered options; people made the decisions",
+      "scope": "Writes: result docs only",
+      "facts": [
+        {
+          "value": "3",
+          "label": "decisions made by people"
+        },
+        {
+          "value": "1",
+          "label": "design approval (\u2460)"
+        },
+        {
+          "value": "70",
+          "label": "lines in the design doc"
+        }
+      ],
+      "bullets": [
+        "3 questions with recommendations and pros/cons: legacy-app reasons \u00b7 tier rules \u00b7 exception expiry",
+        "A person overrode the AI's legacy-app recommendation ('missing reasons OK until 12/1')",
+        "Approving the design binds the approval record to the design doc's fingerprint (hash)"
+      ],
+      "human": {
+        "label": "Human approval \u2460",
+        "text": "Clicked Yes in the pop-up \u2014 approval is void if the design changes later"
+      }
+    },
+    "3": {
+      "title": "Code, DB and screens changed exactly as approved",
+      "scope": "Writes: app, DB, tests, policy",
+      "facts": [
+        {
+          "value": "8",
+          "label": "app and DB files changed"
+        },
+        {
+          "value": "+171",
+          "label": "lines of app and DB code added"
+        },
+        {
+          "value": "26",
+          "label": "existing tests still pass"
+        }
+      ],
+      "bullets": [
+        "DB change is only a new nullable column \u2014 existing data kept, legacy versions still work",
+        "Policy numbers (30/60 days, \u20a91,000,000) are kept in one place",
+        "Screen, e-mail and policy-document wording changed together"
+      ],
+      "note": "Without a design approval record, the system blocks code edits (see slide 20)."
+    },
+    "4": {
+      "title": "Separately from the developer, QA added 74 tests",
+      "scope": "Writes: tests \u00b7 result docs",
+      "facts": [
+        {
+          "value": "+74",
+          "label": "tests added by QA"
+        },
+        {
+          "value": "100",
+          "label": "all pass (0 failures)"
+        },
+        {
+          "value": "99%",
+          "label": "app code coverage"
+        }
+      ],
+      "bullets": [
+        "Traceability table for R1\u2013R4: which requirement is verified by which test",
+        "Includes boundaries (30/31 days \u00b7 60/61 days \u00b7 \u20a91,000,000), legacy grade data and legacy apps",
+        "Test count: 26 (before) \u2192 100 (after QA) \u2014 every new test was written by QA"
+      ],
+      "note": "The QA agent cannot change production code and only reports defects \u2014 the AI that builds and the AI that verifies have separate permissions."
+    },
+    "5": {
+      "title": "Reviewer checked the work and requested code approval",
+      "scope": "Writes: result docs only",
+      "facts": [
+        {
+          "value": "0",
+          "label": "blocker"
+        },
+        {
+          "value": "0",
+          "label": "major"
+        },
+        {
+          "value": "0",
+          "label": "minor"
+        }
+      ],
+      "bullets": [
+        "Checked design match, security checklist, DB change guide and coding standards",
+        "Deep security review delegated to a dedicated agent (security-review) \u2014 0 vulnerabilities",
+        "The Reviewer's attempt to commit its own report was blocked by the hook (read-only role)"
+      ],
+      "human": {
+        "label": "Human approval \u2461",
+        "text": "Clicked Yes in the pop-up \u2014 only code matching the approved fingerprint (hash) can deploy"
+      }
+    },
+    "6": {
+      "title": "Verified in staging, deployed to production with approval",
+      "scope": "Writes: result docs \u00b7 version file",
+      "facts": [
+        {
+          "value": "6/6",
+          "label": "basic checks passed"
+        },
+        {
+          "value": "1",
+          "label": "DB change (applied after backup)"
+        },
+        {
+          "value": "1",
+          "label": "production deploy approval (\u2462)"
+        }
+      ],
+      "bullets": [
+        "main merge \u2192 v1.1.0 \u2192 staging deploy \u2192 smoke test 6/6 \u2192 independent health and screen checks",
+        "Approval pop-up right before the production deploy \u2014 runs only if a person clicks Yes",
+        "DB backup, health check and rollback commands prepared in advance"
+      ],
+      "human": {
+        "label": "Human approval \u2462",
+        "text": "Pop-up before the production deploy \u2014 always shown, even in auto-approve mode"
+      }
+    },
+    "7": {
+      "title": "Production data was analyzed right after deployment",
+      "scope": "Writes: result docs \u00b7 DB read-only",
+      "facts": [
+        {
+          "value": "311",
+          "label": "requests analyzed (0 server errors)"
+        },
+        {
+          "value": "25",
+          "label": "pending approval (\u20a945,000,000)"
+        },
+        {
+          "value": "20",
+          "label": "legacy-app reason omissions"
+        }
+      ],
+      "bullets": [
+        "150 refunds: 80 approved \u00b7 25 pending approval \u00b7 45 outside the refund window",
+        "20 legacy-app requests lacked a reason \u2192 notice needed before the exception ends on 12/1",
+        "Confirmed 0 e-mail or phone-number exposure patterns (privacy check)"
+      ],
+      "note": "Decisions for the business: who reviews high-value refunds and by when, and how to announce the legacy app's end of support (the AI only proposes)."
+    }
+  },
+  "guard": {
+    "cases": [
+      {
+        "ask": "Told to edit code in app/ without approval",
+        "result": "Blocked: needs design approval \u2460 first"
+      },
+      {
+        "ask": "Told to edit the security standards doc",
+        "result": "Blocked: standards are protected"
+      },
+      {
+        "ask": "Told to push code out (git push)",
+        "result": "Blocked: git push is forbidden"
+      }
+    ],
+    "message": "Even if the AI is unaware, mistaken or told to \u2014 the hook checks every tool call first and blocks it."
+  },
+  "effects": {
+    "stats": [
+      {
+        "value": "38 min",
+        "label": "Request to ops analysis, actual time (all 7 stages)"
+      },
+      {
+        "value": "6",
+        "label": "human interventions \u2014 3 decisions + 3 approvals",
+        "color": "amber"
+      },
+      {
+        "value": "100",
+        "label": "tests all pass (26\u2192100, 99% coverage)"
+      },
+      {
+        "value": "$3.4",
+        "label": "AI usage for the whole session (340 credits)"
+      }
+    ],
+    "note": "7 documents (01\u201307), 3 approval records and 6 commits were all kept in an auditable form.",
+    "caveat": "Human review and response time is separate. The baseline (current lead time) varies by organization, so measure it with the same metrics in the pilot."
+  },
+  "safety": {
+    "ev1": "2 out-of-role actions blocked",
+    "ev2": "3 approval pop-ups \u00b7 3 records",
+    "ev3": "git push attempt \u2192 blocked (demo)",
+    "ev4": "Standards edit \u2192 blocked (demo)",
+    "ev5": "169 calls \u00b7 3 approvals \u00b7 2 blocked"
+  }
+}

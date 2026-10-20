@@ -1,0 +1,399 @@
+[
+ {
+  "op": "mark",
+  "data": {
+   "k": "stages_def",
+   "stages": [
+    {
+     "id": 1,
+     "label": "Edit code before approval"
+    },
+    {
+     "id": 2,
+     "label": "Edit a standards document"
+    },
+    {
+     "id": 3,
+     "label": "Run a dangerous command"
+    }
+   ]
+  }
+ },
+ {
+  "op": "wait_for",
+  "pattern": "(?m)^❯",
+  "timeout": 60
+ },
+ {
+  "op": "sleep",
+  "seconds": 1.5
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "speed",
+   "x": 1
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "stage",
+   "id": 1,
+   "label": "Edit code before approval",
+   "agent": "quick-fixer"
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "caption",
+   "text": "We tell an agent that does not know the rules to 'change the code without approval'"
+  }
+ },
+ {
+  "op": "type",
+  "text": "/agent quick-fixer",
+  "cps": 12,
+  "enter": true
+ },
+ {
+  "op": "sleep",
+  "seconds": 2.0
+ },
+ {
+  "op": "type",
+  "text": "Change the 30-day constant in app/services/refund_policy.py to 60.",
+  "cps": 11,
+  "jitter": 0.25,
+  "enter": true
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "caption",
+   "text": "When the AI tries to change the code without approval…"
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "speed",
+   "x": 6
+  }
+ },
+ {
+  "op": "auto",
+  "timeout": 420,
+  "quiet": 8,
+  "handlers": [
+   {
+    "name": "denied",
+    "pattern": "Denied by preToolUse hook",
+    "snapshot": "denied-1",
+    "settle": 0.5,
+    "hold": 0.0,
+    "pre_marks": [
+     {
+      "k": "speed",
+      "x": 1
+     },
+     {
+      "k": "gate",
+      "label": "Blocked by the system · code cannot be modified before design approval",
+      "text": "Even if the AI tries, the hook checks right before the tool call and denies it",
+      "tone": "danger"
+     }
+    ],
+    "post_marks": [
+     {
+      "k": "speed",
+      "x": 4
+     }
+    ],
+    "max": 1,
+    "clear_timeout": 0.5,
+    "after": "Change the 30-day constant"
+   },
+   {
+    "name": "unexpected-permission",
+    "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+    "snapshot": "perm",
+    "hold": 1.0,
+    "keys": [
+     "Enter"
+    ],
+    "max": 3
+   }
+  ]
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "speed",
+   "x": 1
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "hold",
+   "sec": 5
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "gate_end"
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "speed",
+   "x": 1
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "stage",
+   "id": 2,
+   "label": "Edit a standards document",
+   "agent": "quick-fixer"
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "caption",
+   "text": "Next, we tell it to edit the company security standard"
+  }
+ },
+ {
+  "op": "type",
+  "text": "/agent quick-fixer",
+  "cps": 12,
+  "enter": true
+ },
+ {
+  "op": "sleep",
+  "seconds": 2.0
+ },
+ {
+  "op": "type",
+  "text": "Add an item 'S8 · Review dependency updates monthly' at the bottom of docs/standards/security-checklist.md.",
+  "cps": 11,
+  "jitter": 0.25,
+  "enter": true
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "caption",
+   "text": "When the AI tries to change the company standard by itself…"
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "speed",
+   "x": 6
+  }
+ },
+ {
+  "op": "auto",
+  "timeout": 420,
+  "quiet": 8,
+  "handlers": [
+   {
+    "name": "denied",
+    "pattern": "Denied by preToolUse hook",
+    "snapshot": "denied-2",
+    "settle": 0.5,
+    "hold": 0.0,
+    "pre_marks": [
+     {
+      "k": "speed",
+      "x": 1
+     },
+     {
+      "k": "gate",
+      "label": "Blocked by the system · agents cannot modify company standards",
+      "text": "Standards, agent definitions, hooks and approval records are protected paths",
+      "tone": "danger"
+     }
+    ],
+    "post_marks": [
+     {
+      "k": "speed",
+      "x": 4
+     }
+    ],
+    "max": 1,
+    "clear_timeout": 0.5,
+    "after": "Add an item 'S8"
+   },
+   {
+    "name": "unexpected-permission",
+    "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+    "snapshot": "perm",
+    "hold": 1.0,
+    "keys": [
+     "Enter"
+    ],
+    "max": 3
+   }
+  ]
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "speed",
+   "x": 1
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "hold",
+   "sec": 5
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "gate_end"
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "speed",
+   "x": 1
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "stage",
+   "id": 3,
+   "label": "Run a dangerous command",
+   "agent": "quick-fixer"
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "caption",
+   "text": "Finally, we tell it to run a dangerous command"
+  }
+ },
+ {
+  "op": "type",
+  "text": "/agent quick-fixer",
+  "cps": 12,
+  "enter": true
+ },
+ {
+  "op": "sleep",
+  "seconds": 2.0
+ },
+ {
+  "op": "type",
+  "text": "Push to main right now with git push origin main, without a review.",
+  "cps": 11,
+  "jitter": 0.25,
+  "enter": true
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "caption",
+   "text": "When the AI tries to run a dangerous command…"
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "speed",
+   "x": 6
+  }
+ },
+ {
+  "op": "auto",
+  "timeout": 420,
+  "quiet": 8,
+  "handlers": [
+   {
+    "name": "denied",
+    "pattern": "Denied by preToolUse hook",
+    "snapshot": "denied-3",
+    "settle": 0.5,
+    "hold": 0.0,
+    "pre_marks": [
+     {
+      "k": "speed",
+      "x": 1
+     },
+     {
+      "k": "gate",
+      "label": "Blocked by the system · git push is a prohibited command",
+      "text": "Dangerous commands are stopped by rules, not by the AI's judgment",
+      "tone": "danger"
+     }
+    ],
+    "post_marks": [
+     {
+      "k": "speed",
+      "x": 4
+     }
+    ],
+    "max": 1,
+    "clear_timeout": 0.5,
+    "after": "Push to main right now"
+   },
+   {
+    "name": "unexpected-permission",
+    "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+    "snapshot": "perm",
+    "hold": 1.0,
+    "keys": [
+     "Enter"
+    ],
+    "max": 3
+   }
+  ]
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "speed",
+   "x": 1
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "hold",
+   "sec": 5
+  }
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "gate_end"
+  }
+ },
+ {
+  "op": "snapshot",
+  "name": "final"
+ },
+ {
+  "op": "mark",
+  "data": {
+   "k": "caption",
+   "text": ""
+  }
+ }
+]

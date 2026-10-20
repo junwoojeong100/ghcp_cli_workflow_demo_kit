@@ -1,8 +1,8 @@
 {
   "cr": "CR-2026-014",
   "gate": "production",
-  "at": "2026-10-16T16:01:11+09:00",
+  "at": "2026-10-20T09:48:41+09:00",
   "version": "1.1.0",
-  "code_sha256": "6371487cb004558b2b2d372f7eade5feb554fcb3bb1d37b2ec1dbea6513c4a14",
-  "approver": "홍길동 책임(운영 담당)"
+  "code_sha256": "b12aac5478ee18bf566a5c6663ff14a18c035ed87b5d859eba895f3a7e9f2ef7",
+  "approver": "Gildong Hong (Ops Lead)"
 }

@@ -1,0 +1,30 @@
+ [Current]  Sessions   Issues   Pull requests   Gists
+
+   git diff --cached --quiet && git add docs/cr/CR-2026-014/05-review-report.md && git --no-pager diff --cached --che… ┃
+ $ Shell Explain reviewer restriction and summarize recommendation before approval 4 lines…                            ┃
+   printf '%s\n' 'Reviewer permissions blocked the report commit; the saved report remains uncommitted.' 'Review: Rec… ┃
+ $ Shell Request human code approval for reviewed CR-2026-014                                                          ┃
+   .venv/bin/python scripts/gate.py request code CR-2026-014                                                           ┃
+                                                                                                                       ┃
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Hook permission request                                                                                              │
+│ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────── │
+│ ② Code approval — Have you reviewed the code review and test results? Only code whose hash matches the approved code │
+│  can be deployed.                                                                                                    │
+│                                                                                                                      │
+│                                                                                                                      │
+│ ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮ │
+│ │ Tool: bash                                                                                                       │ │
+│ │ Args: {                                                                                                          │ │
+│ │   "command": ".venv/bin/python scripts/gate.py request code CR-2026-014",                                        │ │
+│ │   "description": "Request human code approval for reviewed CR-2026-014"                                          │ │
+│ │ }                                                                                                                │ │
+│ ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯ │
+│                                                                                                                      │
+│ Do you want to allow this tool call?                                                                                 │
+│                                                                                                                      │
+│ ❯ 1. Yes                                                                                                             │
+│   2. No (Esc to stop)                                                                                                │
+│                                                                                                                      │
+│ ↑/↓ to navigate · enter to select · esc to cancel                                                                    │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯

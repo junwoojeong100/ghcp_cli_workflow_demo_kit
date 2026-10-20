@@ -1,0 +1,30 @@
+ [Current]  Sessions   Issues   Pull requests   Gists
+
+ / Search "REFUND_WINDOW|check_refund_window|status = "REQUESTED"|class RefundCreate|class RefundOut|d… 78 lines found ┃
+                                                                                                                       ┃
+ ● The main compatibility risk is mandatory reasons: mobile versions 3.1–3.3 send only an amount. The local data also  ┃
+   contains mixed VIP spellings, and the deployment script stops the service before restarting it. I’ll document these ┃
+   findings, the decisions needed, and pre-deployment checks.                                                          ┃
+                                                                                                                       ┃
+ ● Edit  Create docs/cr/CR-2026-014/01-impact-analysis.md                                                              ┃
+                                                                                                                       ┃
+ ❯ Thought for 1s                                                                                                      ┃
+                                                                                                                       ┃
+ $ Shell Verify saved analysis length, whitespace and change scope 2 lines…                                            ┃
+   wc -l -w docs/cr/CR-2026-014/01-impact-analysis.md && git --no-pager diff --check && git --no-pager status --short  ┃
+                                                                                                                       ┃
+ MD Read 01-impact-analysis.md L65:95 (23 lines read)                                                                  ┃
+                                                                                                                       ┃
+ ● Saved:  docs/cr/CR-2026-014/01-impact-analysis.md                                                                   ┃
+   Impact spans API, refund rules, database, web, notifications, policy, tests and operations.                         ┃
+   Local data contains mixed VIP spellings; five delivered orders enter the extended window.                           ┃
+   Key risks: legacy mobile cannot submit reasons; current deployment uses interrupting stop/start.                    ┃
+   Decision 1: Agree legacy-client reason collection; recommend enforcement with an updated-web/support route.         ┃
+   Decision 2: Agree tier interpretation; recommend case/whitespace normalization, with NULL entitlement confirmed     ┃
+   separately.                                                                                                         ┃
+                                                                                                                       ┃
+ ~/Documents/Microsoft Scout/GHCP_CLI_Demo_Kit/shopflow-orders [⎇ main%]                        Session: 14.07 AIC used
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ← open sidebar · Interactive · Manual Approval · / commands       ctrl+t show reasoning · change-analyst · GPT-6.1 Sol

@@ -1,70 +1,70 @@
-- CR: CR-2026-014 / - 상태: 승인 대기 / - 작성: change-analyst → solution-architect
-## 1. 결정 사항
-| 질문 | 사람이 선택한 내용 | 이유·효과 |
+- CR: CR-2026-014 / - Status: Pending approval / - Author: change-analyst -> solution-architect
+## 1. Decisions
+| Question | Human choice | Reason / consequence |
 |---|---|---|
-| 구버전 앱 전환은? | 앱 3.1~3.3은 2026-12-01까지 사유 누락 허용·경고 로그, 이후 필수 | 사용자 지정안. R2의 한시 예외이며 자동 사유 채움은 하지 않음 |
-| 등급 판정은? | 앞뒤 공백 제거·대문자화 후 VIP, NULL·그 외는 일반 | 사용자 선택. 현재 화면과 일치하며 원본 등급은 보존 |
-| 기존 구매 주문은? | 시행 후 모든 신규 접수에 적용, 과거 환불 이력은 그대로 유지 | 사용자 선택. 기존 VIP의 구매 45일 주문도 대상 |
-
-## 2. 변경 개요
-VIP는 60일, 일반은 30일까지 접수하고 사유를 저장한다. 1,000,000원 초과 건은 관리자 승인 대기로 접수하며 승인 전 환불 처리·승인 이메일을 생성하지 않는다.
-웹·안내 이메일·정책 문구를 맞추며, 구앱의 사유 누락만 기한부로 허용한다.
-요청서 R1~R4를 따르되 R2 한시 예외는 본 설계 승인 대상으로 명시한다. 근거: `docs/requirements/CR-2026-014.md:18`
-
-## 3. 상세 설계
-| 예상 변경 파일 | 역할 |
+| Legacy reason collection? | Allow omission in mobile 3.1-3.3 until 2026-12-01; warn. | Human-authorized temporary R2 exception, not full R2 compliance. |
+| Tier interpretation? | Trim/uppercase; VIP gets 60 days, all others 30. | Matches the badge; no customer-data rewrite. |
+| Exception identification/expiry? | Exact User-Agent allowlist; cutoff 2026-12-01 00:00 UTC. | Simple boundary; human accepts self-declared, spoofable identity. |
+## 2. Change overview
+VIP customers receive 60 days; standard customers retain 30 days.
+New requests collect a reason, except the explicitly time-limited legacy omission.
+Refunds above KRW 1,000,000 wait for existing admin approval before approval/payout.
+Web, outcome e-mails and policy explain the same rules and temporary exception.
+## 3. Detailed design
+| Expected file(s) | Responsibility |
 |---|---|
-| `app/services/refund_policy.py` | 기간·임계액·유예 종료일·대상 버전 상수 및 판정 집중, 시간은 app.clock 사용 |
-| `app/services/refund_service.py` | 등급·사유·고액 규칙 적용, 사유 INSERT, 기존 총액 검증·승인·반려 재사용 |
-| `app/schemas.py`, `app/routers/orders.py` | 선택형 reason 검증 후 서비스에 전달, User-Agent에서 앱 버전만 추출 |
-| `app/main.py` | 성공한 무사유 예외 접수에 구조화된 WARNING 기록; 기존 오류 응답 형식 유지 |
-| `db/migrations/002_refund_reason.sql` | NULL 허용 reason 컬럼만 추가, 기존 001은 수정 금지 |
-| `app/static/index.html` | 사유 필수 입력·오류 안내·정책 문구, 기존 관리자 대기 목록 유지 |
-| `app/notifications.py`, `docs/policy/refund-policy.md`, `docs/architecture.md` | 승인·반려 이메일 및 문서의 정책·구앱 예외 동기화 |
-| `tests/test_refunds.py`, `tests/test_ui.py`, 신규 `tests/test_migrations.py` | 정상·경계·권한·로그·데이터 보존 회귀 검증 |
+| `app/services/refund_policy.py` | Central constants: 30/60 days, KRW 1,000,000, 200 chars, cutoff/allowlist. |
+| `app/services/refund_service.py` | Apply rules; persist reason; record exception warning/audit metadata. |
+| `app/schemas.py`, `app/routers/orders.py` | Validate reason; pass omission state and allowlisted client identity. |
+| `db/migrations/002_add_refund_reason.sql` | Add nullable reason; do not modify migration 001. |
+| `app/static/index.html` | Required reason field, readable errors, policy/pending wording. |
+| `app/notifications.py`, `docs/policy/refund-policy.md` | Align approved/rejected notices and customer policy. |
+| `tests/test_refunds.py`, `tests/test_ui.py` | Extend existing tests; cover migration/legacy compatibility here too. |
 
-| 조건 | 결과·업무 규칙 |
+| Condition | Result |
 |---|---|
-| 취소 주문 / 기간 초과 / 잔여 한도 초과 | 기존 거절 유지. REQUESTED·APPROVED 합계로 잔여 한도 계산 |
-| 정규화 등급 VIP / 그 외 | 구매일부터 UTC 날짜 차이 ≤60일 / ≤30일 허용 |
-| 정수 금액 >1,000,000원 또는 배송 중 | REQUESTED, decided_at=NULL. 정확히 1,000,000원은 배송 중이 아니면 자동 승인 |
-| 사유 문자열 입력 | 앞뒤 공백 제거 후 1~200자. 빈 값·공백만·초과 길이는 구앱도 거절 |
-| 사유 누락 또는 null + 대상 구앱 + 유예 중 | reason=NULL 저장, 경고 기록. 금액·기간·승인 규칙은 동일 적용 |
-| 그 외 사유 누락 또는 null | 400 REASON_REQUIRED, “환불 사유를 입력해 주세요. 구앱은 웹에서 접수해 주세요.” |
-| 관리자 승인 / 반려 | 기존 require_admin 유지, REQUESTED만 변경. 승인/반려 이메일은 결정 후 대기열 적재 |
-
-유예는 기존 UTC 날짜 기준으로 2026-12-01을 포함하며 2026-12-02 00:00 UTC부터 종료한다(한국시간 09:00). 근거: `app/clock.py:6`
-대상 식별은 User-Agent의 `ShopFlowMobile/3.1`, `ShopFlowMobile/3.2`, `ShopFlowMobile/3.3` 완전일치만 허용한다. 미식별·다른 버전에는 예외를 주지 않는다.
-API: `POST /orders/{id}/refund` 요청 예시는 `{"amount":1000001,"reason":"상품 불량"}`; 유예 구앱만 `{"amount":1000001}` 허용.
-201 응답 예시: `{"id":3,"order_id":1015,"amount":1000001,"status":"REQUESTED","requested_at":"2026-11-02T00:00:00+00:00","decided_at":null}`.
-응답 필드는 기존 그대로 두고 사유 원문은 공개 조회에 추가하지 않는다. 예외 외 amount-only 요청 거절은 의도적인 계약 변경으로 사전 안내한다.
-reason은 스키마에서 선택형으로 받고 문자열 공백·길이를 검증한다. 누락 필수 여부는 서비스에서 판정; 웹은 기존 400 객체와 422 배열 모두 입력 안내로 변환한다.
-DB SQL 초안: `ALTER TABLE refunds ADD COLUMN reason TEXT;` (NULL 허용, 과거 사유는 미수집 상태로 보존).
-확장: 백업 검증 후 컬럼 추가 → 전환: 신서버·웹 적용 및 유예 종료 자동 판정 → 축소: 이번 CR에는 없음, 컬럼·과거 행 유지.
-화면·이메일·문서: “일반 30일·VIP 60일 / 사유 필수(구앱 기한부 예외) / 100만원 초과 관리자 승인”을 공통 안내한다.
-기존 REQUESTED 목록을 재사용하며 사유 표시 UI·새 상태·신규 대기 이메일은 추가하지 않는다. 근거: `app/static/index.html:140`
-로그·감사: 기존 refund.requested/approved/rejected를 유지하고 접수 detail에 CR ID·reason_missing·legacy_exception을 추가한다.
-무사유 예외 성공 시 라우터가 request.state에 환불 ID·주문 ID·버전을 설정하고 기존 접근 로그에 level=WARNING·code=LEGACY_REASON_MISSING을 기록한다.
-사유 원문·고객 이름·이메일·토큰은 추가 로그에 금지. 사유 SQL은 바인딩, 사용자 입력 안내는 textContent 등 안전한 출력 사용. 근거: `docs/standards/security-checklist.md:8`
-
-## 4. 테스트 전략
-| 요구·제약 | 시나리오와 기대 결과 |
+| `(tier or "").strip().upper() == "VIP"` | Inclusive 60-day window; every other value uses 30 days. |
+| Age exceeds applicable window, or CANCELLED | Existing denial; UTC dates/time come only from `app.clock`. |
+| Reason supplied | Trim; require 1-200 characters; reject null, blank or invalid type. |
+| Reason omitted + allowlisted client + now before cutoff | Accept other rules permitting; store NULL; warning and audit marker. |
+| Reason omitted in every other case | Reject with a message requesting the reason; no refund row. |
+| SHIPPED OR requested amount > KRW 1,000,000 | `REQUESTED`, decided_at NULL; no approval e-mail or payout yet. |
+| Otherwise eligible, including exactly KRW 1,000,000 | Existing auto-approval; keep positive amount/order-balance checks. |
+| Pending refund | Reserve amount alongside APPROVED; existing admin approve/reject only. |
+API: retain paths/status names and successful response fields; POST still returns 201.
+Example request: `POST /orders/1015/refund`, `{"amount":1350000,"reason":"Wrong size"}`.
+Example response: `{"id":3,"order_id":1015,"amount":1350000,"status":"REQUESTED","requested_at":"2026-10-20T00:00:00+00:00","decided_at":null}`.
+Legacy example: `User-Agent: ShopFlowMobile/3.1` and `{"amount":1000}` works only before cutoff.
+Allowlist: exactly `ShopFlowMobile/3.1`, `ShopFlowMobile/3.2`, `ShopFlowMobile/3.3`; no prefix matching.
+Missing/null/blank reason: 400 `{"detail":{"code":"REASON_REQUIRED","message":"Please enter a refund reason."}}`.
+Schema type/length errors: 422; web renders validation messages as text, not raw input or HTML.
+Keep omission distinct from explicit null; schema trims before enforcing its 200-character limit.
+DB expand draft: `ALTER TABLE refunds ADD COLUMN reason TEXT;`. Switch: migrate first, then new readers/writers; old SQL remains valid, old reasons stay NULL.
+Contract: none in this CR; retain nullable storage for history after cutoff; no backfill/deletion.
+Use parameter binding and existing request transaction for refund, audit and notification writes.
+Screens: labeled reason field, required/max-length feedback; show REQUESTED as "Pending approval".
+Wording: "VIP: 60 days; standard: 30 days. A reason is required. Above KRW 1,000,000 requires admin approval."
+Policy also states the legacy omission exception and exact expiry; no new pending e-mail.
+Retain request/decision events and refund links; mark accepted omissions as `legacy_reason_omitted`.
+Emit structured WARNING with refund/order IDs, allowlisted version and cutoff, never reason/PII/raw headers.
+Keep `/admin/**` authentication unchanged; do not return stored free text in new public fields.
+## 4. Test strategy
+| Requirement | Scenarios / expected outcome |
 |---|---|
-| R1 | 일반 30일 허용·31/45일 거절, VIP 45/60일 허용·61일 거절; vip·VIP 공백·NULL 판정 |
-| R2 | 정상·앞뒤 공백·1/200자 저장; 빈 값·공백만·201자·형식 오류 거절; 누락 안내 확인 |
-| R2 한시 예외 | 3.1/3.2/3.3 각각 누락·null 허용, NULL 저장·WARNING·감사 확인; 웹·다른/미식별 버전은 거절 |
-| 유예 경계 | UTC 12-01 23:59:59 허용·12-02 00:00 거절; clock.now/today 함께 고정, 사유 입력은 양쪽 모두 정상 |
-| R3 | 1,000,000원 자동 승인·1,000,001원 대기; 배송 중 대기·승인 전 알림 없음·관리자 승인/반려 |
-| R4·보안 회귀 | 웹·양쪽 이메일·문서 문구 일치; 400/422 안내·안전한 출력·원문 로그 부재·미인증 승인 거절 |
-| 데이터·기존 동작 | 구스키마→확장 후 기존 행 보존·구버전 INSERT 성공·재적용 무변경; 부분 환불 한도·취소·재결정 거절 |
-
-## 5. 배포·롤백 계획
-① 설계 승인→구현·테스트/린트→② 코드 승인→staging 스모크→③ 운영 승인→운영 전환·스모크·운영 보고 순으로 진행한다.
-배포는 검증된 백업→DB 확장→동일 DB의 신서버 준비→요청 전환→구서버 요청 종료 순서다. 무중단 전환 수단은 운영 담당자 확인 필요.
-배포 전 체크리스트: 실제 무중단 전환 수단·DDL 잠금 영향, 앱 UA/사전 공지, 외부 이메일 대기열, 보호된 트래픽 도구 오류 처리를 확인한다. 현행 stop/start 자체는 무중단이 아니다. 근거: `scripts/deploy.sh:107`
-롤백은 확장 컬럼·신규 행을 유지하고 동일 정책을 지키는 검증본으로 코드/웹만 복귀한다; 무통제 구버전·과거 DB 덮어쓰기는 금지, 적합한 복귀본이 없으면 수정 배포한다.
-모니터링: 버전별 REASON_REQUIRED·예외 WARNING 건수, 고액 초기 상태 REQUESTED, 대기 중 승인 알림 0건, 5xx·DB 잠금·헬스 및 승인 감사 누락.
-
-## 6. 리스크와 대응
-UA는 자가신고이므로 위장 우회 가능: 인증 수단이 아니며 경고로 추적하고 기한 후 예외를 차단한다. 구앱 접수 전환·등급 NULL·발송 워커는 사전 안내 및 배포 전 체크리스트로 관리한다.
-후속 과제: 개인별 관리자 인증·누적 고액 통제·동시성 고도화·무중단 인프라 개선은 이번 범위에서 제외한다.
+| R1 | Standard 30/31, VIP 45/60/61; `VIP`, `vip`, `VIP `, NULL/unknown. |
+| R2 | Omitted/null/blank, trim, lengths 1/200/201, invalid type; readable prompt. |
+| R2 exception | All 3 exact agents before/at/after cutoff; unknown/missing/suffix agents denied. Verify NULL storage and one safe warning/audit marker. |
+| R3 | KRW 999,999/1,000,000/1,000,001; SHIPPED; reservations; cancellation; admin authorization, decisions, audit and no early approval notification. |
+| R4 | Web and both outcome e-mails/policy agree; safe text rendering and pending label. |
+| Compatibility | Old app on expanded schema; existing rows unchanged; reason persists; failed requests leave no writes. |
+## 5. Deployment and rollback plan
+Order: design approval -> implementation -> tests/review -> code approval -> staging/smoke -> production approval -> release.
+Back up consistently; expand before switch; retain new rows/column on code rollback, never restore a stale DB over live writes.
+Old code violates new policy: do not route refund writes to it after activation; owner must rehearse policy-safe recovery.
+Monitor refund errors/client version, legacy warnings, pending approvals and notification/audit consistency through cutoff.
+## 6. Risks and mitigations
+Pre-deployment checklist: Needs confirmation - uninterrupted cutover/recovery; current script stops first (`scripts/deploy.sh:107`).
+Pre-deployment checklist: Needs confirmation - actual mobile agents, advance notice and missing-reason UX (`docs/architecture.md:16`).
+Pre-deployment checklist: Needs confirmation - external payout respects pending; worker is external (`docs/architecture.md:8`).
+Pre-deployment checklist: Needs confirmation - production distributions/NULL entitlement; local-only evidence (`docs/cr/CR-2026-014/01-impact-analysis.md:35`).
+Follow-up: shared admin identity remains unchanged; individual identity redesign is out of scope.

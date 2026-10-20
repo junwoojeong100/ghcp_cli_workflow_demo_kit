@@ -9,15 +9,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FFmpeg = '/opt/homebrew/bin/ffmpeg';
 const FFprobe = '/opt/homebrew/bin/ffprobe';
 const Chrome = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const DEFAULT_STAGES = [
-  { id: 1, label: '분석' },
-  { id: 2, label: '설계' },
-  { id: 3, label: '구현' },
-  { id: 4, label: '테스트' },
-  { id: 5, label: '리뷰' },
-  { id: 6, label: '배포' },
-  { id: 7, label: '운영' },
-];
+// Overlay language: DEMO_LANG=en (default) | ko. The page (page.js) holds the matching UI texts.
+const LANG = (process.env.DEMO_LANG || 'en').toLowerCase() === 'ko' ? 'ko' : 'en';
+const STAGE_LABELS = {
+  en: ['Analyze', 'Design', 'Build', 'Test', 'Review', 'Deploy', 'Operate'],
+  ko: ['분석', '설계', '구현', '테스트', '리뷰', '배포', '운영'],
+};
+const DEFAULT_STAGES = STAGE_LABELS[LANG].map((label, i) => ({ id: i + 1, label }));
 const BASE_WIDTH = 1920;
 const BASE_HEIGHT = 1080;
 const DEFAULT_MAX_FPS_CAPTURE = 12;
@@ -515,9 +513,9 @@ async function initRenderPage(page, { castPath, header, overlay, fontSize, previ
   const scale = previewScale || 1;
   const viewport = { width: Math.round(BASE_WIDTH * scale), height: Math.round(BASE_HEIGHT * scale) };
   await page.setViewportSize(viewport);
-  await page.evaluate(async ({ cols, rows, title, overlay, fontSize, previewScale }) => {
-    await window.renderApi.init({ cols, rows, title, fontSize, previewScale, ...overlay });
-  }, { cols: header.width, rows: header.height, title: inferWindowTitle(castPath), overlay, fontSize, previewScale: scale });
+  await page.evaluate(async ({ cols, rows, title, overlay, fontSize, previewScale, lang }) => {
+    await window.renderApi.init({ cols, rows, title, fontSize, previewScale, lang, ...overlay });
+  }, { cols: header.width, rows: header.height, title: inferWindowTitle(castPath), overlay, fontSize, previewScale: scale, lang: LANG });
   return validatePageLayout(page, viewport.height);
 }
 

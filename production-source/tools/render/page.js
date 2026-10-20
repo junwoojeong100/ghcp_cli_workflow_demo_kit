@@ -1,12 +1,22 @@
-const defaultStages = [
-  { id: 1, label: '분석' },
-  { id: 2, label: '설계' },
-  { id: 3, label: '구현' },
-  { id: 4, label: '테스트' },
-  { id: 5, label: '리뷰' },
-  { id: 6, label: '배포' },
-  { id: 7, label: '운영' }
-];
+// UI texts of the overlay (language comes from DEMO_LANG via render.js -> init({ lang })).
+const I18N = {
+  en: {
+    stages: ['Analyze', 'Design', 'Build', 'Test', 'Review', 'Deploy', 'Operate'],
+    agentChip: (agent) => (agent ? `Current agent · ${agent}` : 'Current agent · starting'),
+    humanApproval: (label) => `Human approval needed · ${label || ''}`.trim(),
+    speed: (x) => `⏩ ${x}x speed`,
+    subtitle: 'Recorded from a real Copilot CLI session · only waiting time is sped up'
+  },
+  ko: {
+    stages: ['분석', '설계', '구현', '테스트', '리뷰', '배포', '운영'],
+    agentChip: (agent) => (agent ? `현재 에이전트 · ${agent}` : '현재 에이전트 · 준비 중'),
+    humanApproval: (label) => `사람 승인 필요 · ${label || ''}`.trim(),
+    speed: (x) => `⏩ ${x}배속`,
+    subtitle: '실제 Copilot CLI 세션 녹화 · 대기 시간만 단축'
+  }
+};
+let T = I18N.en;
+const defaultStages = () => T.stages.map((label, i) => ({ id: i + 1, label }));
 
 const LINE_HEIGHT = 1.12;
 const GRID_PAD_X = 4;
@@ -18,7 +28,7 @@ const state = {
   config: null,
   currentStageId: null,
   currentAgent: '',
-  stages: defaultStages,
+  stages: defaultStages(),
   caption: '',
   gate: null,
   badgeText: '',
@@ -63,9 +73,9 @@ function disposeTerminal() {
   xtermMountEl().innerHTML = '';
 }
 
-// Copilot CLI 가 대화 영역 오른쪽 끝 열(마지막 칸)에 스크롤바로 그리는 '┃' 를 가린다.
-// xterm 버퍼는 읽기만 하고, 해당 셀 위치에 터미널 배경색 막대를 덮는다.
-// 마지막 열의 '│' · '─' · '╮' · '╯' 는 승인 팝업 같은 박스 테두리(내용)이고, 왼쪽 팝업 테두리의 '┃' 는 다른 열이라 그대로 둔다.
+// Hides the '┃' that Copilot CLI draws as a scrollbar in the right-most terminal column.
+// The xterm buffer is only read; a terminal-background bar is laid over the matching cells.
+// '│' '─' '╮' '╯' in the last column are real box borders (e.g. approval pop-ups) and the '┃' of a left-hand pop-up border is another column, so they stay.
 const SCROLLBAR_GLYPH = '┃';
 function hideScrollbarColumn() {
   const term = state.terminal;
@@ -247,7 +257,7 @@ function renderTracker() {
     const indexText = done ? '✓' : String(index + 1);
     return `<div class="${klass}"><span class="pill-index">${indexText}</span><span>${escapeHtml(stage.label)}</span></div>`;
   }).join('');
-  agentChip().textContent = state.currentAgent ? `현재 에이전트 · ${state.currentAgent}` : '현재 에이전트 · 준비 중';
+  agentChip().textContent = T.agentChip(state.currentAgent);
 }
 
 function renderBottom() {
@@ -267,7 +277,7 @@ function renderBottom() {
     gateOverlay().classList.toggle('danger', state.gate.tone === 'danger');
     gateTitle().textContent = state.gate.tone === 'danger'
       ? (state.gate.label || '')
-      : `사람 승인 필요 · ${state.gate.label || ''}`.trim();
+      : T.humanApproval(state.gate.label);
     gateText().textContent = state.gate.text || '';
   } else {
     captionPanel().classList.remove('hidden');
@@ -280,7 +290,7 @@ function renderBottom() {
 
 function renderBadge() {
   const badge = badgeEl();
-  const text = state.badgeText || (state.speed > 1 ? `⏩ ${state.speed}배속` : '');
+  const text = state.badgeText || (state.speed > 1 ? T.speed(state.speed) : '');
   badge.textContent = text;
   badge.classList.toggle('show', Boolean(text));
 }
@@ -342,9 +352,12 @@ function setPreviewScale(scale = 1) {
 window.renderApi = {
   async init(config) {
     state.config = config;
+    T = I18N[config.lang] || I18N.en;
+    const subtitle = document.querySelector('.brand-subtitle');
+    if (subtitle) subtitle.textContent = T.subtitle;
     setPreviewScale(Number(config.previewScale) || 1);
     document.getElementById('term-title').textContent = config.title || 'copilot — shopflow-orders';
-    state.stages = config.stages || defaultStages;
+    state.stages = config.stages || defaultStages();
     state.currentStageId = config.currentStageId ?? state.stages[0]?.id ?? null;
     state.currentAgent = config.currentAgent || '';
     state.caption = config.caption || '';

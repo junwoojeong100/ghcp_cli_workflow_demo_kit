@@ -1,0 +1,30 @@
+ [Current]  Sessions   Issues   Pull requests   Gists
+
+   find .deploy/staging/backups -maxdepth 1 -type f -name '*.db' -print && git --no-pager status --short               ┃
+                                                                                                                       ┃
+ ● Edit  Edit docs/cr/CR-2026-014/06-release-plan.md                                                                   ┃
+                                                                                                                       ┃
+ ● Staging v1.1.0 is verified at http://127.0.0.1:8101.                                                                ┃
+   Lint and all 100 tests passed; staging smoke tests passed 6/6.                                                      ┃
+   Health, customer policy, reason form and the listening process were checked.                                        ┃
+   The DB backup is present, migration 002 applied, and the v1.0.0 rollback target is retained.                        ┃
+   Production now requires human approval; the checklist confirmations remain outstanding.                             ┃
+                                                                                                                       ┃
+ $ Shell Request human approval and deploy verified v1.1.0 to production 26 lines…                                 14s ┃
+   scripts/deploy.sh production                                                                                        ┃
+ $ Shell Independently verify production health, screen, approval history, process and recovery artifacts 24 lines…    ┃
+   curl -fsS --max-time 10 http://127.0.0.1:8100/health && printf '\n' && curl -fsS --max-time 10 http://127.0.0.1:81… ┃
+                                                                                                                       ┃
+ ● Edit  Edit docs/cr/CR-2026-014/06-release-plan.md                                                                   ┃
+                                                                                                                       ┃
+ $ Shell Persist deployment results and confirm tagged code and both environments remain healthy 12 lines…             ┃
+   git --no-pager diff --check && git diff --cached --quiet && git add docs/cr/CR-2026-014/06-release-plan.md && git … ┃
+                                                                                                                       ┃
+ ● Staging and human-approved production deployment succeeded · v1.1.0 · http://127.0.0.1:8100 · Rollback:             ┃
+    scripts/deploy.sh production --rollback  (coordinate policy containment for v1.0.0).                               ┃
+                                                                                                                       ┃
+ ~/Documents/Microsoft Scout/GHCP_CLI_Demo_Kit/shopflow-orders [⎇ main%]                       Session: 268.71 AIC used
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ← open sidebar · Interactive · Manual Approval · / commands      ctrl+t show reasoning · release-manager · GPT-6.1 Sol

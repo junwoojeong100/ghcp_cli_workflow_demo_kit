@@ -1,0 +1,30 @@
+ [Current]  Sessions   Issues   Pull requests   Gists
+
+   payout processing.                                                                                                  ┃
+                                                                                                                       ┃
+ ● Edit  Create docs/cr/CR-2026-014/04-test-report.md                                                                  ┃
+                                                                                                                       ┃
+ ❯ Thought for 13s                                                                                                     ┃
+                                                                                                                       ┃
+ ● Edit  Edit tests/test_ui.py                                                                                         ┃
+                                                                                                                       ┃
+ $ Shell Validate final QA changes, coverage and report length 28 lines…                                            5s ┃
+   .venv/bin/ruff check . && .venv/bin/ruff format --check tests/test_refunds.py tests/test_ui.py tests/test_migratio… ┃
+                                                                                                                       ┃
+ PY Read test_migrations.py L1:160 (146 lines read)                                                                    ┃
+ MD Read 04-test-report.md L1:90 (74 lines read)                                                                       ┃
+                                                                                                                       ┃
+ $ Shell Commit regression tests and QA report without touching production code 13 lines…                              ┃
+   git diff --cached --quiet && git add tests/test_refunds.py tests/test_ui.py tests/test_migrations.py docs/cr/CR-20… ┃
+                                                                                                                       ┃
+ ● Added 74 regression cases; the full suite passes: 100 passed, 0 failed, 99% coverage.                               ┃
+   Covers policy boundaries, legacy cutoff, approvals, notifications/audit, UI behavior and migration compatibility.   ┃
+   Defects found: None. Production code unchanged.                                                                     ┃
+   Report:  docs/cr/CR-2026-014/04-test-report.md                                                                      ┃
+   Committed as  f33fb57 . Next stage: code-reviewer.                                                                  ┃
+                                                                                                                       ┃
+ ~/Documents/Microsoft Scout/.../shopflow-orders [⎇ feature/CR-2026-014-refund-policy%]         Session: 135.8 AIC used
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ← open sidebar · Interactive · Manual Approval · / commands          ctrl+t show reasoning · qa-engineer · GPT-6.1 Sol

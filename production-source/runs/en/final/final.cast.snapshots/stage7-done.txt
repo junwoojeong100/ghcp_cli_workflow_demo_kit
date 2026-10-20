@@ -1,0 +1,30 @@
+ [Current]  Sessions   Issues   Pull requests   Gists
+
+                                                                                                                       ┃
+ $ Shell Produce reproducible log, warning and privacy evidence without correlated DB queries 32 lines…                ┃
+   .venv/bin/python - <<'PY' import json, math, re, statistics, subprocess from collections import Counter from pathl… ┃
+                                                                                                                       ┃
+ ❯ Thought for 67s                                                                                                     ┃
+                                                                                                                       ┃
+ ● Edit  Create docs/cr/CR-2026-014/07-ops-report.md                                                                   ┃
+                                                                                                                       ┃
+ ❯ Thought for 3s                                                                                                      ┃
+                                                                                                                       ┃
+ $ Shell Verify saved report length, write scope and unchanged production inputs 6 lines…                              ┃
+   wc -l -w docs/cr/CR-2026-014/07-ops-report.md && git --no-pager diff --check && git --no-pager status --short && s… ┃
+                                                                                                                       ┃
+ MD Read 07-ops-report.md L1:58 (58 lines read)                                                                        ┃
+                                                                                                                       ┃
+ ● Saved  docs/cr/CR-2026-014/07-ops-report.md .                                                                       ┃
+   311 requests: 14.47% 4xx, zero 5xx, P95 2.6 ms; includes synthetic traffic.                                         ┃
+   Refunds: 81 approved, 25 pending (KRW 45 million), 45 HTTP 400 attempts; includes one smoke refund.                 ┃
+   Legacy 3.1 generated 20 missing-reason warnings; exception expires December 1 UTC.                                  ┃
+   No e-mail/phone patterns detected. VIP uptake and error attribution remain unverified after query denial.           ┃
+   Business decisions: backlog owner/turnaround, legacy-upgrade communication date, and NULL-tier customer             ┃
+   entitlement.                                                                                                        ┃
+                                                                                                                       ┃
+ ~/Documents/Microsoft Scout/GHCP_CLI_Demo_Kit/shopflow-orders [⎇ main%]                       Session: 339.66 AIC used
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ← open sidebar · Interactive · Manual Approval · / commands          ctrl+t show reasoning · ops-analyst · GPT-6.1 Sol

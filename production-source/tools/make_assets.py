@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
-"""최종 녹화(cast)에서 영상·클립·포스터·스틸을 만든다.
+"""Builds the video, clips, posters and stills from the final recording (cast).
 
-사용:
-  make_assets.py render      # 메인 영상 렌더 (images 마커 포함) + 클립/포스터 생성
-  make_assets.py stills      # 슬라이드용 스틸(PNG) 생성
-  make_assets.py clips       # main.mp4에서 단계별 클립·포스터만 다시 자르기
-  make_assets.py guard       # 안전장치 시연 영상(guard.mp4) + 포스터 렌더
-  make_assets.py concat      # 타이틀 + 메인 + 안전장치 + 엔딩 이어붙이기
+Language: DEMO_LANG=en (default) | ko. Inputs come from runs/<lang>/, outputs go to video/<lang>/.
+
+Usage:
+  make_assets.py render      # render the main video (incl. the 'images' markers) + step clips/posters
+  make_assets.py stills      # screenshots (PNG) used by the slides
+  make_assets.py clips       # re-cut the step clips/posters from main.mp4 only
+  make_assets.py guard       # render the guardrail-demo video (guard.mp4) + poster
+  make_assets.py concat      # title card + main + guardrail demo + ending card -> one MP4 with chapters
   make_assets.py slideclips [--src DIR] [--out DIR]
-                             # 슬라이드용 클립·포스터: 전체 화면 클립에서 상단 헤더를 잘라내 터미널 글자를 크게 (PPT 빌드 입력)
+                             # slide clips/posters: crop the header off the full-screen clips so the terminal text is larger (input of the deck build)
 """
 import argparse
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -21,9 +24,43 @@ from pathlib import Path
 SESS = Path(__file__).resolve().parents[1]  # production-source/
 TOOLS = SESS / "tools"
 RENDER = TOOLS / "render"
-RUN = SESS / "runs" / "final"
-VIDEO = SESS / "video"
-SHOTS = SESS / "shots"
+LANG = os.environ.get("DEMO_LANG", "en").lower()
+if LANG not in ("en", "ko"):
+    sys.exit(f"Unsupported DEMO_LANG={LANG} (use en or ko)")
+RUN = SESS / "runs" / LANG / "final"
+GUARD_RUN = SESS / "runs" / LANG / ("guard2" if LANG == "ko" else "guard")
+VIDEO = SESS / "video" / LANG
+SHOTS = SESS / "shots" / LANG
+# Published deliverables at the kit root: English at video/, Korean at ko/video/
+KIT_VIDEO = SESS.parent / ("ko" if LANG == "ko" else "") / "video"
+TEXT = {
+    "en": {
+        "stage7": "Operate",
+        "before": "Before · v1.0.0", "after": "After · v1.1.0",
+        "cap_customer": "Customer view — VIP Seoyun Han refunds a 45-day-old order: rejected before, accepted now (reason field added)",
+        "cap_admin": "Admin console — refunds over ₩1,000,000 now show as 'Pending approval' and are not refunded until approved",
+        "clip_names": {"stage1": "01_analysis", "stage2": "02_design", "stage3": "03_implementation", "stage4": "04_testing",
+                       "stage5": "05_review", "stage6": "06_deployment", "stage7": "07_operations", "guard": "08_guardrail_demo"},
+        "chapters": {1: "1 Analyze · change-analyst", 2: "2 Design · solution-architect (human decision · approval ①)", 3: "3 Build · app-developer",
+                     4: "4 Test · qa-engineer", 5: "5 Review · code-reviewer (human approval ②)", 6: "6 Deploy · release-manager (human approval ③)",
+                     7: "7 Operate · ops-analyst"},
+        "ch_title": "Title", "ch_result": "Result screens · Before / After", "ch_guard": "Guardrail demo · an AI that does not know the rules", "ch_end": "Wrap-up",
+        "meta_title": "GitHub Copilot CLI x Custom Agent - From requirement to operations demo",
+    },
+    "ko": {
+        "stage7": "운영",
+        "before": "Before · 변경 전 (v1.0.0)", "after": "After · 변경 후 (v1.1.0)",
+        "cap_customer": "고객 화면 — VIP 한서윤님의 45일 경과 주문 환불: 이전에는 거절, 이제 접수됩니다 (사유 입력란 추가)",
+        "cap_admin": "관리자 콘솔 — 100만원 초과 환불이 '승인 대기'로 표시되고, 승인 전에는 환불되지 않습니다",
+        "clip_names": {"stage1": "01_분석", "stage2": "02_설계", "stage3": "03_구현", "stage4": "04_테스트",
+                       "stage5": "05_리뷰", "stage6": "06_배포", "stage7": "07_운영", "guard": "08_안전장치_시연"},
+        "chapters": {1: "1 분석 · change-analyst", 2: "2 설계 · solution-architect (사람 결정·승인 ①)", 3: "3 구현 · app-developer",
+                     4: "4 테스트 · qa-engineer", 5: "5 리뷰 · code-reviewer (사람 승인 ②)", 6: "6 배포 · release-manager (사람 승인 ③)",
+                     7: "7 운영 · ops-analyst"},
+        "ch_title": "타이틀", "ch_result": "결과 화면 · Before / After", "ch_guard": "안전장치 시연 · 규칙을 모르는 AI", "ch_end": "정리",
+        "meta_title": "GitHub Copilot CLI x Custom Agent - 요건에서 운영까지 데모",
+    },
+}[LANG]
 CAST = RUN / "final.cast"
 FFMPEG = shutil.which("ffmpeg") or "/opt/homebrew/bin/ffmpeg"
 
@@ -34,7 +71,7 @@ def sh(cmd, **kw):
 
 
 def build_cast_with_images() -> Path:
-    """메인 cast 끝에 '결과 화면(before/after)' images 마커를 덧붙인다."""
+    """Appends the 'result screens (before/after)' images markers to the end of the main cast."""
     out = RUN / "final_with_images.cast"
     lines = CAST.read_text(encoding="utf-8").splitlines()
     last_t = 0.0
@@ -46,15 +83,15 @@ def build_cast_with_images() -> Path:
             pass
     t = last_t + 0.2
     markers = [
-        {"k": "stage", "id": 7, "label": "운영", "agent": "ops-analyst"},
+        {"k": "stage", "id": 7, "label": TEXT["stage7"], "agent": "ops-analyst"},
         {"k": "images", "sec": 9, "items": [
-            {"src": str(SHOTS / "crop-before-customer.png"), "label": "Before · 변경 전 (v1.0.0)"},
-            {"src": str(SHOTS / "crop-after-customer.png"), "label": "After · 변경 후 (v1.1.0)"}],
-         "caption": "고객 화면 — VIP 한서윤님의 45일 경과 주문 환불: 이전에는 거절, 이제 접수됩니다 (사유 입력란 추가)"},
+            {"src": str(SHOTS / "crop-before-customer.png"), "label": TEXT["before"]},
+            {"src": str(SHOTS / "crop-after-customer.png"), "label": TEXT["after"]}],
+         "caption": TEXT["cap_customer"]},
         {"k": "images", "sec": 8, "fit": "content", "items": [
-            {"src": str(SHOTS / "crop-before-admin.png"), "label": "Before · 변경 전 (v1.0.0)"},
-            {"src": str(SHOTS / "crop-after-admin.png"), "label": "After · 변경 후 (v1.1.0)"}],
-         "caption": "관리자 콘솔 — 100만원 초과 환불이 '승인 대기'로 표시되고, 승인 전에는 환불되지 않습니다"},
+            {"src": str(SHOTS / "crop-before-admin.png"), "label": TEXT["before"]},
+            {"src": str(SHOTS / "crop-after-admin.png"), "label": TEXT["after"]}],
+         "caption": TEXT["cap_admin"]},
         {"k": "caption", "text": ""},
     ]
     with out.open("w", encoding="utf-8") as fh:
@@ -72,7 +109,7 @@ def render_main():
 
 
 def clips():
-    """main.mp4에서 단계별 클립·포스터를 자른다 (같은 단계 구간은 합치고, 결과 화면 오버레이 구간은 제외)."""
+    """Cuts the step clips/posters out of main.mp4 (merges spans of the same stage, excludes the result-screen overlay)."""
     tl = json.loads((VIDEO / "main.mp4.timeline.json").read_text(encoding="utf-8"))
     img_starts = [sg["videoStart"] for sg in tl["segments"] if sg.get("kind") == "images"]
     cap = min(img_starts) if img_starts else None
@@ -93,8 +130,8 @@ def clips():
 
 
 def guard():
-    """안전장치 시연 영상(guard.mp4)과 슬라이드용 포스터를 만든다."""
-    sh(f'cd "{RENDER}" && node render.js --cast "{SESS}/runs/guard2/guard2.cast" --out "{VIDEO}/guard.mp4"')
+    """Renders the guardrail-demo video (guard.mp4) and the poster used by the slides."""
+    sh(f'cd "{RENDER}" && node render.js --cast "{GUARD_RUN}/{GUARD_RUN.name}.cast" --out "{VIDEO}/guard.mp4"')
     sh([FFMPEG, "-v", "error", "-y", "-ss", "27", "-i", str(VIDEO / "guard.mp4"), "-frames:v", "1", "-vf", "scale=1280:-1",
         str(VIDEO / "poster-guard.png")])
 
@@ -127,7 +164,7 @@ def concat():
             parts.append(VIDEO / f"{name}.mp4")
     lst = VIDEO / "concat.txt"
     lst.write_text("\n".join(f"file '{p}'" for p in parts) + "\n", encoding="utf-8")
-    out = VIDEO / "GHCP_CLI_Workflow_Demo_KO.mp4"
+    out = VIDEO / f"GHCP_CLI_Workflow_Demo_{LANG.upper()}.mp4"
     raw = VIDEO / "concat-raw.mp4"
     sh([FFMPEG, "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(lst), "-c:v", "libx264", "-crf", "20", "-preset", "medium",
         "-pix_fmt", "yuv420p", "-r", "30", "-movflags", "+faststart", str(raw)])
@@ -135,29 +172,28 @@ def concat():
     raw.unlink()
 
 
-# 슬라이드용 크롭: 영상 상단 헤더(제목·단계 트래커)와 바깥 여백을 잘라 터미널 창 + 하단 캡션/배너만 남긴다 (1920x1080 → 1880x968).
-# 헤더는 슬라이드가 이미 갖고 있는 정보라 필요 없고, 높이가 10% 줄어 같은 슬라이드 높이에서 영상을 더 넓게(=글자를 더 크게) 놓을 수 있다.
+# Slide crop: cut the header (title + step tracker) and the outer margin off the video, leaving the terminal window plus the bottom caption/banner (1920x1080 -> 1880x968).
+# The slide already carries the header information, and the 10% lower frame lets the video be wider (= the terminal text larger) at the same slide height.
 SLIDE_CROP = "crop=1880:968:20:92"
-KIT_CLIP_NAMES = {"stage1": "01_분석", "stage2": "02_설계", "stage3": "03_구현", "stage4": "04_테스트",
-                  "stage5": "05_리뷰", "stage6": "06_배포", "stage7": "07_운영", "guard": "08_안전장치_시연"}
+KIT_CLIP_NAMES = TEXT["clip_names"]
 
 
 def slideclips():
-    """단계별 클립(clip-stageN.mp4, guard.mp4 — 없으면 키트의 video/clips/*.mp4)에서 슬라이드용 클립과 포스터를 만든다.
-    출력: slide-stageN.mp4 · slide-poster-stageN.png · slide-guard.mp4 · slide-poster-guard.png (기본 위치: production-source/video)"""
+    """Makes the slide clips and posters from the step clips (clip-stageN.mp4, guard.mp4 — or the published clips under the kit's video/clips).
+    Output: slide-stageN.mp4 · slide-poster-stageN.png · slide-guard.mp4 · slide-poster-guard.png (default: production-source/video/<lang>)"""
     ap = argparse.ArgumentParser(prog="make_assets.py slideclips")
-    ap.add_argument("--src", default=None, help="원본 클립 폴더 (기본: production-source/video, 없으면 ../video/clips)")
-    ap.add_argument("--out", default=str(VIDEO), help="출력 폴더")
+    ap.add_argument("--src", default=None, help="source clips folder (default: production-source/video/<lang>, else the published clips at the kit root)")
+    ap.add_argument("--out", default=str(VIDEO), help="output folder")
     a = ap.parse_args(sys.argv[2:])
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    kit_clips = SESS.parent / "video" / "clips"
+    kit_clips = KIT_VIDEO / "clips"
     for key, kit_name in KIT_CLIP_NAMES.items():
         raw = "guard.mp4" if key == "guard" else f"clip-{key}.mp4"
         cands = [Path(a.src) / raw] if a.src else [VIDEO / raw, kit_clips / f"{kit_name}.mp4"]
         src = next((c for c in cands if c.exists()), None)
         if src is None:
-            sys.exit(f"원본 클립을 찾을 수 없습니다: {' 또는 '.join(map(str, cands))}")
+            sys.exit(f"Source clip not found: {' or '.join(map(str, cands))}")
         dst = out / f"slide-{key}.mp4"
         sh([FFMPEG, "-v", "error", "-y", "-i", str(src), "-an", "-vf", SLIDE_CROP, "-c:v", "libx264", "-preset", "slow", "-crf", "23",
             "-pix_fmt", "yuv420p", "-profile:v", "high", "-level", "4.0", "-movflags", "+faststart", str(dst)])
@@ -172,7 +208,7 @@ def duration(path):
 
 
 def add_chapters(src, dst):
-    """타이틀 → 7단계 → 결과 화면 → 안전장치 시연 → 정리 챕터를 MP4 메타데이터로 넣는다 (QuickTime/VLC에서 점프 가능)."""
+    """Adds chapters (title -> 7 stages -> result screens -> guardrail demo -> wrap-up) as MP4 metadata (jumpable in QuickTime/VLC)."""
     tl = json.loads((VIDEO / "main.mp4.timeline.json").read_text(encoding="utf-8"))
     first = {}
     for st in tl["stages"]:
@@ -180,13 +216,11 @@ def add_chapters(src, dst):
     img = min(sg["videoStart"] for sg in tl["segments"] if sg.get("kind") == "images")
     title_len, main_len, guard_len, end_len = 4.0, duration(VIDEO / "main.mp4"), duration(VIDEO / "guard.mp4"), 5.0
     total = title_len + main_len + guard_len + end_len
-    labels = {1: "1 분석 · change-analyst", 2: "2 설계 · solution-architect (사람 결정·승인 ①)", 3: "3 구현 · app-developer",
-              4: "4 테스트 · qa-engineer", 5: "5 리뷰 · code-reviewer (사람 승인 ②)", 6: "6 배포 · release-manager (사람 승인 ③)",
-              7: "7 운영 · ops-analyst"}
-    ch = [(0.0, "타이틀"), (title_len, labels[1])]
+    labels = TEXT["chapters"]
+    ch = [(0.0, TEXT["ch_title"]), (title_len, labels[1])]
     ch += [(first[i] + title_len, labels[i]) for i in range(2, 8)]
-    ch += [(img + title_len, "결과 화면 · Before / After"), (title_len + main_len, "안전장치 시연 · 규칙을 모르는 AI"), (total - end_len, "정리")]
-    lines = [";FFMETADATA1", "title=GitHub Copilot CLI x Custom Agent - 요건에서 운영까지 데모", ""]
+    ch += [(img + title_len, TEXT["ch_result"]), (title_len + main_len, TEXT["ch_guard"]), (total - end_len, TEXT["ch_end"])]
+    lines = [";FFMETADATA1", f"title={TEXT['meta_title']}", ""]
     for i, (t, name) in enumerate(ch):
         end = ch[i + 1][0] if i + 1 < len(ch) else total
         lines += ["[CHAPTER]", "TIMEBASE=1/1000", f"START={int(t * 1000)}", f"END={int(end * 1000)}", f"title={name}", ""]

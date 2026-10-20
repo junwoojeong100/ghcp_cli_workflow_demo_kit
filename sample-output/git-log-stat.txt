@@ -1,35 +1,33 @@
-65e1064 docs(CR-2026-014): 운영 승인과 v1.1.0 배포 결과 기록
- docs/cr/CR-2026-014/06-release-plan.md | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-00a4500 docs(CR-2026-014): v1.1.0 릴리스 계획과 staging 검증 기록
- docs/cr/CR-2026-014/06-release-plan.md | 68 ++++++++++++++++++++++++++++++++++
+18c4d06 docs(release): record v1.1.0 staging and production results
+ docs/cr/CR-2026-014/06-release-plan.md | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+7bcae49 chore(release): prepare v1.1.0 for CR-2026-014
+ VERSION                                |  2 +-
+ docs/cr/CR-2026-014/06-release-plan.md | 66 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 67 insertions(+), 1 deletion(-)
+e83ceec Merge approved CR-2026-014 refund policy
+4241067 docs(CR-2026-014): preserve approved code review report
+ docs/cr/CR-2026-014/05-review-report.md | 68 +++++++++++++++++++++++++++++++++
  1 file changed, 68 insertions(+)
-1081fda chore(CR-2026-014): 릴리스 버전 1.1.0
- VERSION | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-523f7cc merge(CR-2026-014): 승인된 환불 정책 변경 병합
-a1dda6d docs(CR-2026-014): 코드 리뷰와 승인 권고 기록
- docs/cr/CR-2026-014/05-review-report.md | 66 +++++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
-1457420 test(CR-2026-014): 환불 경계·구앱·승인 감사와 화면 독립 검증
- docs/cr/CR-2026-014/04-test-report.md |  61 +++++++++++
- tests/test_refunds.py                 | 190 ++++++++++++++++++++++++++++++++++
- tests/test_ui.py                      | 122 ++++++++++++++++++++++
- 3 files changed, 373 insertions(+)
-c65f316 feat(CR-2026-014): VIP 환불 기간과 고액 승인·사유 정책 구현
- app/main.py                                    |   3 +
- app/notifications.py                           |  19 ++-
- app/routers/orders.py                          |  22 +++-
- app/schemas.py                                 |  15 ++-
- app/services/refund_policy.py                  |  24 +++-
- app/services/refund_service.py                 |  46 +++++--
- app/static/index.html                          |  36 +++++-
- db/migrations/002_refund_reason.sql            |   1 +
- docs/cr/CR-2026-014/01-impact-analysis.md      |  77 +++++++++++
- docs/cr/CR-2026-014/02-design.md               |  70 ++++++++++
- docs/cr/CR-2026-014/03-implementation-notes.md |  55 ++++++++
- docs/policy/refund-policy.md                   |   7 +-
- tests/test_refunds.py                          | 172 ++++++++++++++++++++++---
- tests/test_seed.py                             |  42 ++++++
- tests/test_ui.py                               |   5 +-
- 15 files changed, 550 insertions(+), 44 deletions(-)
+f33fb57 test(CR-2026-014): verify refund policy and legacy compatibility
+ docs/cr/CR-2026-014/04-test-report.md |  74 +++++++
+ tests/test_migrations.py              | 146 ++++++++++++++
+ tests/test_refunds.py                 | 370 ++++++++++++++++++++++++++++++++++
+ tests/test_ui.py                      | 165 +++++++++++++++
+ 4 files changed, 755 insertions(+)
+dde25f9 feat(CR-2026-014): implement approved VIP refund policy
+ app/main.py                                    | 25 +++++++-
+ app/notifications.py                           |  5 +-
+ app/routers/orders.py                          | 20 +++++-
+ app/schemas.py                                 | 15 ++++-
+ app/services/refund_policy.py                  | 41 ++++++++++--
+ app/services/refund_service.py                 | 63 ++++++++++++++++---
+ app/static/index.html                          | 31 ++++++---
+ db/migrations/002_add_refund_reason.sql        |  2 +
+ docs/cr/CR-2026-014/01-impact-analysis.md      | 87 ++++++++++++++++++++++++++
+ docs/cr/CR-2026-014/02-design.md               | 70 +++++++++++++++++++++
+ docs/cr/CR-2026-014/03-implementation-notes.md | 50 +++++++++++++++
+ docs/policy/refund-policy.md                   |  4 +-
+ tests/test_refunds.py                          |  6 +-
+ tests/test_ui.py                               |  2 +-
+ 14 files changed, 386 insertions(+), 35 deletions(-)

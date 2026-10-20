@@ -1,61 +1,74 @@
-# CR-2026-014 테스트 보고서
+# CR-2026-014 - Test report
 
-## 1. 현업 요약
-| 항목 | 결과 |
+**Result: PASS.** 100 passed, 0 failed, 0 skipped; 74 added cases across 32 new test functions.
+Application coverage: **99%** (278/282 statements); no implementation defects observed.
+Tested implementation: `dde25f9`. Changes are limited to tests and this report; no production code/data changes.
+
+## Execution
+| Command / environment | Result |
 |---|---|
-| 판정 | 자동 검증 통과. 실제 브라우저·모바일·무중단 배포까지 검증한 판정은 아님 |
-| 검증 대상 | 구현 커밋 `c65f316`, 승인 설계의 구앱 사유 한시 예외 포함 |
-| 추가 테스트 | 11개 함수·파라미터 포함 35개 사례, 기존 테스트 파일 2개에 추가 |
-| 전체 결과 | **117 통과 / 0 실패 / 0 건너뜀** |
-| 앱 커버리지 | **99%**(도구 표시), 274문 중 270문 실행·4문 미실행 |
-| 발견 사항 | 신규 재현 구현 결함 0건. 기존 아키텍처 설명 미동기화는 별도 인계 |
-| 변경 범위 | `tests/test_refunds.py`, `tests/test_ui.py`, 본 보고서만 변경. 운영 코드는 미수정 |
+| `.venv/bin/pytest -q --cov=app --cov-report=term-missing` | Passed: 100 cases; coverage 99%. |
+| `.venv/bin/ruff check .` | Passed. |
+| `.venv/bin/ruff format tests/test_refunds.py tests/test_ui.py tests/test_migrations.py` | Passed; final run required no changes. |
+| `.venv/bin/pytest --collect-only -q` | 100 collected: refunds 77, UI 10, migrations 2, other existing tests 11. |
+| `.venv/bin/python scripts/gate.py verify design CR-2026-014` | Passed before test authoring. |
+| Runtime / isolation | macOS, Python 3.12.15, Node.js 22.16.0; temporary SQLite DBs, fixed clocks, local TestClient. |
 
-## 2. 요구사항 추적표
-테스트 이름은 각 파일에서 검색할 수 있으며, 기존 테스트와 신규 독립 검증을 함께 실행했다.
-| 요구 | 테스트 이름·위치 | 확인 내용 |
+## Requirements traceability
+Names below are exact pytest function names; parameterization supplies the individual cases.
+
+| Requirement | Test name | Verification |
 |---|---|---|
-| R1 | `test_refund_on_window_boundary_is_allowed`, `test_refund_outside_window_is_rejected` | 일반 30/31/45일, VIP 45/60/61일, NULL 등급 |
-| R1 레거시 | `test_레거시_등급은_정규화하되_원본을_보존한다` | 공백·대소문자 VIP, 미상 등급의 일반 처리, 원본 등급 보존 |
-| R2 | `test_refund_reason_validation_and_storage`, `test_사유는_공백정리후_길이를_검증하고_잘못된_입력을_저장하지_않는다` | 1/200/201자·공백·타입, 사유 저장·조회 비노출, 거절 시 부작용 없음 |
-| R2 한시 예외 | `test_missing_reason_legacy_deadline_and_warning` | 구앱 3.1~3.3 누락/null 허용, UTC 12-01 23:59:59 / 12-02 00:00 전환, 미식별 버전 거절 |
-| R2 하위호환·경고 | `test_유예중_구앱의_소액_무사유_승인은_표준출력에_경고한다`, `test_유예종료후에도_사유를_입력한_구앱은_접수할_수_있다` | 소액 예외의 WARNING, 종료 후 사유 입력 접수·예외 아님 감사 정보 |
-| R3 경계 | `test_refund_waits_for_manual_approval`, `test_고액_판정은_주문총액이_아닌_건별_요청액을_사용한다` | 1,000,000/1,000,001원, PAID/DELIVERED/SHIPPED, 대기 목록·미결정·승인 전 알림 없음 |
-| R3 통제·감사·알림 | `test_고액_결정은_감사와_알림을_한번만_남긴다`, `test_고액_무인증_결정은_대기상태와_감사이력을_바꾸지_않는다` | 승인/반려·결정 시각·행위자·단일 알림·재결정 거절, 무토큰/오토큰 거절 |
-| R3 부분 환불 | `test_반려된_고액의_예약금액은_재접수_한도에서_제외된다`, `test_승인액과_고액_대기액을_합산해_주문한도를_지킨다` | 대기액 한도 예약·반려 후 해제, 승인액+대기액 합계 한도 |
-| R4 | `test_웹_환불입력과_오류안내를_실행한다`, `test_고객화면과_양쪽_이메일과_정책문서가_동일한_정책을_안내한다` | 웹 누락 안내·전송·초기화·400/422·안전 출력, 화면/승인·반려 이메일/정책 문구 일치 |
-| 데이터 보존 | `tests/test_seed.py::test_reason_migration_preserves_data_and_legacy_inserts` | 기존 고객·주문·환불 보존, 사유 NULL, 구버전 INSERT·마이그레이션 재적용 |
+| R1 | `test_refund_window_uses_normalized_customer_tier` | VIP days 31/45/60/61; case/space variants; standard day 45; NULL/unknown day 31. |
+| R1 | `test_refund_on_day_30_is_allowed`, `test_refund_on_day_31_is_rejected` | Existing standard boundaries retained. |
+| R2 | `test_invalid_reason_is_rejected_without_writes` | Missing/null/empty/blank, length 201 and invalid types; prompt and no writes. |
+| R2 | `test_valid_reason_is_trimmed_and_persisted` | Lengths 1/200, padded 200 and SQL-like text stored safely. |
+| R2/security | `test_reason_and_customer_details_are_not_logged` | Raw reason and customer PII absent from access/application/audit logs. |
+| R2 exception | `test_legacy_reason_exception_expires_at_utc_cutoff` | All three allowed versions immediately before/at/after December 1 UTC. |
+| R2 exception | `test_unrecognized_clients_cannot_omit_reason` | Unknown/case/prefix agents, empty and missing header denied. |
+| R2 exception | `test_legacy_exception_does_not_accept_explicit_empty_reason` | Explicit null/blank is not an omission. |
+| R2 exception | `test_legacy_app_can_supply_reason_after_cutoff` | Valid legacy request still works after expiry. |
+| R2 trace | `test_accepted_legacy_omission_emits_one_safe_warning` | Exactly one WARNING; approved structured fields only. |
+| R2 trace | `test_legacy_omission_is_stored_as_null_and_audited` | NULL reason; request actor, refund link and exception marker. |
+| R2 trace | `test_legacy_warning_is_not_emitted_without_accepted_omission` | No warning for supplied reasons or rejected null. |
+| R3 | `test_high_value_threshold_applies_to_requested_amount` | KRW 999,999/1,000,000/1,000,001 and pending decision time. |
+| R3 | `test_high_value_refund_appears_in_pending_admin_list` | High-value request appears in existing REQUESTED queue. |
+| R3 | `test_pending_high_value_refund_does_not_send_approval_email` | No premature approval notification. |
+| R3 | `test_pending_high_value_refund_reserves_order_balance` | Pending amount prevents excess refunding. |
+| R3 | `test_legacy_reason_exception_does_not_bypass_high_value_approval` | Legacy omission never bypasses approval. |
+| R3 | `test_rejected_high_value_refund_releases_order_balance` | Rejection allows replacement request. |
+| R3 | `test_admin_decision_updates_high_value_refund` | Approve/reject persist status and decision timestamp. |
+| R3/audit | `test_high_value_admin_decision_is_audited` | Both admin outcomes retain actor and refund link. |
+| R3/R4 | `test_high_value_decision_email_matches_policy` | One outcome e-mail; tier periods, reason, threshold and expiry. |
+| R3/security | `test_high_value_rejection_requires_admin_authentication` | Unauthorized rejection leaves request pending. |
+| R3 | `test_shipped_refund_at_threshold_remains_pending` | Existing logistics approval remains at exactly KRW 1,000,000. |
+| Compatibility | `test_new_refund_preserves_public_response_shape` | Stored reason does not change public response fields. |
+| R4 | `test_refund_form_requires_bounded_reason` | Required labeled textarea, rendered 200-character limit and prompt. |
+| R4 | `test_customer_notice_explains_approval_and_legacy_expiry` | Both index URLs show actual policy and exception expiry. |
+| R4 | `test_published_refund_policy_matches_approved_rules` | Published policy covers all approved business rules. |
+| R2/R4 | `test_refund_form_sends_trimmed_reason` | Actual JavaScript handler sends trimmed input. |
+| R2/R4 | `test_blank_reason_is_not_submitted` | Page blocks whitespace-only submission. |
+| R3/R4 | `test_pending_refund_is_shown_as_pending_approval` | Customer receives pending label, not approval wording. |
+| R2/R4/security | `test_refund_error_is_rendered_as_text` | Business/validation errors, including HTML-like text, rendered as text. |
+| Data preservation | `test_refund_reason_migration_preserves_historical_data` | Five business tables preserved; historical reasons NULL; repeat migration safe. |
+| Old app/new DB | `test_previous_release_can_read_and_write_expanded_schema` | Complete pinned previous app reads history and writes amount-only refunds. |
 
-신규 함수 위치: `tests/test_refunds.py:251`, 웹 실행 검증 위치: `tests/test_ui.py:19`.
-기간·금액·유예 기대값은 승인된 요구에 따라 독립적으로 지정했으며 운영 정책 상수를 가져와 정답으로 사용하지 않았다.
+## Defects and coverage limits
+| Item | Finding |
+|---|---|
+| Defect list | None observed; no implementation fix or production-code modification performed. |
+| Coverage details | Policy, schema, notifications, main and routers: 100%; refund service: 98%. Uncovered: clock 7/11, config 29, refund service 27. |
+| Previous release | Fixed commit `5d2b2035f2527ee950d91dbaf6fd342fc49aebef`, not `main`; isolated subprocess imports its complete app. |
+| Compatibility boundary | Schema/old-payload compatibility verified; old code still does not enforce the new business policy and is not a policy-safe rollback. |
+| UI boundary | Real page JavaScript executed in Node with a DOM stub, not a browser. Five cases explicitly skip if Node is unavailable; none skipped here. |
 
-## 3. 실행 결과와 재현 명령
-| 구분 | 명령·방법 | 결과 |
-|---|---|---|
-| 신규 사례 우선 실행 | pytest로 신규 한국어 이름을 선택 실행 | 35 passed, 기존 70 deselected |
-| 전체 테스트·커버리지 | 아래 명령 | 117 passed, 2.84초, 커버리지 99% |
-| 전체 린트 | `.venv/bin/ruff check .` | 통과 |
-| 테스트 포맷 | `.venv/bin/ruff format --check tests` | 8 files already formatted |
-| 변경 공백 검사 | `git diff --check` | 통과 |
+## Remaining risks / pre-deployment checklist
+| Item | Status / evidence |
+|---|---|
+| Device/browser behavior and mobile advance notice | Needs confirmation; client versions are outside repository control (`docs/architecture.md:16`). |
+| Payout before approval | DB status/notification hold verified; external payment/worker behavior needs confirmation (`docs/architecture.md:8`). |
+| Uninterrupted cutover and safe recovery | Not deployed/tested; current stop/start requires operational confirmation (`scripts/deploy.sh:107`). |
+| Production tiers/data distribution | Local isolated data only; production entitlement/distribution needs confirmation (`docs/cr/CR-2026-014/01-impact-analysis.md:35`). |
+| CI history | Compatibility test requires the pinned Git object; shallow checkouts must include it (`tests/test_migrations.py:14`). |
 
-```sh
-.venv/bin/pytest -q --cov=app --cov-report=term-missing -o addopts='' --tb=short
-```
-`-o addopts=''`는 저장소의 기본 `-q` 중복을 없애 통과 수를 표시하기 위한 옵션이다.
-웹 테스트는 설치된 Node.js에서 원본 화면 스크립트를 실행하며 DOM·fetch만 대체한다. 4개 사례 모두 실행됐고 실제 브라우저 E2E는 아니다.
-Node.js가 없는 환경에서는 해당 4개 사례를 이유와 함께 건너뛰므로, 전체 통과 수와 skip 여부를 반드시 함께 확인해야 한다.
-
-## 4. 결함·미검증 항목
-| 구분 | 상태·근거 | 처리 |
-|---|---|---|
-| 신규 구현 결함 | 자동 테스트에서 재현된 실패 없음 | 운영 코드 수정 없음. 실패 사례의 숨김·xfail 처리 없음 |
-| 기존 문서 편차 DOC-01 | `docs/architecture.md:24`는 고액 승인 대기 설명 누락 | 구현 노트에 이미 인계된 문서 미동기화. 문서 담당자가 동기화 |
-| 미실행 코드 | `app/clock.py:7`의 현재 시각, 11의 today; config.py:29의 VERSION 부재, refund_service.py:22의 환불 미존재 | 4문 미실행을 공개하며 커버리지만 올리기 위한 테스트는 추가하지 않음 |
-| 실제 브라우저·앱 | 모바일 바이너리·화면 렌더링·접근성은 미검증 | 배포 전 체크리스트: 실제 UA와 사전 공지·입력 안내 확인 |
-| 외부 알림 | DB 발송 대기열까지만 검증 | 외부 발송 워커·기존 대기 이메일은 담당자 확인 |
-| 운영·무중단·롤백 | staging/production 미실행, 임시 DB만 사용 | DDL 잠금·요청 전환·정책 유지 롤백은 운영 검증 필요 |
-| UA 자가신고 | 위장 가능성은 승인 설계에 명시된 한계 | 범위 밖 인증 기능을 추가하지 않고 기존 예외 기한·경고 동작만 확인 |
-
-## 5. 다음 단계
-`code-reviewer`가 코드·본 보고서·DOC-01 및 배포 전 체크리스트를 검토하고 `05-review-report.md`를 작성한다.
-코드 승인②·staging 검증·운영 승인③ 없이 배포 단계로 넘어가지 않는다.
+Next stage: **code-reviewer**. Code approval and deployment approvals have not been requested.

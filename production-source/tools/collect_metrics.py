@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""최종 녹화 결과에서 슬라이드에 넣을 실측 수치를 모아 metrics.json 으로 저장한다."""
+"""Collects the measured numbers used on the slides from the final recording and saves them as deck/<lang>/metrics.json.
+
+Language: DEMO_LANG=en (default) | ko. Diff base git ref: BASELINE_REF (default baseline-recorded, or baseline-recorded-ko for ko).
+"""
 import json
 import os
 import re
@@ -10,9 +13,11 @@ from pathlib import Path
 
 SESS = Path(__file__).resolve().parents[1]  # production-source/
 ROOT = Path(os.environ.get("SHOPFLOW_ROOT", SESS.parent / "shopflow-orders"))
-RUN = SESS / "runs" / "final"
+LANG = os.environ.get("DEMO_LANG", "en").lower()
+BASELINE = os.environ.get("BASELINE_REF", "baseline-recorded-ko" if LANG == "ko" else "baseline-recorded")
+RUN = SESS / "runs" / LANG / "final"
 CAST = RUN / "final.cast"
-OUT = SESS / "deck" / "metrics.json"
+OUT = SESS / "deck" / LANG / "metrics.json"
 
 
 def sh(cmd, cwd=ROOT):
@@ -51,7 +56,7 @@ for i, sid in enumerate(ids):
     if aic is not None:
         prev_aic = aic
 
-# 감사 로그: 단계별 도구 호출 수 / 전체 집계
+# Audit log: tool calls per stage / overall totals
 audit = []
 for line in (ROOT / ".copilot-audit" / "audit.jsonl").read_text(encoding="utf-8").splitlines():
     try:
@@ -72,46 +77,54 @@ audit_summary = {
 }
 
 # git
-stat = sh("git diff --shortstat baseline..main").strip()
+stat = sh(f"git diff --shortstat {BASELINE}..main").strip()
 nums = [int(x) for x in re.findall(r"(\d+) (?:file|insertion|deletion)", stat)]
 files = re.search(r"(\d+) file", stat)
 ins = re.search(r"(\d+) insertion", stat)
 dele = re.search(r"(\d+) deletion", stat)
-code_stat = sh("git diff --shortstat baseline..main -- app db tests").strip()
+code_stat = sh(f"git diff --shortstat {BASELINE}..main -- app db tests").strip()
 cfiles = re.search(r"(\d+) file", code_stat)
 cins = re.search(r"(\d+) insertion", code_stat)
 cdel = re.search(r"(\d+) deletion", code_stat)
-commits = sh("git log --oneline baseline..main").strip().splitlines()
+commits = sh(f"git log --oneline {BASELINE}..main").strip().splitlines()
 git = {
     "files": int(files.group(1)) if files else 0, "insertions": int(ins.group(1)) if ins else 0, "deletions": int(dele.group(1)) if dele else 0,
     "code_files": int(cfiles.group(1)) if cfiles else 0, "code_insertions": int(cins.group(1)) if cins else 0, "code_deletions": int(cdel.group(1)) if cdel else 0,
     "commits": len(commits), "log": commits[:8],
-    "app_files": sh("git diff --name-only baseline..main -- app db").strip().splitlines(),
+    "app_files": sh(f"git diff --name-only {BASELINE}..main -- app db").strip().splitlines(),
 }
+# Build stage: the first commit after the baseline is the implementation commit (docs 01-03 plus the app/DB change)
+if commits:
+    first = commits[-1].split()[0]
+    bstat = sh(f"git diff --shortstat {BASELINE}..{first} -- app db").strip()
+    bf, bi, bd = (re.search(rf"(\d+) {w}", bstat) for w in ("file", "insertion", "deletion"))
+    git["build"] = {"commit": first, "app_files": int(bf.group(1)) if bf else 0, "app_insertions": int(bi.group(1)) if bi else 0, "app_deletions": int(bd.group(1)) if bd else 0}
 
-# 테스트
+# Tests
 out = sh("./.venv/bin/pytest --cov=app 2>&1 | tail -30")
 passed = re.search(r"(\d+) passed", out)
 cov = re.search(r"TOTAL\s+\d+\s+\d+\s+(\d+)%", out)
 tests = {"baseline": 26, "total": int(passed.group(1)) if passed else None, "coverage": int(cov.group(1)) if cov else None}
 tests["added"] = (tests["total"] - 26) if tests["total"] else None
 
-# 승인 기록
+# Approval records
 approvals = {}
 for p in sorted((ROOT / "approvals" / "CR-2026-014").glob("*.json")):
     d = json.loads(p.read_text(encoding="utf-8"))
     approvals[d["gate"]] = {"approver": d.get("approver"), "at": d.get("at"), "hash": (d.get("sha256") or d.get("code_sha256") or "")[:12]}
 
-# 산출물 줄 수
+# Lines per stage document
 docs = {}
 for p in sorted((ROOT / "docs" / "cr" / "CR-2026-014").glob("0*.md")):
     docs[p.name] = len(p.read_text(encoding="utf-8").splitlines())
 
-# 리뷰 지적 수
+# Review findings
 review = {}
 rv = (ROOT / "docs" / "cr" / "CR-2026-014" / "05-review-report.md")
 if rv.exists():
-    m = re.search(r"Blocker\s*(\d+)\s*/\s*Major\s*(\d+)\s*/\s*Minor\s*(\d+)", rv.read_text(encoding="utf-8"))
+    body = rv.read_text(encoding="utf-8")
+    # "Blocker 0 / Major 0 / Minor 1" or "0 Blocker / 0 Major / 0 Minor"
+    m = re.search(r"Blocker\s*(\d+)\s*/\s*Major\s*(\d+)\s*/\s*Minor\s*(\d+)", body) or re.search(r"(\d+)\s*Blocker\s*/\s*(\d+)\s*Major\s*/\s*(\d+)\s*Minor", body)
     if m:
         review = {"blocker": int(m.group(1)), "major": int(m.group(2)), "minor": int(m.group(3))}
 

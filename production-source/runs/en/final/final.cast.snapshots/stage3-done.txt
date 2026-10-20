@@ -1,0 +1,30 @@
+ [Current]  Sessions   Issues   Pull requests   Gists
+
+ ❯ Thought for 3s                                                                                                      ┃
+                                                                                                                       ┃
+ $ Shell Run final checks and verify approved design remains unchanged 18 lines…                                       ┃
+   .venv/bin/ruff check . && .venv/bin/ruff format --check . && .venv/bin/pytest -q && git --no-pager diff --check &&… ┃
+ $ Shell Review complete implementation diff before committing 460 lines…                                              ┃
+   git --no-pager diff -- app/main.py app/notifications.py app/routers/orders.py app/schemas.py app/services/refund_p… ┃
+                                                                                                                       ┃
+ ● Edit  Edit docs/cr/CR-2026-014/03-implementation-notes.md                                                           ┃
+                                                                                                                       ┃
+ ● The approved behavior passed the existing suite and focused boundary checks, including previous-release reads and   ┃
+   writes on the expanded schema. I’m committing the implementation and handoff notes; new regression tests and        ┃
+   browser validation remain for qa-engineer.                                                                          ┃
+                                                                                                                       ┃
+ $ Shell Commit approved implementation and CR handoff without staging approval records 14 lines…                      ┃
+   git diff --cached --quiet && git add app/main.py app/notifications.py app/routers/orders.py app/schemas.py app/ser… ┃
+                                                                                                                       ┃
+ ● Implemented and committed as  dde25f9 : 14 files, including CR documents.                                           ┃
+   VIP refunds: 60 days; standard: 30 days; amounts above KRW 1,000,000 await approval.                                ┃
+   Reasons are required, with safe warning logs for approved legacy omissions before December 1 UTC.                   ┃
+   Web, e-mails and policy aligned; nullable migration preserves historical data.                                      ┃
+   Checks passed: lint/format, 26 tests, 136 focused assertions and JavaScript checks.                                 ┃
+   Handoff:  docs/cr/CR-2026-014/03-implementation-notes.md . Next: qa-engineer; no deployment performed.              ┃
+                                                                                                                       ┃
+ ~/Documents/Microsoft Scout/.../shopflow-orders [⎇ feature/CR-2026-014-refund-policy%]         Session: 78.77 AIC used
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ← open sidebar · Interactive · Manual Approval · / commands        ctrl+t show reasoning · app-developer · GPT-6.1 Sol

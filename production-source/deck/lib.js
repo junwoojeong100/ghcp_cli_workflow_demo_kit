@@ -1,4 +1,4 @@
-// 덱 공통 라이브러리: 색상·폰트·아이콘·재사용 컴포넌트
+// Shared deck library: colors, fonts, icons, reusable components. Language comes from DEMO_LANG (en | ko); default en.
 const pptxgen = require("pptxgenjs");
 const React = require("react");
 const RDS = require("react-dom/server");
@@ -14,7 +14,9 @@ const C = {
   AMBER: "9A6700", AMBER_F: "F0B429", AMBER_L: "FFF4CC",
   RED: "CF222E", RED_L: "FFEBE9",
 };
-const FONT = "Apple SD Gothic Neo";
+const LANG = (process.env.DEMO_LANG || "en").toLowerCase();
+const KO = LANG === "ko";
+const FONT = KO ? "Apple SD Gothic Neo" : "Arial";
 const MONO = process.env.QA_FONTS ? "Menlo" : "Consolas";
 const W = 13.333;
 const H = 7.5;
@@ -41,7 +43,7 @@ function newDeck(title) {
   pptx.company = "Microsoft";
   pptx.subject = title;
   pptx.title = title;
-  pptx.lang = "ko-KR";
+  pptx.lang = KO ? "ko-KR" : "en-US";
   return pptx;
 }
 
@@ -101,7 +103,7 @@ function footer(slide, n, o = {}) {
   if (o.source) text(slide, o.source, { x: 0.6, y: 6.8, w: 12.1, h: 0.25, fontSize: 10, color: dark ? "6E7681" : C.FAINT });
 }
 
-const STEPS = ["분석", "설계", "구현", "테스트", "리뷰", "배포", "운영"];
+const STEPS = KO ? ["분석", "설계", "구현", "테스트", "리뷰", "배포", "운영"] : ["Analyze", "Design", "Build", "Test", "Review", "Deploy", "Operate"];
 // 데모 단계 트래커 (현재 단계 강조)
 function tracker(pptx, slide, current, o = {}) {
   const w = 0.92, h = 0.34, gap = 0.08;
@@ -132,4 +134,4 @@ function placeholderBox(pptx, slide, x, y, w, h, label) {
   text(slide, label, { x, y, w, h, align: "center", valign: "middle", fontSize: 14, color: C.FAINT });
 }
 
-module.exports = { pptxgen, C, FONT, MONO, W, H, shadow, icon, newDeck, text, card, pill, iconBadge, title, footer, tracker, gateBadge, placeholderBox, STEPS, nb };
+module.exports = { LANG, KO, pptxgen, C, FONT, MONO, W, H, shadow, icon, newDeck, text, card, pill, iconBadge, title, footer, tracker, gateBadge, placeholderBox, STEPS, nb };

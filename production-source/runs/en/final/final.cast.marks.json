@@ -1,0 +1,4179 @@
+[
+  {
+    "t": 0.183536,
+    "wall": 1792455593.819289,
+    "kind": "op_start",
+    "screen_hash": "a0bdb7e71846a959",
+    "index": 0,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stages_def",
+        "stages": [
+          {
+            "id": 1,
+            "label": "Analyze"
+          },
+          {
+            "id": 2,
+            "label": "Design"
+          },
+          {
+            "id": 3,
+            "label": "Build"
+          },
+          {
+            "id": 4,
+            "label": "Test"
+          },
+          {
+            "id": 5,
+            "label": "Review"
+          },
+          {
+            "id": 6,
+            "label": "Deploy"
+          },
+          {
+            "id": 7,
+            "label": "Operate"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "t": 0.185349,
+    "wall": 1792455593.821098,
+    "kind": "marker",
+    "screen_hash": "a0bdb7e71846a959",
+    "data": {
+      "k": "stages_def",
+      "stages": [
+        {
+          "id": 1,
+          "label": "Analyze"
+        },
+        {
+          "id": 2,
+          "label": "Design"
+        },
+        {
+          "id": 3,
+          "label": "Build"
+        },
+        {
+          "id": 4,
+          "label": "Test"
+        },
+        {
+          "id": 5,
+          "label": "Review"
+        },
+        {
+          "id": 6,
+          "label": "Deploy"
+        },
+        {
+          "id": 7,
+          "label": "Operate"
+        }
+      ]
+    }
+  },
+  {
+    "t": 0.192011,
+    "wall": 1792455593.8277602,
+    "kind": "op_end",
+    "screen_hash": "a0bdb7e71846a959",
+    "index": 0,
+    "op": "mark"
+  },
+  {
+    "t": 0.198387,
+    "wall": 1792455593.834136,
+    "kind": "op_start",
+    "screen_hash": "a0bdb7e71846a959",
+    "index": 1,
+    "op": "wait_for",
+    "step": {
+      "op": "wait_for",
+      "pattern": "(?m)^❯",
+      "timeout": 60
+    }
+  },
+  {
+    "t": 3.79846,
+    "wall": 1792455597.434209,
+    "kind": "op_end",
+    "screen_hash": "ff7c24f250406a7f",
+    "index": 1,
+    "op": "wait_for"
+  },
+  {
+    "t": 3.803865,
+    "wall": 1792455597.439615,
+    "kind": "op_start",
+    "screen_hash": "ff7c24f250406a7f",
+    "index": 2,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 1.5
+    }
+  },
+  {
+    "t": 5.318857,
+    "wall": 1792455598.954611,
+    "kind": "op_end",
+    "screen_hash": "b9c72fc05af41c0f",
+    "index": 2,
+    "op": "sleep"
+  },
+  {
+    "t": 5.327677,
+    "wall": 1792455598.9634292,
+    "kind": "op_start",
+    "screen_hash": "b9c72fc05af41c0f",
+    "index": 3,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 5.333819,
+    "wall": 1792455598.969568,
+    "kind": "marker",
+    "screen_hash": "b9c72fc05af41c0f",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 5.339828,
+    "wall": 1792455598.97558,
+    "kind": "op_end",
+    "screen_hash": "b9c72fc05af41c0f",
+    "index": 3,
+    "op": "mark"
+  },
+  {
+    "t": 5.347049,
+    "wall": 1792455598.982799,
+    "kind": "op_start",
+    "screen_hash": "b9c72fc05af41c0f",
+    "index": 4,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 1,
+        "label": "Analyze",
+        "agent": "change-analyst"
+      }
+    }
+  },
+  {
+    "t": 5.354089,
+    "wall": 1792455598.9898381,
+    "kind": "marker",
+    "screen_hash": "b9c72fc05af41c0f",
+    "data": {
+      "k": "stage",
+      "id": 1,
+      "label": "Analyze",
+      "agent": "change-analyst"
+    }
+  },
+  {
+    "t": 5.360036,
+    "wall": 1792455598.995785,
+    "kind": "op_end",
+    "screen_hash": "b9c72fc05af41c0f",
+    "index": 4,
+    "op": "mark"
+  },
+  {
+    "t": 5.365843,
+    "wall": 1792455599.0015922,
+    "kind": "op_start",
+    "screen_hash": "b9c72fc05af41c0f",
+    "index": 5,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "The business change request goes to the Change Analyst agent"
+      }
+    }
+  },
+  {
+    "t": 5.371068,
+    "wall": 1792455599.006817,
+    "kind": "marker",
+    "screen_hash": "b9c72fc05af41c0f",
+    "data": {
+      "k": "caption",
+      "text": "The business change request goes to the Change Analyst agent"
+    }
+  },
+  {
+    "t": 5.377476,
+    "wall": 1792455599.013225,
+    "kind": "op_end",
+    "screen_hash": "b9c72fc05af41c0f",
+    "index": 5,
+    "op": "mark"
+  },
+  {
+    "t": 5.382945,
+    "wall": 1792455599.018694,
+    "kind": "op_start",
+    "screen_hash": "b9c72fc05af41c0f",
+    "index": 6,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 6.253935,
+    "wall": 1792455599.889684,
+    "kind": "op_end",
+    "screen_hash": "724f81d2b4f994df",
+    "index": 6,
+    "op": "type"
+  },
+  {
+    "t": 6.259644,
+    "wall": 1792455599.895394,
+    "kind": "op_start",
+    "screen_hash": "724f81d2b4f994df",
+    "index": 7,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.5
+    }
+  },
+  {
+    "t": 8.775444,
+    "wall": 1792455602.411198,
+    "kind": "op_end",
+    "screen_hash": "7016e96ab97c6259",
+    "index": 7,
+    "op": "sleep"
+  },
+  {
+    "t": 8.782348,
+    "wall": 1792455602.418098,
+    "kind": "op_start",
+    "screen_hash": "7016e96ab97c6259",
+    "index": 8,
+    "op": "key",
+    "step": {
+      "op": "key",
+      "keys": [
+        "Down",
+        "Down"
+      ],
+      "delay": 0.8
+    }
+  },
+  {
+    "t": 10.52906,
+    "wall": 1792455604.164811,
+    "kind": "op_end",
+    "screen_hash": "65ae749251365718",
+    "index": 8,
+    "op": "key"
+  },
+  {
+    "t": 10.546387,
+    "wall": 1792455604.182139,
+    "kind": "op_start",
+    "screen_hash": "65ae749251365718",
+    "index": 9,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 1.5
+    }
+  },
+  {
+    "t": 12.064471,
+    "wall": 1792455605.7002308,
+    "kind": "op_end",
+    "screen_hash": "2e4e75bc12d2c81e",
+    "index": 9,
+    "op": "sleep"
+  },
+  {
+    "t": 12.081969,
+    "wall": 1792455605.717723,
+    "kind": "op_start",
+    "screen_hash": "2e4e75bc12d2c81e",
+    "index": 10,
+    "op": "key",
+    "step": {
+      "op": "key",
+      "keys": [
+        "Enter"
+      ]
+    }
+  },
+  {
+    "t": 12.286816,
+    "wall": 1792455605.9225652,
+    "kind": "op_end",
+    "screen_hash": "4eb590d7f243aa9d",
+    "index": 10,
+    "op": "key"
+  },
+  {
+    "t": 12.295888,
+    "wall": 1792455605.931638,
+    "kind": "op_start",
+    "screen_hash": "4eb590d7f243aa9d",
+    "index": 11,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 1.5
+    }
+  },
+  {
+    "t": 13.81897,
+    "wall": 1792455607.45473,
+    "kind": "op_end",
+    "screen_hash": "9dd5a011d6c4146a",
+    "index": 11,
+    "op": "sleep"
+  },
+  {
+    "t": 13.837278,
+    "wall": 1792455607.473033,
+    "kind": "op_start",
+    "screen_hash": "9dd5a011d6c4146a",
+    "index": 12,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "Analyze the impact of change request CR-2026-014 (docs/requirements/CR-2026-014.md).",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 27.149085,
+    "wall": 1792455620.784836,
+    "kind": "op_end",
+    "screen_hash": "47f0aea89aa80473",
+    "index": 12,
+    "op": "type"
+  },
+  {
+    "t": 27.166354,
+    "wall": 1792455620.8021078,
+    "kind": "op_start",
+    "screen_hash": "47f0aea89aa80473",
+    "index": 13,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Reading code, docs and real data to find the impact (waiting time is sped up)"
+      }
+    }
+  },
+  {
+    "t": 27.179533,
+    "wall": 1792455620.815283,
+    "kind": "marker",
+    "screen_hash": "47f0aea89aa80473",
+    "data": {
+      "k": "caption",
+      "text": "Reading code, docs and real data to find the impact (waiting time is sped up)"
+    }
+  },
+  {
+    "t": 27.186223,
+    "wall": 1792455620.821976,
+    "kind": "op_end",
+    "screen_hash": "47f0aea89aa80473",
+    "index": 13,
+    "op": "mark"
+  },
+  {
+    "t": 27.191888,
+    "wall": 1792455620.827639,
+    "kind": "op_start",
+    "screen_hash": "47f0aea89aa80473",
+    "index": 14,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 8
+      }
+    }
+  },
+  {
+    "t": 27.199037,
+    "wall": 1792455620.834786,
+    "kind": "marker",
+    "screen_hash": "47f0aea89aa80473",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 27.2049,
+    "wall": 1792455620.840652,
+    "kind": "op_end",
+    "screen_hash": "47f0aea89aa80473",
+    "index": 14,
+    "op": "mark"
+  },
+  {
+    "t": 27.210723,
+    "wall": 1792455620.846474,
+    "kind": "op_start",
+    "screen_hash": "47f0aea89aa80473",
+    "index": 15,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 1500,
+      "quiet": 9,
+      "handlers": [
+        {
+          "name": "decision",
+          "pattern": "Copilot needs information",
+          "anchor": "Copilot needs information",
+          "snapshot": "decision",
+          "settle": 0.8,
+          "hold": 6.0,
+          "max": 6,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "A human decides",
+              "text": "The AI offers options and a recommendation; the human makes the decision"
+            }
+          ],
+          "rules": [
+            {
+              "if": "(?i)legacy|older app|old app|mobile|app version",
+              "once": true,
+              "select": "Other \\(type",
+              "text": "Allow legacy app versions (3.1–3.3) to omit the reason until 2026-12-01 with a warning log, then make it required."
+            },
+            {
+              "keys": [
+                "Enter"
+              ]
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "Reading the analysis and company standards to draft the design (waiting time is sped up)"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "unexpected-permission",
+          "settle": 0.6,
+          "hold": 2.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 6
+        }
+      ]
+    }
+  },
+  {
+    "t": 166.904969,
+    "wall": 1792455760.5407271,
+    "kind": "op_end",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 15,
+    "op": "auto"
+  },
+  {
+    "t": 166.922268,
+    "wall": 1792455760.55802,
+    "kind": "op_start",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 16,
+    "op": "expect_file",
+    "step": {
+      "op": "expect_file",
+      "path": "docs/cr/CR-2026-014/01-impact-analysis.md",
+      "timeout": 180
+    }
+  },
+  {
+    "t": 167.035256,
+    "wall": 1792455760.671017,
+    "kind": "op_end",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 16,
+    "op": "expect_file"
+  },
+  {
+    "t": 167.045068,
+    "wall": 1792455760.680825,
+    "kind": "op_start",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 17,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "stage1-done"
+    }
+  },
+  {
+    "t": 167.054926,
+    "wall": 1792455760.69068,
+    "kind": "snapshot",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "name": "stage1-done",
+    "path": "runs/en/final/final.cast.snapshots/stage1-done.txt"
+  },
+  {
+    "t": 167.061372,
+    "wall": 1792455760.6971252,
+    "kind": "op_end",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 17,
+    "op": "snapshot"
+  },
+  {
+    "t": 167.067627,
+    "wall": 1792455760.703377,
+    "kind": "op_start",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 18,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 167.074153,
+    "wall": 1792455760.709903,
+    "kind": "marker",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 167.080371,
+    "wall": 1792455760.7161229,
+    "kind": "op_end",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 18,
+    "op": "mark"
+  },
+  {
+    "t": 167.086378,
+    "wall": 1792455760.722128,
+    "kind": "op_start",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 19,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Analysis done — impact, data anomalies and decisions needed are summarized"
+      }
+    }
+  },
+  {
+    "t": 167.093084,
+    "wall": 1792455760.728833,
+    "kind": "marker",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "data": {
+      "k": "caption",
+      "text": "Analysis done — impact, data anomalies and decisions needed are summarized"
+    }
+  },
+  {
+    "t": 167.098968,
+    "wall": 1792455760.734719,
+    "kind": "op_end",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 19,
+    "op": "mark"
+  },
+  {
+    "t": 167.104772,
+    "wall": 1792455760.740521,
+    "kind": "op_start",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 20,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 167.110405,
+    "wall": 1792455760.746155,
+    "kind": "marker",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 167.116446,
+    "wall": 1792455760.752198,
+    "kind": "op_end",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 20,
+    "op": "mark"
+  },
+  {
+    "t": 167.122412,
+    "wall": 1792455760.758162,
+    "kind": "op_start",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 21,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 167.12824,
+    "wall": 1792455760.76399,
+    "kind": "marker",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 167.133956,
+    "wall": 1792455760.769707,
+    "kind": "op_end",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 21,
+    "op": "mark"
+  },
+  {
+    "t": 167.140335,
+    "wall": 1792455760.776086,
+    "kind": "op_start",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 22,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 2,
+        "label": "Design",
+        "agent": "solution-architect"
+      }
+    }
+  },
+  {
+    "t": 167.14675,
+    "wall": 1792455760.782499,
+    "kind": "marker",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "data": {
+      "k": "stage",
+      "id": 2,
+      "label": "Design",
+      "agent": "solution-architect"
+    }
+  },
+  {
+    "t": 167.152698,
+    "wall": 1792455760.788448,
+    "kind": "op_end",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 22,
+    "op": "mark"
+  },
+  {
+    "t": 167.158381,
+    "wall": 1792455760.7941298,
+    "kind": "op_start",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 23,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "The Solution Architect agent designs it and asks a human about key decisions"
+      }
+    }
+  },
+  {
+    "t": 167.164227,
+    "wall": 1792455760.799977,
+    "kind": "marker",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "data": {
+      "k": "caption",
+      "text": "The Solution Architect agent designs it and asks a human about key decisions"
+    }
+  },
+  {
+    "t": 167.170041,
+    "wall": 1792455760.805792,
+    "kind": "op_end",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 23,
+    "op": "mark"
+  },
+  {
+    "t": 167.175836,
+    "wall": 1792455760.8115861,
+    "kind": "op_start",
+    "screen_hash": "b02f54d4bc2bdbe3",
+    "index": 24,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent solution-architect",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 170.827914,
+    "wall": 1792455764.463665,
+    "kind": "op_end",
+    "screen_hash": "ff488387e6ba07ea",
+    "index": 24,
+    "op": "type"
+  },
+  {
+    "t": 170.838822,
+    "wall": 1792455764.4745758,
+    "kind": "op_start",
+    "screen_hash": "ff488387e6ba07ea",
+    "index": 25,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 172.853544,
+    "wall": 1792455766.489304,
+    "kind": "op_end",
+    "screen_hash": "515ef9973df45424",
+    "index": 25,
+    "op": "sleep"
+  },
+  {
+    "t": 172.8637,
+    "wall": 1792455766.499451,
+    "kind": "op_start",
+    "screen_hash": "515ef9973df45424",
+    "index": 26,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "Design this based on the impact analysis. Ask me about any decisions that need to be made.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 186.980481,
+    "wall": 1792455780.616235,
+    "kind": "op_end",
+    "screen_hash": "77c6a000fcc62544",
+    "index": 26,
+    "op": "type"
+  },
+  {
+    "t": 186.998037,
+    "wall": 1792455780.633793,
+    "kind": "op_start",
+    "screen_hash": "77c6a000fcc62544",
+    "index": 27,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Reading the analysis and company standards to draft the design (waiting time is sped up)"
+      }
+    }
+  },
+  {
+    "t": 187.009775,
+    "wall": 1792455780.645525,
+    "kind": "marker",
+    "screen_hash": "77c6a000fcc62544",
+    "data": {
+      "k": "caption",
+      "text": "Reading the analysis and company standards to draft the design (waiting time is sped up)"
+    }
+  },
+  {
+    "t": 187.022495,
+    "wall": 1792455780.658249,
+    "kind": "op_end",
+    "screen_hash": "77c6a000fcc62544",
+    "index": 27,
+    "op": "mark"
+  },
+  {
+    "t": 187.030008,
+    "wall": 1792455780.66576,
+    "kind": "op_start",
+    "screen_hash": "77c6a000fcc62544",
+    "index": 28,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 8
+      }
+    }
+  },
+  {
+    "t": 187.03771,
+    "wall": 1792455780.673459,
+    "kind": "marker",
+    "screen_hash": "77c6a000fcc62544",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 187.046481,
+    "wall": 1792455780.682237,
+    "kind": "op_end",
+    "screen_hash": "77c6a000fcc62544",
+    "index": 28,
+    "op": "mark"
+  },
+  {
+    "t": 187.057163,
+    "wall": 1792455780.692916,
+    "kind": "op_start",
+    "screen_hash": "77c6a000fcc62544",
+    "index": 29,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 1500,
+      "quiet": 9,
+      "handlers": [
+        {
+          "name": "gate-design",
+          "pattern": "(?s)Hook permission request.*Design approval",
+          "snapshot": "gate-design",
+          "settle": 0.8,
+          "hold": 7.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 1,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "① Design approval",
+              "text": "The system requires approval · if the design changes after approval it is automatically invalidated"
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "Design approved — code changes are now allowed"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "decision",
+          "pattern": "Copilot needs information",
+          "anchor": "Copilot needs information",
+          "snapshot": "decision",
+          "settle": 0.8,
+          "hold": 6.0,
+          "max": 6,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "A human decides",
+              "text": "The AI offers options and a recommendation; the human makes the decision"
+            }
+          ],
+          "rules": [
+            {
+              "if": "(?i)legacy|older app|old app|mobile|app version",
+              "once": true,
+              "select": "Other \\(type",
+              "text": "Allow legacy app versions (3.1–3.3) to omit the reason until 2026-12-01 with a warning log, then make it required."
+            },
+            {
+              "keys": [
+                "Enter"
+              ]
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "Reading the analysis and company standards to draft the design (waiting time is sped up)"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "unexpected-permission",
+          "settle": 0.6,
+          "hold": 2.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 6
+        }
+      ]
+    }
+  },
+  {
+    "t": 200.997691,
+    "wall": 1792455794.633443,
+    "kind": "auto_handler",
+    "screen_hash": "5c5a6bea94a7cd21",
+    "name": "decision",
+    "count": 1
+  },
+  {
+    "t": 201.816787,
+    "wall": 1792455795.452539,
+    "kind": "marker",
+    "screen_hash": "8babc3d8c152cfe4",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 201.865897,
+    "wall": 1792455795.501648,
+    "kind": "marker",
+    "screen_hash": "8babc3d8c152cfe4",
+    "data": {
+      "k": "gate",
+      "label": "A human decides",
+      "text": "The AI offers options and a recommendation; the human makes the decision"
+    }
+  },
+  {
+    "t": 226.494335,
+    "wall": 1792455820.1300852,
+    "kind": "marker",
+    "screen_hash": "d59bc7daf75a206c",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 226.514937,
+    "wall": 1792455820.150687,
+    "kind": "marker",
+    "screen_hash": "d59bc7daf75a206c",
+    "data": {
+      "k": "caption",
+      "text": "Reading the analysis and company standards to draft the design (waiting time is sped up)"
+    }
+  },
+  {
+    "t": 226.532002,
+    "wall": 1792455820.167754,
+    "kind": "marker",
+    "screen_hash": "d59bc7daf75a206c",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 235.991992,
+    "wall": 1792455829.62775,
+    "kind": "auto_handler",
+    "screen_hash": "efb800833e115c11",
+    "name": "decision",
+    "count": 2
+  },
+  {
+    "t": 236.811145,
+    "wall": 1792455830.4468942,
+    "kind": "marker",
+    "screen_hash": "69dadd443cabcabd",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 236.822084,
+    "wall": 1792455830.457833,
+    "kind": "marker",
+    "screen_hash": "69dadd443cabcabd",
+    "data": {
+      "k": "gate",
+      "label": "A human decides",
+      "text": "The AI offers options and a recommendation; the human makes the decision"
+    }
+  },
+  {
+    "t": 243.246573,
+    "wall": 1792455836.882323,
+    "kind": "marker",
+    "screen_hash": "e9ec933eb899aae4",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 243.263587,
+    "wall": 1792455836.899337,
+    "kind": "marker",
+    "screen_hash": "e9ec933eb899aae4",
+    "data": {
+      "k": "caption",
+      "text": "Reading the analysis and company standards to draft the design (waiting time is sped up)"
+    }
+  },
+  {
+    "t": 243.273973,
+    "wall": 1792455836.909724,
+    "kind": "marker",
+    "screen_hash": "e9ec933eb899aae4",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 254.204895,
+    "wall": 1792455847.8406441,
+    "kind": "auto_handler",
+    "screen_hash": "796d7d9420f3a28f",
+    "name": "decision",
+    "count": 3
+  },
+  {
+    "t": 255.018197,
+    "wall": 1792455848.6539469,
+    "kind": "marker",
+    "screen_hash": "c8d564c15f6d5e71",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 255.032198,
+    "wall": 1792455848.667948,
+    "kind": "marker",
+    "screen_hash": "c8d564c15f6d5e71",
+    "data": {
+      "k": "gate",
+      "label": "A human decides",
+      "text": "The AI offers options and a recommendation; the human makes the decision"
+    }
+  },
+  {
+    "t": 261.464479,
+    "wall": 1792455855.100228,
+    "kind": "marker",
+    "screen_hash": "4a9a1bcda1167652",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 261.476625,
+    "wall": 1792455855.112374,
+    "kind": "marker",
+    "screen_hash": "4a9a1bcda1167652",
+    "data": {
+      "k": "caption",
+      "text": "Reading the analysis and company standards to draft the design (waiting time is sped up)"
+    }
+  },
+  {
+    "t": 261.490542,
+    "wall": 1792455855.126291,
+    "kind": "marker",
+    "screen_hash": "4a9a1bcda1167652",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 348.879534,
+    "wall": 1792455942.5152829,
+    "kind": "auto_handler",
+    "screen_hash": "f06568d3580cd697",
+    "name": "gate-design",
+    "count": 1
+  },
+  {
+    "t": 349.696637,
+    "wall": 1792455943.3323882,
+    "kind": "marker",
+    "screen_hash": "1616d129052fa2fa",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 349.705435,
+    "wall": 1792455943.341186,
+    "kind": "marker",
+    "screen_hash": "1616d129052fa2fa",
+    "data": {
+      "k": "gate",
+      "label": "① Design approval",
+      "text": "The system requires approval · if the design changes after approval it is automatically invalidated"
+    }
+  },
+  {
+    "t": 357.127534,
+    "wall": 1792455950.763283,
+    "kind": "marker",
+    "screen_hash": "fc0bab36747e24e5",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 357.135983,
+    "wall": 1792455950.771733,
+    "kind": "marker",
+    "screen_hash": "fc0bab36747e24e5",
+    "data": {
+      "k": "caption",
+      "text": "Design approved — code changes are now allowed"
+    }
+  },
+  {
+    "t": 357.143452,
+    "wall": 1792455950.779202,
+    "kind": "marker",
+    "screen_hash": "fc0bab36747e24e5",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 371.272901,
+    "wall": 1792455964.908661,
+    "kind": "op_end",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 29,
+    "op": "auto"
+  },
+  {
+    "t": 371.284884,
+    "wall": 1792455964.920637,
+    "kind": "op_start",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 30,
+    "op": "expect_file",
+    "step": {
+      "op": "expect_file",
+      "path": "approvals/CR-2026-014/design.json",
+      "timeout": 180
+    }
+  },
+  {
+    "t": 371.397754,
+    "wall": 1792455965.033513,
+    "kind": "op_end",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 30,
+    "op": "expect_file"
+  },
+  {
+    "t": 371.40974,
+    "wall": 1792455965.045496,
+    "kind": "op_start",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 31,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "stage2-done"
+    }
+  },
+  {
+    "t": 371.425436,
+    "wall": 1792455965.061194,
+    "kind": "snapshot",
+    "screen_hash": "1ec52505c3131cdd",
+    "name": "stage2-done",
+    "path": "runs/en/final/final.cast.snapshots/stage2-done.txt"
+  },
+  {
+    "t": 371.436454,
+    "wall": 1792455965.072213,
+    "kind": "op_end",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 31,
+    "op": "snapshot"
+  },
+  {
+    "t": 371.45008,
+    "wall": 1792455965.085836,
+    "kind": "op_start",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 32,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 371.462644,
+    "wall": 1792455965.0983942,
+    "kind": "marker",
+    "screen_hash": "1ec52505c3131cdd",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 371.475198,
+    "wall": 1792455965.110961,
+    "kind": "op_end",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 32,
+    "op": "mark"
+  },
+  {
+    "t": 371.487411,
+    "wall": 1792455965.123168,
+    "kind": "op_start",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 33,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Design approved — code changes are now allowed"
+      }
+    }
+  },
+  {
+    "t": 371.500472,
+    "wall": 1792455965.136221,
+    "kind": "marker",
+    "screen_hash": "1ec52505c3131cdd",
+    "data": {
+      "k": "caption",
+      "text": "Design approved — code changes are now allowed"
+    }
+  },
+  {
+    "t": 371.511943,
+    "wall": 1792455965.1477,
+    "kind": "op_end",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 33,
+    "op": "mark"
+  },
+  {
+    "t": 371.522678,
+    "wall": 1792455965.158432,
+    "kind": "op_start",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 34,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 371.532654,
+    "wall": 1792455965.1684039,
+    "kind": "marker",
+    "screen_hash": "1ec52505c3131cdd",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 371.541322,
+    "wall": 1792455965.1770802,
+    "kind": "op_end",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 34,
+    "op": "mark"
+  },
+  {
+    "t": 371.550079,
+    "wall": 1792455965.185833,
+    "kind": "op_start",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 35,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 371.558211,
+    "wall": 1792455965.193961,
+    "kind": "marker",
+    "screen_hash": "1ec52505c3131cdd",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 371.566334,
+    "wall": 1792455965.20209,
+    "kind": "op_end",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 35,
+    "op": "mark"
+  },
+  {
+    "t": 371.574799,
+    "wall": 1792455965.210551,
+    "kind": "op_start",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 36,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 3,
+        "label": "Build",
+        "agent": "app-developer"
+      }
+    }
+  },
+  {
+    "t": 371.582993,
+    "wall": 1792455965.2187421,
+    "kind": "marker",
+    "screen_hash": "1ec52505c3131cdd",
+    "data": {
+      "k": "stage",
+      "id": 3,
+      "label": "Build",
+      "agent": "app-developer"
+    }
+  },
+  {
+    "t": 371.59063,
+    "wall": 1792455965.2263858,
+    "kind": "op_end",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 36,
+    "op": "mark"
+  },
+  {
+    "t": 371.600158,
+    "wall": 1792455965.235911,
+    "kind": "op_start",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 37,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "The Developer agent implements exactly what was approved"
+      }
+    }
+  },
+  {
+    "t": 371.609028,
+    "wall": 1792455965.244777,
+    "kind": "marker",
+    "screen_hash": "1ec52505c3131cdd",
+    "data": {
+      "k": "caption",
+      "text": "The Developer agent implements exactly what was approved"
+    }
+  },
+  {
+    "t": 371.619345,
+    "wall": 1792455965.255102,
+    "kind": "op_end",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 37,
+    "op": "mark"
+  },
+  {
+    "t": 371.630277,
+    "wall": 1792455965.26603,
+    "kind": "op_start",
+    "screen_hash": "1ec52505c3131cdd",
+    "index": 38,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent app-developer",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 374.731196,
+    "wall": 1792455968.366949,
+    "kind": "op_end",
+    "screen_hash": "f70c4d655bce6670",
+    "index": 38,
+    "op": "type"
+  },
+  {
+    "t": 374.743979,
+    "wall": 1792455968.379734,
+    "kind": "op_start",
+    "screen_hash": "f70c4d655bce6670",
+    "index": 39,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 376.76237,
+    "wall": 1792455970.39813,
+    "kind": "op_end",
+    "screen_hash": "7a910109dd4f90ca",
+    "index": 39,
+    "op": "sleep"
+  },
+  {
+    "t": 376.779071,
+    "wall": 1792455970.414827,
+    "kind": "op_start",
+    "screen_hash": "7a910109dd4f90ca",
+    "index": 40,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "Implement the approved design.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 381.315807,
+    "wall": 1792455974.95156,
+    "kind": "op_end",
+    "screen_hash": "c1d597f00cf9453e",
+    "index": 40,
+    "op": "type"
+  },
+  {
+    "t": 381.334562,
+    "wall": 1792455974.970315,
+    "kind": "op_start",
+    "screen_hash": "c1d597f00cf9453e",
+    "index": 41,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Editing the DB migration, business rules, UI and e-mail text (sped up)"
+      }
+    }
+  },
+  {
+    "t": 381.34345,
+    "wall": 1792455974.9792068,
+    "kind": "marker",
+    "screen_hash": "c1d597f00cf9453e",
+    "data": {
+      "k": "caption",
+      "text": "Editing the DB migration, business rules, UI and e-mail text (sped up)"
+    }
+  },
+  {
+    "t": 381.350619,
+    "wall": 1792455974.986372,
+    "kind": "op_end",
+    "screen_hash": "c1d597f00cf9453e",
+    "index": 41,
+    "op": "mark"
+  },
+  {
+    "t": 381.357733,
+    "wall": 1792455974.993484,
+    "kind": "op_start",
+    "screen_hash": "c1d597f00cf9453e",
+    "index": 42,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 8
+      }
+    }
+  },
+  {
+    "t": 381.372436,
+    "wall": 1792455975.008186,
+    "kind": "marker",
+    "screen_hash": "c1d597f00cf9453e",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 381.379951,
+    "wall": 1792455975.0157042,
+    "kind": "op_end",
+    "screen_hash": "c1d597f00cf9453e",
+    "index": 42,
+    "op": "mark"
+  },
+  {
+    "t": 381.387301,
+    "wall": 1792455975.023051,
+    "kind": "op_start",
+    "screen_hash": "c1d597f00cf9453e",
+    "index": 43,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 1500,
+      "quiet": 9,
+      "handlers": [
+        {
+          "name": "decision",
+          "pattern": "Copilot needs information",
+          "anchor": "Copilot needs information",
+          "snapshot": "decision",
+          "settle": 0.8,
+          "hold": 6.0,
+          "max": 6,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "A human decides",
+              "text": "The AI offers options and a recommendation; the human makes the decision"
+            }
+          ],
+          "rules": [
+            {
+              "if": "(?i)legacy|older app|old app|mobile|app version",
+              "once": true,
+              "select": "Other \\(type",
+              "text": "Allow legacy app versions (3.1–3.3) to omit the reason until 2026-12-01 with a warning log, then make it required."
+            },
+            {
+              "keys": [
+                "Enter"
+              ]
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "Reading the analysis and company standards to draft the design (waiting time is sped up)"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "unexpected-permission",
+          "settle": 0.6,
+          "hold": 2.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 6
+        }
+      ]
+    }
+  },
+  {
+    "t": 788.952472,
+    "wall": 1792456382.5882292,
+    "kind": "op_end",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 43,
+    "op": "auto"
+  },
+  {
+    "t": 788.97075,
+    "wall": 1792456382.6065059,
+    "kind": "op_start",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 44,
+    "op": "expect_file",
+    "step": {
+      "op": "expect_file",
+      "path": "docs/cr/CR-2026-014/03-implementation-notes.md",
+      "timeout": 180
+    }
+  },
+  {
+    "t": 789.085334,
+    "wall": 1792456382.721098,
+    "kind": "op_end",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 44,
+    "op": "expect_file"
+  },
+  {
+    "t": 789.100683,
+    "wall": 1792456382.736442,
+    "kind": "op_start",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 45,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "stage3-done"
+    }
+  },
+  {
+    "t": 789.11773,
+    "wall": 1792456382.7534888,
+    "kind": "snapshot",
+    "screen_hash": "a370abe335fd51f0",
+    "name": "stage3-done",
+    "path": "runs/en/final/final.cast.snapshots/stage3-done.txt"
+  },
+  {
+    "t": 789.131255,
+    "wall": 1792456382.7670121,
+    "kind": "op_end",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 45,
+    "op": "snapshot"
+  },
+  {
+    "t": 789.145,
+    "wall": 1792456382.7807539,
+    "kind": "op_start",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 46,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 789.157987,
+    "wall": 1792456382.793737,
+    "kind": "marker",
+    "screen_hash": "a370abe335fd51f0",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 789.169746,
+    "wall": 1792456382.805505,
+    "kind": "op_end",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 46,
+    "op": "mark"
+  },
+  {
+    "t": 789.181358,
+    "wall": 1792456382.817111,
+    "kind": "op_start",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 47,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Implementation done — the changes are saved as commits"
+      }
+    }
+  },
+  {
+    "t": 789.192463,
+    "wall": 1792456382.828212,
+    "kind": "marker",
+    "screen_hash": "a370abe335fd51f0",
+    "data": {
+      "k": "caption",
+      "text": "Implementation done — the changes are saved as commits"
+    }
+  },
+  {
+    "t": 789.204212,
+    "wall": 1792456382.839972,
+    "kind": "op_end",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 47,
+    "op": "mark"
+  },
+  {
+    "t": 789.215778,
+    "wall": 1792456382.8515332,
+    "kind": "op_start",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 48,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 789.227374,
+    "wall": 1792456382.863124,
+    "kind": "marker",
+    "screen_hash": "a370abe335fd51f0",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 789.237973,
+    "wall": 1792456382.873726,
+    "kind": "op_end",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 48,
+    "op": "mark"
+  },
+  {
+    "t": 789.248618,
+    "wall": 1792456382.884369,
+    "kind": "op_start",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 49,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 789.259101,
+    "wall": 1792456382.894851,
+    "kind": "marker",
+    "screen_hash": "a370abe335fd51f0",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 789.267995,
+    "wall": 1792456382.9037519,
+    "kind": "op_end",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 49,
+    "op": "mark"
+  },
+  {
+    "t": 789.276445,
+    "wall": 1792456382.912197,
+    "kind": "op_start",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 50,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 4,
+        "label": "Test",
+        "agent": "qa-engineer"
+      }
+    }
+  },
+  {
+    "t": 789.285043,
+    "wall": 1792456382.920795,
+    "kind": "marker",
+    "screen_hash": "a370abe335fd51f0",
+    "data": {
+      "k": "stage",
+      "id": 4,
+      "label": "Test",
+      "agent": "qa-engineer"
+    }
+  },
+  {
+    "t": 789.293621,
+    "wall": 1792456382.929374,
+    "kind": "op_end",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 50,
+    "op": "mark"
+  },
+  {
+    "t": 789.301791,
+    "wall": 1792456382.937545,
+    "kind": "op_start",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 51,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "The Tester agent verifies independently of the developer"
+      }
+    }
+  },
+  {
+    "t": 789.309487,
+    "wall": 1792456382.945237,
+    "kind": "marker",
+    "screen_hash": "a370abe335fd51f0",
+    "data": {
+      "k": "caption",
+      "text": "The Tester agent verifies independently of the developer"
+    }
+  },
+  {
+    "t": 789.318115,
+    "wall": 1792456382.9538682,
+    "kind": "op_end",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 51,
+    "op": "mark"
+  },
+  {
+    "t": 789.326052,
+    "wall": 1792456382.961803,
+    "kind": "op_start",
+    "screen_hash": "a370abe335fd51f0",
+    "index": 52,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent qa-engineer",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 791.886288,
+    "wall": 1792456385.522039,
+    "kind": "op_end",
+    "screen_hash": "c56e76ad87575d77",
+    "index": 52,
+    "op": "type"
+  },
+  {
+    "t": 791.897251,
+    "wall": 1792456385.533005,
+    "kind": "op_start",
+    "screen_hash": "c56e76ad87575d77",
+    "index": 53,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 793.908978,
+    "wall": 1792456387.544735,
+    "kind": "op_end",
+    "screen_hash": "059e1494edbc0a0c",
+    "index": 53,
+    "op": "sleep"
+  },
+  {
+    "t": 793.919951,
+    "wall": 1792456387.555703,
+    "kind": "op_start",
+    "screen_hash": "059e1494edbc0a0c",
+    "index": 54,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "Write and run tests that verify the implemented changes.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 802.357,
+    "wall": 1792456395.992752,
+    "kind": "op_end",
+    "screen_hash": "2fee46c8e2125722",
+    "index": 54,
+    "op": "type"
+  },
+  {
+    "t": 802.381492,
+    "wall": 1792456396.017256,
+    "kind": "op_start",
+    "screen_hash": "2fee46c8e2125722",
+    "index": 55,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Writing and running boundary tests for each requirement (sped up)"
+      }
+    }
+  },
+  {
+    "t": 802.392609,
+    "wall": 1792456396.028358,
+    "kind": "marker",
+    "screen_hash": "2fee46c8e2125722",
+    "data": {
+      "k": "caption",
+      "text": "Writing and running boundary tests for each requirement (sped up)"
+    }
+  },
+  {
+    "t": 802.401796,
+    "wall": 1792456396.037567,
+    "kind": "op_end",
+    "screen_hash": "2fee46c8e2125722",
+    "index": 55,
+    "op": "mark"
+  },
+  {
+    "t": 802.410135,
+    "wall": 1792456396.0458891,
+    "kind": "op_start",
+    "screen_hash": "2fee46c8e2125722",
+    "index": 56,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 8
+      }
+    }
+  },
+  {
+    "t": 802.418856,
+    "wall": 1792456396.0546079,
+    "kind": "marker",
+    "screen_hash": "2fee46c8e2125722",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 802.42775,
+    "wall": 1792456396.063504,
+    "kind": "op_end",
+    "screen_hash": "2fee46c8e2125722",
+    "index": 56,
+    "op": "mark"
+  },
+  {
+    "t": 802.436577,
+    "wall": 1792456396.072329,
+    "kind": "op_start",
+    "screen_hash": "2fee46c8e2125722",
+    "index": 57,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 1500,
+      "quiet": 9,
+      "handlers": [
+        {
+          "name": "decision",
+          "pattern": "Copilot needs information",
+          "anchor": "Copilot needs information",
+          "snapshot": "decision",
+          "settle": 0.8,
+          "hold": 6.0,
+          "max": 6,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "A human decides",
+              "text": "The AI offers options and a recommendation; the human makes the decision"
+            }
+          ],
+          "rules": [
+            {
+              "if": "(?i)legacy|older app|old app|mobile|app version",
+              "once": true,
+              "select": "Other \\(type",
+              "text": "Allow legacy app versions (3.1–3.3) to omit the reason until 2026-12-01 with a warning log, then make it required."
+            },
+            {
+              "keys": [
+                "Enter"
+              ]
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "Reading the analysis and company standards to draft the design (waiting time is sped up)"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "unexpected-permission",
+          "settle": 0.6,
+          "hold": 2.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 6
+        }
+      ]
+    }
+  },
+  {
+    "t": 1279.626375,
+    "wall": 1792456873.262135,
+    "kind": "op_end",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 57,
+    "op": "auto"
+  },
+  {
+    "t": 1279.643833,
+    "wall": 1792456873.2795892,
+    "kind": "op_start",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 58,
+    "op": "expect_file",
+    "step": {
+      "op": "expect_file",
+      "path": "docs/cr/CR-2026-014/04-test-report.md",
+      "timeout": 180
+    }
+  },
+  {
+    "t": 1279.763805,
+    "wall": 1792456873.39957,
+    "kind": "op_end",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 58,
+    "op": "expect_file"
+  },
+  {
+    "t": 1279.781314,
+    "wall": 1792456873.417067,
+    "kind": "op_start",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 59,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "stage4-done"
+    }
+  },
+  {
+    "t": 1279.798196,
+    "wall": 1792456873.433951,
+    "kind": "snapshot",
+    "screen_hash": "4333ac12e2ad62c3",
+    "name": "stage4-done",
+    "path": "runs/en/final/final.cast.snapshots/stage4-done.txt"
+  },
+  {
+    "t": 1279.811954,
+    "wall": 1792456873.447708,
+    "kind": "op_end",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 59,
+    "op": "snapshot"
+  },
+  {
+    "t": 1279.821873,
+    "wall": 1792456873.4576252,
+    "kind": "op_start",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 60,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 1279.834208,
+    "wall": 1792456873.469957,
+    "kind": "marker",
+    "screen_hash": "4333ac12e2ad62c3",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1279.845315,
+    "wall": 1792456873.4810722,
+    "kind": "op_end",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 60,
+    "op": "mark"
+  },
+  {
+    "t": 1279.856818,
+    "wall": 1792456873.4925718,
+    "kind": "op_start",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 61,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Testing done — a report with a requirements traceability table was created"
+      }
+    }
+  },
+  {
+    "t": 1279.868241,
+    "wall": 1792456873.5039911,
+    "kind": "marker",
+    "screen_hash": "4333ac12e2ad62c3",
+    "data": {
+      "k": "caption",
+      "text": "Testing done — a report with a requirements traceability table was created"
+    }
+  },
+  {
+    "t": 1279.879422,
+    "wall": 1792456873.51518,
+    "kind": "op_end",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 61,
+    "op": "mark"
+  },
+  {
+    "t": 1279.890805,
+    "wall": 1792456873.526558,
+    "kind": "op_start",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 62,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 1279.901428,
+    "wall": 1792456873.537178,
+    "kind": "marker",
+    "screen_hash": "4333ac12e2ad62c3",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 1279.91258,
+    "wall": 1792456873.548335,
+    "kind": "op_end",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 62,
+    "op": "mark"
+  },
+  {
+    "t": 1279.92317,
+    "wall": 1792456873.558923,
+    "kind": "op_start",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 63,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 1279.933326,
+    "wall": 1792456873.5690749,
+    "kind": "marker",
+    "screen_hash": "4333ac12e2ad62c3",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1279.943362,
+    "wall": 1792456873.579116,
+    "kind": "op_end",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 63,
+    "op": "mark"
+  },
+  {
+    "t": 1279.953383,
+    "wall": 1792456873.5891368,
+    "kind": "op_start",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 64,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 5,
+        "label": "Review",
+        "agent": "code-reviewer"
+      }
+    }
+  },
+  {
+    "t": 1279.965254,
+    "wall": 1792456873.601003,
+    "kind": "marker",
+    "screen_hash": "4333ac12e2ad62c3",
+    "data": {
+      "k": "stage",
+      "id": 5,
+      "label": "Review",
+      "agent": "code-reviewer"
+    }
+  },
+  {
+    "t": 1279.976544,
+    "wall": 1792456873.612301,
+    "kind": "op_end",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 64,
+    "op": "mark"
+  },
+  {
+    "t": 1279.987409,
+    "wall": 1792456873.623162,
+    "kind": "op_start",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 65,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "The Reviewer agent checks the design, company standards and security"
+      }
+    }
+  },
+  {
+    "t": 1279.998799,
+    "wall": 1792456873.634549,
+    "kind": "marker",
+    "screen_hash": "4333ac12e2ad62c3",
+    "data": {
+      "k": "caption",
+      "text": "The Reviewer agent checks the design, company standards and security"
+    }
+  },
+  {
+    "t": 1280.011121,
+    "wall": 1792456873.646879,
+    "kind": "op_end",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 65,
+    "op": "mark"
+  },
+  {
+    "t": 1280.021202,
+    "wall": 1792456873.656954,
+    "kind": "op_start",
+    "screen_hash": "4333ac12e2ad62c3",
+    "index": 66,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent code-reviewer",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 1282.811292,
+    "wall": 1792456876.4470458,
+    "kind": "op_end",
+    "screen_hash": "9f298739975670cd",
+    "index": 66,
+    "op": "type"
+  },
+  {
+    "t": 1282.826705,
+    "wall": 1792456876.462463,
+    "kind": "op_start",
+    "screen_hash": "9f298739975670cd",
+    "index": 67,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 1284.841176,
+    "wall": 1792456878.476937,
+    "kind": "op_end",
+    "screen_hash": "a76a2aae2c969c30",
+    "index": 67,
+    "op": "sleep"
+  },
+  {
+    "t": 1284.855049,
+    "wall": 1792456878.490803,
+    "kind": "op_start",
+    "screen_hash": "a76a2aae2c969c30",
+    "index": 68,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "Review the changes. If there are no problems, request code approval.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 1294.808672,
+    "wall": 1792456888.444423,
+    "kind": "op_end",
+    "screen_hash": "743eb83aefecc013",
+    "index": 68,
+    "op": "type"
+  },
+  {
+    "t": 1294.835849,
+    "wall": 1792456888.4716039,
+    "kind": "op_start",
+    "screen_hash": "743eb83aefecc013",
+    "index": 69,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Checking the changes against the design and the security checklist (sped up)"
+      }
+    }
+  },
+  {
+    "t": 1294.846074,
+    "wall": 1792456888.481823,
+    "kind": "marker",
+    "screen_hash": "743eb83aefecc013",
+    "data": {
+      "k": "caption",
+      "text": "Checking the changes against the design and the security checklist (sped up)"
+    }
+  },
+  {
+    "t": 1294.855014,
+    "wall": 1792456888.490768,
+    "kind": "op_end",
+    "screen_hash": "743eb83aefecc013",
+    "index": 69,
+    "op": "mark"
+  },
+  {
+    "t": 1294.863055,
+    "wall": 1792456888.498807,
+    "kind": "op_start",
+    "screen_hash": "743eb83aefecc013",
+    "index": 70,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 8
+      }
+    }
+  },
+  {
+    "t": 1294.872725,
+    "wall": 1792456888.508474,
+    "kind": "marker",
+    "screen_hash": "743eb83aefecc013",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 1294.880772,
+    "wall": 1792456888.516526,
+    "kind": "op_end",
+    "screen_hash": "743eb83aefecc013",
+    "index": 70,
+    "op": "mark"
+  },
+  {
+    "t": 1294.889501,
+    "wall": 1792456888.525252,
+    "kind": "op_start",
+    "screen_hash": "743eb83aefecc013",
+    "index": 71,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 1500,
+      "quiet": 9,
+      "handlers": [
+        {
+          "name": "gate-code",
+          "pattern": "(?s)Hook permission request.*Code approval",
+          "snapshot": "gate-code",
+          "settle": 0.8,
+          "hold": 7.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 1,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "② Code approval",
+              "text": "Only code whose hash matches the approved code can be deployed"
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "Review done — a human approved the code"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "decision",
+          "pattern": "Copilot needs information",
+          "anchor": "Copilot needs information",
+          "snapshot": "decision",
+          "settle": 0.8,
+          "hold": 6.0,
+          "max": 6,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "A human decides",
+              "text": "The AI offers options and a recommendation; the human makes the decision"
+            }
+          ],
+          "rules": [
+            {
+              "if": "(?i)legacy|older app|old app|mobile|app version",
+              "once": true,
+              "select": "Other \\(type",
+              "text": "Allow legacy app versions (3.1–3.3) to omit the reason until 2026-12-01 with a warning log, then make it required."
+            },
+            {
+              "keys": [
+                "Enter"
+              ]
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "Reading the analysis and company standards to draft the design (waiting time is sped up)"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "unexpected-permission",
+          "settle": 0.6,
+          "hold": 2.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 6
+        }
+      ]
+    }
+  },
+  {
+    "t": 1503.587411,
+    "wall": 1792457097.2231622,
+    "kind": "auto_handler",
+    "screen_hash": "3e64ab25b4dd74b8",
+    "name": "gate-code",
+    "count": 1
+  },
+  {
+    "t": 1504.411009,
+    "wall": 1792457098.046759,
+    "kind": "marker",
+    "screen_hash": "3e64ab25b4dd74b8",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1504.428324,
+    "wall": 1792457098.064075,
+    "kind": "marker",
+    "screen_hash": "3e64ab25b4dd74b8",
+    "data": {
+      "k": "gate",
+      "label": "② Code approval",
+      "text": "Only code whose hash matches the approved code can be deployed"
+    }
+  },
+  {
+    "t": 1511.855947,
+    "wall": 1792457105.4916961,
+    "kind": "marker",
+    "screen_hash": "e0268269c582f267",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 1511.872008,
+    "wall": 1792457105.5077581,
+    "kind": "marker",
+    "screen_hash": "e0268269c582f267",
+    "data": {
+      "k": "caption",
+      "text": "Review done — a human approved the code"
+    }
+  },
+  {
+    "t": 1511.881477,
+    "wall": 1792457105.517229,
+    "kind": "marker",
+    "screen_hash": "e0268269c582f267",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 1527.905403,
+    "wall": 1792457121.541158,
+    "kind": "op_end",
+    "screen_hash": "d379abee45eefd46",
+    "index": 71,
+    "op": "auto"
+  },
+  {
+    "t": 1527.917982,
+    "wall": 1792457121.553735,
+    "kind": "op_start",
+    "screen_hash": "d379abee45eefd46",
+    "index": 72,
+    "op": "expect_file",
+    "step": {
+      "op": "expect_file",
+      "path": "approvals/CR-2026-014/code.json",
+      "timeout": 180
+    }
+  },
+  {
+    "t": 1528.031081,
+    "wall": 1792457121.666843,
+    "kind": "op_end",
+    "screen_hash": "d379abee45eefd46",
+    "index": 72,
+    "op": "expect_file"
+  },
+  {
+    "t": 1528.045049,
+    "wall": 1792457121.6808,
+    "kind": "op_start",
+    "screen_hash": "d379abee45eefd46",
+    "index": 73,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "stage5-done"
+    }
+  },
+  {
+    "t": 1528.058486,
+    "wall": 1792457121.69424,
+    "kind": "snapshot",
+    "screen_hash": "d379abee45eefd46",
+    "name": "stage5-done",
+    "path": "runs/en/final/final.cast.snapshots/stage5-done.txt"
+  },
+  {
+    "t": 1528.067398,
+    "wall": 1792457121.7031522,
+    "kind": "op_end",
+    "screen_hash": "d379abee45eefd46",
+    "index": 73,
+    "op": "snapshot"
+  },
+  {
+    "t": 1528.075938,
+    "wall": 1792457121.711689,
+    "kind": "op_start",
+    "screen_hash": "d379abee45eefd46",
+    "index": 74,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 1528.084169,
+    "wall": 1792457121.7199192,
+    "kind": "marker",
+    "screen_hash": "d379abee45eefd46",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1528.092602,
+    "wall": 1792457121.728352,
+    "kind": "op_end",
+    "screen_hash": "d379abee45eefd46",
+    "index": 74,
+    "op": "mark"
+  },
+  {
+    "t": 1528.101301,
+    "wall": 1792457121.7370508,
+    "kind": "op_start",
+    "screen_hash": "d379abee45eefd46",
+    "index": 75,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Review done — a human approved the code"
+      }
+    }
+  },
+  {
+    "t": 1528.109305,
+    "wall": 1792457121.745055,
+    "kind": "marker",
+    "screen_hash": "d379abee45eefd46",
+    "data": {
+      "k": "caption",
+      "text": "Review done — a human approved the code"
+    }
+  },
+  {
+    "t": 1528.117518,
+    "wall": 1792457121.753272,
+    "kind": "op_end",
+    "screen_hash": "d379abee45eefd46",
+    "index": 75,
+    "op": "mark"
+  },
+  {
+    "t": 1528.125613,
+    "wall": 1792457121.761363,
+    "kind": "op_start",
+    "screen_hash": "d379abee45eefd46",
+    "index": 76,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 1528.132673,
+    "wall": 1792457121.768422,
+    "kind": "marker",
+    "screen_hash": "d379abee45eefd46",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 1528.140044,
+    "wall": 1792457121.775794,
+    "kind": "op_end",
+    "screen_hash": "d379abee45eefd46",
+    "index": 76,
+    "op": "mark"
+  },
+  {
+    "t": 1528.147212,
+    "wall": 1792457121.782961,
+    "kind": "op_start",
+    "screen_hash": "d379abee45eefd46",
+    "index": 77,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 1528.154256,
+    "wall": 1792457121.790005,
+    "kind": "marker",
+    "screen_hash": "d379abee45eefd46",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1528.161303,
+    "wall": 1792457121.7970529,
+    "kind": "op_end",
+    "screen_hash": "d379abee45eefd46",
+    "index": 77,
+    "op": "mark"
+  },
+  {
+    "t": 1528.16807,
+    "wall": 1792457121.8038201,
+    "kind": "op_start",
+    "screen_hash": "d379abee45eefd46",
+    "index": 78,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 6,
+        "label": "Deploy",
+        "agent": "release-manager"
+      }
+    }
+  },
+  {
+    "t": 1528.175239,
+    "wall": 1792457121.81099,
+    "kind": "marker",
+    "screen_hash": "d379abee45eefd46",
+    "data": {
+      "k": "stage",
+      "id": 6,
+      "label": "Deploy",
+      "agent": "release-manager"
+    }
+  },
+  {
+    "t": 1528.183796,
+    "wall": 1792457121.819547,
+    "kind": "op_end",
+    "screen_hash": "d379abee45eefd46",
+    "index": 78,
+    "op": "mark"
+  },
+  {
+    "t": 1528.191864,
+    "wall": 1792457121.827614,
+    "kind": "op_start",
+    "screen_hash": "d379abee45eefd46",
+    "index": 79,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "The Release Manager agent prepares merge → staging → production"
+      }
+    }
+  },
+  {
+    "t": 1528.198963,
+    "wall": 1792457121.834712,
+    "kind": "marker",
+    "screen_hash": "d379abee45eefd46",
+    "data": {
+      "k": "caption",
+      "text": "The Release Manager agent prepares merge → staging → production"
+    }
+  },
+  {
+    "t": 1528.206208,
+    "wall": 1792457121.84196,
+    "kind": "op_end",
+    "screen_hash": "d379abee45eefd46",
+    "index": 79,
+    "op": "mark"
+  },
+  {
+    "t": 1528.213452,
+    "wall": 1792457121.849202,
+    "kind": "op_start",
+    "screen_hash": "d379abee45eefd46",
+    "index": 80,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent release-manager",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 1531.326273,
+    "wall": 1792457124.962025,
+    "kind": "op_end",
+    "screen_hash": "495e3cf269375e71",
+    "index": 80,
+    "op": "type"
+  },
+  {
+    "t": 1531.342156,
+    "wall": 1792457124.97791,
+    "kind": "op_start",
+    "screen_hash": "495e3cf269375e71",
+    "index": 81,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 1533.361702,
+    "wall": 1792457126.9974642,
+    "kind": "op_end",
+    "screen_hash": "5bb7c87e8f047147",
+    "index": 81,
+    "op": "sleep"
+  },
+  {
+    "t": 1533.376936,
+    "wall": 1792457127.0126898,
+    "kind": "op_start",
+    "screen_hash": "5bb7c87e8f047147",
+    "index": 82,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "Merge into main, deploy to staging and verify, then proceed to the production deployment.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 1546.790181,
+    "wall": 1792457140.425932,
+    "kind": "op_end",
+    "screen_hash": "bade92e411022cb8",
+    "index": 82,
+    "op": "type"
+  },
+  {
+    "t": 1546.808023,
+    "wall": 1792457140.443775,
+    "kind": "op_start",
+    "screen_hash": "bade92e411022cb8",
+    "index": 83,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Merge · release plan · staging deploy · smoke test (sped up)"
+      }
+    }
+  },
+  {
+    "t": 1546.81604,
+    "wall": 1792457140.4517891,
+    "kind": "marker",
+    "screen_hash": "bade92e411022cb8",
+    "data": {
+      "k": "caption",
+      "text": "Merge · release plan · staging deploy · smoke test (sped up)"
+    }
+  },
+  {
+    "t": 1546.823604,
+    "wall": 1792457140.4593558,
+    "kind": "op_end",
+    "screen_hash": "bade92e411022cb8",
+    "index": 83,
+    "op": "mark"
+  },
+  {
+    "t": 1546.831476,
+    "wall": 1792457140.467228,
+    "kind": "op_start",
+    "screen_hash": "bade92e411022cb8",
+    "index": 84,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 8
+      }
+    }
+  },
+  {
+    "t": 1546.839671,
+    "wall": 1792457140.47542,
+    "kind": "marker",
+    "screen_hash": "bade92e411022cb8",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 1546.847548,
+    "wall": 1792457140.4833002,
+    "kind": "op_end",
+    "screen_hash": "bade92e411022cb8",
+    "index": 84,
+    "op": "mark"
+  },
+  {
+    "t": 1546.856292,
+    "wall": 1792457140.492043,
+    "kind": "op_start",
+    "screen_hash": "bade92e411022cb8",
+    "index": 85,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 1500,
+      "quiet": 9,
+      "handlers": [
+        {
+          "name": "gate-prod",
+          "pattern": "(?s)Hook permission request.*Production deploy approval",
+          "snapshot": "gate-prod",
+          "settle": 0.8,
+          "hold": 7.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 1,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "③ Production deploy approval",
+              "text": "Production is deployed only after a human approves (enforced by a hook)"
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "Production deployment done — the rollback method is ready"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "decision",
+          "pattern": "Copilot needs information",
+          "anchor": "Copilot needs information",
+          "snapshot": "decision",
+          "settle": 0.8,
+          "hold": 6.0,
+          "max": 6,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "A human decides",
+              "text": "The AI offers options and a recommendation; the human makes the decision"
+            }
+          ],
+          "rules": [
+            {
+              "if": "(?i)legacy|older app|old app|mobile|app version",
+              "once": true,
+              "select": "Other \\(type",
+              "text": "Allow legacy app versions (3.1–3.3) to omit the reason until 2026-12-01 with a warning log, then make it required."
+            },
+            {
+              "keys": [
+                "Enter"
+              ]
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "Reading the analysis and company standards to draft the design (waiting time is sped up)"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "unexpected-permission",
+          "settle": 0.6,
+          "hold": 2.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 6
+        }
+      ]
+    }
+  },
+  {
+    "t": 1713.624332,
+    "wall": 1792457307.2600808,
+    "kind": "auto_handler",
+    "screen_hash": "eba90c761201d86e",
+    "name": "gate-prod",
+    "count": 1
+  },
+  {
+    "t": 1714.447269,
+    "wall": 1792457308.083019,
+    "kind": "marker",
+    "screen_hash": "47b73d8a5245b3d8",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1714.45948,
+    "wall": 1792457308.095229,
+    "kind": "marker",
+    "screen_hash": "47b73d8a5245b3d8",
+    "data": {
+      "k": "gate",
+      "label": "③ Production deploy approval",
+      "text": "Production is deployed only after a human approves (enforced by a hook)"
+    }
+  },
+  {
+    "t": 1721.88558,
+    "wall": 1792457315.521332,
+    "kind": "marker",
+    "screen_hash": "422a0511f82d7872",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 1721.916407,
+    "wall": 1792457315.5521579,
+    "kind": "marker",
+    "screen_hash": "422a0511f82d7872",
+    "data": {
+      "k": "caption",
+      "text": "Production deployment done — the rollback method is ready"
+    }
+  },
+  {
+    "t": 1721.934281,
+    "wall": 1792457315.5700328,
+    "kind": "marker",
+    "screen_hash": "422a0511f82d7872",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 1780.240055,
+    "wall": 1792457373.875815,
+    "kind": "op_end",
+    "screen_hash": "e83b201f1117e250",
+    "index": 85,
+    "op": "auto"
+  },
+  {
+    "t": 1780.255262,
+    "wall": 1792457373.891017,
+    "kind": "op_start",
+    "screen_hash": "e83b201f1117e250",
+    "index": 86,
+    "op": "expect_file",
+    "step": {
+      "op": "expect_file",
+      "path": "approvals/CR-2026-014/production.json",
+      "timeout": 180
+    }
+  },
+  {
+    "t": 1780.373024,
+    "wall": 1792457374.0087838,
+    "kind": "op_end",
+    "screen_hash": "e83b201f1117e250",
+    "index": 86,
+    "op": "expect_file"
+  },
+  {
+    "t": 1780.389065,
+    "wall": 1792457374.0248199,
+    "kind": "op_start",
+    "screen_hash": "e83b201f1117e250",
+    "index": 87,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "stage6-done"
+    }
+  },
+  {
+    "t": 1780.405956,
+    "wall": 1792457374.041713,
+    "kind": "snapshot",
+    "screen_hash": "e83b201f1117e250",
+    "name": "stage6-done",
+    "path": "runs/en/final/final.cast.snapshots/stage6-done.txt"
+  },
+  {
+    "t": 1780.419742,
+    "wall": 1792457374.0554938,
+    "kind": "op_end",
+    "screen_hash": "e83b201f1117e250",
+    "index": 87,
+    "op": "snapshot"
+  },
+  {
+    "t": 1780.430357,
+    "wall": 1792457374.066108,
+    "kind": "op_start",
+    "screen_hash": "e83b201f1117e250",
+    "index": 88,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 1780.443307,
+    "wall": 1792457374.079057,
+    "kind": "marker",
+    "screen_hash": "e83b201f1117e250",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1780.453106,
+    "wall": 1792457374.0888598,
+    "kind": "op_end",
+    "screen_hash": "e83b201f1117e250",
+    "index": 88,
+    "op": "mark"
+  },
+  {
+    "t": 1780.463684,
+    "wall": 1792457374.099435,
+    "kind": "op_start",
+    "screen_hash": "e83b201f1117e250",
+    "index": 89,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Production deployment done — the rollback method is ready"
+      }
+    }
+  },
+  {
+    "t": 1780.474544,
+    "wall": 1792457374.110293,
+    "kind": "marker",
+    "screen_hash": "e83b201f1117e250",
+    "data": {
+      "k": "caption",
+      "text": "Production deployment done — the rollback method is ready"
+    }
+  },
+  {
+    "t": 1780.48419,
+    "wall": 1792457374.119939,
+    "kind": "op_end",
+    "screen_hash": "e83b201f1117e250",
+    "index": 89,
+    "op": "mark"
+  },
+  {
+    "t": 1780.493462,
+    "wall": 1792457374.129211,
+    "kind": "op_start",
+    "screen_hash": "e83b201f1117e250",
+    "index": 90,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 1780.504816,
+    "wall": 1792457374.140565,
+    "kind": "marker",
+    "screen_hash": "e83b201f1117e250",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 1780.515732,
+    "wall": 1792457374.151484,
+    "kind": "op_end",
+    "screen_hash": "e83b201f1117e250",
+    "index": 90,
+    "op": "mark"
+  },
+  {
+    "t": 1780.526429,
+    "wall": 1792457374.1621802,
+    "kind": "op_start",
+    "screen_hash": "e83b201f1117e250",
+    "index": 91,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 1780.535582,
+    "wall": 1792457374.1713312,
+    "kind": "marker",
+    "screen_hash": "e83b201f1117e250",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1780.543751,
+    "wall": 1792457374.1795042,
+    "kind": "op_end",
+    "screen_hash": "e83b201f1117e250",
+    "index": 91,
+    "op": "mark"
+  },
+  {
+    "t": 1780.552385,
+    "wall": 1792457374.1881359,
+    "kind": "op_start",
+    "screen_hash": "e83b201f1117e250",
+    "index": 92,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 7,
+        "label": "Operate",
+        "agent": "ops-analyst"
+      }
+    }
+  },
+  {
+    "t": 1780.560505,
+    "wall": 1792457374.196254,
+    "kind": "marker",
+    "screen_hash": "e83b201f1117e250",
+    "data": {
+      "k": "stage",
+      "id": 7,
+      "label": "Operate",
+      "agent": "ops-analyst"
+    }
+  },
+  {
+    "t": 1780.57035,
+    "wall": 1792457374.206104,
+    "kind": "op_end",
+    "screen_hash": "e83b201f1117e250",
+    "index": 92,
+    "op": "mark"
+  },
+  {
+    "t": 1780.579351,
+    "wall": 1792457374.215103,
+    "kind": "op_start",
+    "screen_hash": "e83b201f1117e250",
+    "index": 93,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "(Demo) Sending one day of refund traffic to production"
+      }
+    }
+  },
+  {
+    "t": 1780.588995,
+    "wall": 1792457374.224745,
+    "kind": "marker",
+    "screen_hash": "e83b201f1117e250",
+    "data": {
+      "k": "caption",
+      "text": "(Demo) Sending one day of refund traffic to production"
+    }
+  },
+  {
+    "t": 1780.598111,
+    "wall": 1792457374.233862,
+    "kind": "op_end",
+    "screen_hash": "e83b201f1117e250",
+    "index": 93,
+    "op": "mark"
+  },
+  {
+    "t": 1780.60791,
+    "wall": 1792457374.2436612,
+    "kind": "op_start",
+    "screen_hash": "e83b201f1117e250",
+    "index": 94,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "!.venv/bin/python scripts/simulate_traffic.py http://127.0.0.1:8100 --count 150",
+      "cps": 14,
+      "enter": true
+    }
+  },
+  {
+    "t": 1791.10296,
+    "wall": 1792457384.738712,
+    "kind": "op_end",
+    "screen_hash": "537516f9946d365b",
+    "index": 94,
+    "op": "type"
+  },
+  {
+    "t": 1791.114085,
+    "wall": 1792457384.749841,
+    "kind": "op_start",
+    "screen_hash": "537516f9946d365b",
+    "index": 95,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 12
+    }
+  },
+  {
+    "t": 1803.126417,
+    "wall": 1792457396.762172,
+    "kind": "op_end",
+    "screen_hash": "fe5af373174d2103",
+    "index": 95,
+    "op": "sleep"
+  },
+  {
+    "t": 1803.14062,
+    "wall": 1792457396.776375,
+    "kind": "op_start",
+    "screen_hash": "fe5af373174d2103",
+    "index": 96,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 1803.159614,
+    "wall": 1792457396.795365,
+    "kind": "marker",
+    "screen_hash": "fe5af373174d2103",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 1803.179445,
+    "wall": 1792457396.8152058,
+    "kind": "op_end",
+    "screen_hash": "fe5af373174d2103",
+    "index": 96,
+    "op": "mark"
+  },
+  {
+    "t": 1803.19619,
+    "wall": 1792457396.8319428,
+    "kind": "op_start",
+    "screen_hash": "fe5af373174d2103",
+    "index": 97,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 7,
+        "label": "Operate",
+        "agent": "ops-analyst"
+      }
+    }
+  },
+  {
+    "t": 1803.214836,
+    "wall": 1792457396.850587,
+    "kind": "marker",
+    "screen_hash": "fe5af373174d2103",
+    "data": {
+      "k": "stage",
+      "id": 7,
+      "label": "Operate",
+      "agent": "ops-analyst"
+    }
+  },
+  {
+    "t": 1803.22777,
+    "wall": 1792457396.8635268,
+    "kind": "op_end",
+    "screen_hash": "fe5af373174d2103",
+    "index": 97,
+    "op": "mark"
+  },
+  {
+    "t": 1803.243739,
+    "wall": 1792457396.879491,
+    "kind": "op_start",
+    "screen_hash": "fe5af373174d2103",
+    "index": 98,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "The Ops Analyst agent analyzes production logs and the DB, read-only"
+      }
+    }
+  },
+  {
+    "t": 1803.259476,
+    "wall": 1792457396.895225,
+    "kind": "marker",
+    "screen_hash": "fe5af373174d2103",
+    "data": {
+      "k": "caption",
+      "text": "The Ops Analyst agent analyzes production logs and the DB, read-only"
+    }
+  },
+  {
+    "t": 1803.273719,
+    "wall": 1792457396.909473,
+    "kind": "op_end",
+    "screen_hash": "fe5af373174d2103",
+    "index": 98,
+    "op": "mark"
+  },
+  {
+    "t": 1803.288524,
+    "wall": 1792457396.9242759,
+    "kind": "op_start",
+    "screen_hash": "fe5af373174d2103",
+    "index": 99,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent ops-analyst",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 1806.052009,
+    "wall": 1792457399.687765,
+    "kind": "op_end",
+    "screen_hash": "5ee58bd95d470e1b",
+    "index": 99,
+    "op": "type"
+  },
+  {
+    "t": 1806.131492,
+    "wall": 1792457399.767245,
+    "kind": "op_start",
+    "screen_hash": "5ee58bd95d470e1b",
+    "index": 100,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 1808.251867,
+    "wall": 1792457401.887624,
+    "kind": "op_end",
+    "screen_hash": "12a6874a8ef4b833",
+    "index": 100,
+    "op": "sleep"
+  },
+  {
+    "t": 1808.299534,
+    "wall": 1792457401.935288,
+    "kind": "op_start",
+    "screen_hash": "12a6874a8ef4b833",
+    "index": 101,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "Analyze the production logs and DB and write an operations report.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 1818.48532,
+    "wall": 1792457412.121073,
+    "kind": "op_end",
+    "screen_hash": "149d08b1f32b7c9f",
+    "index": 101,
+    "op": "type"
+  },
+  {
+    "t": 1818.504298,
+    "wall": 1792457412.14005,
+    "kind": "op_start",
+    "screen_hash": "149d08b1f32b7c9f",
+    "index": 102,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Aggregating production logs and the DB (sped up)"
+      }
+    }
+  },
+  {
+    "t": 1818.522415,
+    "wall": 1792457412.158164,
+    "kind": "marker",
+    "screen_hash": "149d08b1f32b7c9f",
+    "data": {
+      "k": "caption",
+      "text": "Aggregating production logs and the DB (sped up)"
+    }
+  },
+  {
+    "t": 1818.539323,
+    "wall": 1792457412.175076,
+    "kind": "op_end",
+    "screen_hash": "149d08b1f32b7c9f",
+    "index": 102,
+    "op": "mark"
+  },
+  {
+    "t": 1818.54866,
+    "wall": 1792457412.184412,
+    "kind": "op_start",
+    "screen_hash": "149d08b1f32b7c9f",
+    "index": 103,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 8
+      }
+    }
+  },
+  {
+    "t": 1818.561366,
+    "wall": 1792457412.197116,
+    "kind": "marker",
+    "screen_hash": "149d08b1f32b7c9f",
+    "data": {
+      "k": "speed",
+      "x": 8
+    }
+  },
+  {
+    "t": 1818.571629,
+    "wall": 1792457412.2073832,
+    "kind": "op_end",
+    "screen_hash": "149d08b1f32b7c9f",
+    "index": 103,
+    "op": "mark"
+  },
+  {
+    "t": 1818.580979,
+    "wall": 1792457412.2167308,
+    "kind": "op_start",
+    "screen_hash": "149d08b1f32b7c9f",
+    "index": 104,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 1500,
+      "quiet": 9,
+      "handlers": [
+        {
+          "name": "decision",
+          "pattern": "Copilot needs information",
+          "anchor": "Copilot needs information",
+          "snapshot": "decision",
+          "settle": 0.8,
+          "hold": 6.0,
+          "max": 6,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "A human decides",
+              "text": "The AI offers options and a recommendation; the human makes the decision"
+            }
+          ],
+          "rules": [
+            {
+              "if": "(?i)legacy|older app|old app|mobile|app version",
+              "once": true,
+              "select": "Other \\(type",
+              "text": "Allow legacy app versions (3.1–3.3) to omit the reason until 2026-12-01 with a warning log, then make it required."
+            },
+            {
+              "keys": [
+                "Enter"
+              ]
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "gate_end"
+            },
+            {
+              "k": "caption",
+              "text": "Reading the analysis and company standards to draft the design (waiting time is sped up)"
+            },
+            {
+              "k": "speed",
+              "x": 8
+            }
+          ]
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "unexpected-permission",
+          "settle": 0.6,
+          "hold": 2.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 6
+        }
+      ]
+    }
+  },
+  {
+    "t": 2281.843253,
+    "wall": 1792457875.479012,
+    "kind": "op_end",
+    "screen_hash": "877e3052118ad12c",
+    "index": 104,
+    "op": "auto"
+  },
+  {
+    "t": 2281.86317,
+    "wall": 1792457875.498924,
+    "kind": "op_start",
+    "screen_hash": "877e3052118ad12c",
+    "index": 105,
+    "op": "expect_file",
+    "step": {
+      "op": "expect_file",
+      "path": "docs/cr/CR-2026-014/07-ops-report.md",
+      "timeout": 180
+    }
+  },
+  {
+    "t": 2281.981505,
+    "wall": 1792457875.617265,
+    "kind": "op_end",
+    "screen_hash": "877e3052118ad12c",
+    "index": 105,
+    "op": "expect_file"
+  },
+  {
+    "t": 2282.00173,
+    "wall": 1792457875.6374831,
+    "kind": "op_start",
+    "screen_hash": "877e3052118ad12c",
+    "index": 106,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "stage7-done"
+    }
+  },
+  {
+    "t": 2282.017786,
+    "wall": 1792457875.6535392,
+    "kind": "snapshot",
+    "screen_hash": "877e3052118ad12c",
+    "name": "stage7-done",
+    "path": "runs/en/final/final.cast.snapshots/stage7-done.txt"
+  },
+  {
+    "t": 2282.033857,
+    "wall": 1792457875.669612,
+    "kind": "op_end",
+    "screen_hash": "877e3052118ad12c",
+    "index": 106,
+    "op": "snapshot"
+  },
+  {
+    "t": 2282.047479,
+    "wall": 1792457875.68323,
+    "kind": "op_start",
+    "screen_hash": "877e3052118ad12c",
+    "index": 107,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 2282.06044,
+    "wall": 1792457875.696189,
+    "kind": "marker",
+    "screen_hash": "877e3052118ad12c",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 2282.071267,
+    "wall": 1792457875.707016,
+    "kind": "op_end",
+    "screen_hash": "877e3052118ad12c",
+    "index": 107,
+    "op": "mark"
+  },
+  {
+    "t": 2282.082299,
+    "wall": 1792457875.718048,
+    "kind": "op_start",
+    "screen_hash": "877e3052118ad12c",
+    "index": 108,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Operations report done — decisions for the business team are listed"
+      }
+    }
+  },
+  {
+    "t": 2282.093138,
+    "wall": 1792457875.728887,
+    "kind": "marker",
+    "screen_hash": "877e3052118ad12c",
+    "data": {
+      "k": "caption",
+      "text": "Operations report done — decisions for the business team are listed"
+    }
+  },
+  {
+    "t": 2282.103934,
+    "wall": 1792457875.7396832,
+    "kind": "op_end",
+    "screen_hash": "877e3052118ad12c",
+    "index": 108,
+    "op": "mark"
+  },
+  {
+    "t": 2282.114345,
+    "wall": 1792457875.750093,
+    "kind": "op_start",
+    "screen_hash": "877e3052118ad12c",
+    "index": 109,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 2282.125719,
+    "wall": 1792457875.761469,
+    "kind": "marker",
+    "screen_hash": "877e3052118ad12c",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 2282.135231,
+    "wall": 1792457875.770983,
+    "kind": "op_end",
+    "screen_hash": "877e3052118ad12c",
+    "index": 109,
+    "op": "mark"
+  },
+  {
+    "t": 2282.142788,
+    "wall": 1792457875.778538,
+    "kind": "op_start",
+    "screen_hash": "877e3052118ad12c",
+    "index": 110,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "final"
+    }
+  },
+  {
+    "t": 2282.15156,
+    "wall": 1792457875.7873092,
+    "kind": "snapshot",
+    "screen_hash": "877e3052118ad12c",
+    "name": "final",
+    "path": "runs/en/final/final.cast.snapshots/final.txt"
+  },
+  {
+    "t": 2282.158646,
+    "wall": 1792457875.794395,
+    "kind": "op_end",
+    "screen_hash": "877e3052118ad12c",
+    "index": 110,
+    "op": "snapshot"
+  },
+  {
+    "t": 2282.166032,
+    "wall": 1792457875.801781,
+    "kind": "op_start",
+    "screen_hash": "877e3052118ad12c",
+    "index": 111,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "The session's total AI usage (credits) is shown at the bottom of the screen"
+      }
+    }
+  },
+  {
+    "t": 2282.172914,
+    "wall": 1792457875.8086631,
+    "kind": "marker",
+    "screen_hash": "877e3052118ad12c",
+    "data": {
+      "k": "caption",
+      "text": "The session's total AI usage (credits) is shown at the bottom of the screen"
+    }
+  },
+  {
+    "t": 2282.179707,
+    "wall": 1792457875.815456,
+    "kind": "op_end",
+    "screen_hash": "877e3052118ad12c",
+    "index": 111,
+    "op": "mark"
+  },
+  {
+    "t": 2282.186482,
+    "wall": 1792457875.822231,
+    "kind": "op_start",
+    "screen_hash": "877e3052118ad12c",
+    "index": 112,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 6
+      }
+    }
+  },
+  {
+    "t": 2282.193194,
+    "wall": 1792457875.828942,
+    "kind": "marker",
+    "screen_hash": "877e3052118ad12c",
+    "data": {
+      "k": "hold",
+      "sec": 6
+    }
+  },
+  {
+    "t": 2282.199876,
+    "wall": 1792457875.835625,
+    "kind": "op_end",
+    "screen_hash": "877e3052118ad12c",
+    "index": 112,
+    "op": "mark"
+  },
+  {
+    "t": 2282.207024,
+    "wall": 1792457875.842773,
+    "kind": "op_start",
+    "screen_hash": "877e3052118ad12c",
+    "index": 113,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": ""
+      }
+    }
+  },
+  {
+    "t": 2282.214033,
+    "wall": 1792457875.849782,
+    "kind": "marker",
+    "screen_hash": "877e3052118ad12c",
+    "data": {
+      "k": "caption",
+      "text": ""
+    }
+  },
+  {
+    "t": 2282.220939,
+    "wall": 1792457875.856688,
+    "kind": "op_end",
+    "screen_hash": "877e3052118ad12c",
+    "index": 113,
+    "op": "mark"
+  }
+]

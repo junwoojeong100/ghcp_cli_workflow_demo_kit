@@ -1,0 +1,30 @@
+ [Current]  Sessions   Issues   Pull requests   Gists
+
+                                                                                                                       ┃
+ $ Shell Request human approval and deploy verified v1.1.0 to production                                               ┃
+   scripts/deploy.sh production                                                                                        ┃
+                                                                                                                       ┃
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Hook permission request                                                                                              │
+│ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────── │
+│ ③ Production deploy approval — This deploys to the production environment and directly affects the live service, so  │
+│ explicit approval from the owner is required. (The script re-verifies the staging smoke test and the code approval   │
+│ record.)                                                                                                             │
+│                                                                                                                      │
+│                                                                                                                      │
+│ ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮ │
+│ │ Tool: bash                                                                                                       │ │
+│ │ Args: {                                                                                                          │ │
+│ │   "command": "scripts/deploy.sh production",                                                                     │ │
+│ │   "description": "Request human approval and deploy verified v1.1.0 to production",                              │ │
+│ │   "initial_wait": 120                                                                                            │ │
+│ │ }                                                                                                                │ │
+│ ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯ │
+│                                                                                                                      │
+│ Do you want to allow this tool call?                                                                                 │
+│                                                                                                                      │
+│ ❯ 1. Yes                                                                                                             │
+│   2. No (Esc to stop)                                                                                                │
+│                                                                                                                      │
+│ ↑/↓ to navigate · enter to select · esc to cancel                                                                    │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯

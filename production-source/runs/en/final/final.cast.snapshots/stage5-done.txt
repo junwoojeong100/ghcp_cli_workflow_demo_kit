@@ -1,0 +1,30 @@
+ [Current]  Sessions   Issues   Pull requests   Gists
+
+ $ Shell Explain reviewer restriction and summarize recommendation before approval 4 lines…                            ┃
+   printf '%s\n' 'Reviewer permissions blocked the report commit; the saved report remains uncommitted.' 'Review: Rec… ┃
+ $ Shell Request human code approval for reviewed CR-2026-014 3 lines…                                              8s ┃
+   .venv/bin/python scripts/gate.py request code CR-2026-014                                                           ┃
+ $ Shell Verify code approval integrity and retained review report 3 lines…                                            ┃
+   .venv/bin/python scripts/gate.py verify code CR-2026-014 && git --no-pager status --short                           ┃
+                                                                                                                       ┃
+ ● Recommend approval — 0 Blocker / 0 Major / 0 Minor. Design, security and migration checks passed.                   ┃
+                                                                                                                       ┃
+   ┌────────────────────────────────────────────────────┬──────────┬──────┬───────┬────────────────────┬────────────┐  ┃
+   │ #                                                  │ Severity │ File │ Lines │ Vulnerability      │ Confidence │  ┃
+   ├────────────────────────────────────────────────────┼──────────┼──────┼───────┼────────────────────┼────────────┤  ┃
+   │ -                                                  │ -        │ -    │ -     │ No introduced      │ -          │  ┃
+   │                                                    │          │      │       │ vulnerabilities    │            │  ┃
+   │                                                    │          │      │       │ found              │            │  ┃
+   ├────────────────────────────────────────────────────┼──────────┼──────┼───────┼────────────────────┼────────────┤  ┃
+   │ Saved docs/cr/CR-2026-014/05-review-report.md;     │          │      │       │                    │            │  ┃
+   │ reviewer permissions blocked committing it.        │          │      │       │                    │            │  ┃
+   ├────────────────────────────────────────────────────┼──────────┼──────┼───────┼────────────────────┼────────────┤  ┃
+   │ ② Code approval recorded and verified — Gildong    │          │      │       │                    │            │  ┃
+   │ Hong (Ops Lead). Next: release-manager.            │          │      │       │                    │            │  ┃
+   └────────────────────────────────────────────────────┴──────────┴──────┴───────┴────────────────────┴────────────┘  ┃
+                                                                                                                       ┃
+ ~/Documents/Microsoft Scout/.../shopflow-orders [⎇ feature/CR-2026-014-refund-policy%]        Session: 203.79 AIC used
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ← open sidebar · Interactive · Manual Approval · / commands        ctrl+t show reasoning · code-reviewer · GPT-6.1 Sol

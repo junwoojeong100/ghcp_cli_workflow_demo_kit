@@ -1,28 +1,33 @@
 # macOS
 .DS_Store
 
-# 의존성 · 가상환경 · 캐시 (npm install / venv 로 다시 만듭니다)
+# Dependencies, virtual environments, caches (recreated by npm install / venv)
 node_modules/
 .venv/
 __pycache__/
 *.pyc
 
-# 시연 대상 앱은 별도 저장소(ghcp_cli_workflow_shopflow_orders) — 이 폴더 안에 'shopflow-orders' 이름으로 clone 해서 씁니다
+# The demo app is a separate repository (ghcp_cli_workflow_shopflow_orders): clone it into this folder as 'shopflow-orders'
 /shopflow-orders/
 
-# 완성본(저장소 루트의 GHCP_CLI_Workflow_Demo_KO.pptx 와 video/)만 추적합니다.
-# 빌드·렌더 중에 생기는 중간 산출물(덱 빌드 결과 *.pptx, production-source/video/ 아래 영상·프레임)과 압축본은 제외합니다.
+# Track only the finished deliverables: English at the repo root (GHCP_CLI_Workflow_Demo_EN.pptx, video/),
+# Korean under ko/ (ko/GHCP_CLI_Workflow_Demo_KO.pptx, ko/video/). Build/render intermediates and archives stay ignored.
 *.pptx
-!/GHCP_CLI_Workflow_Demo_KO.pptx
+!/GHCP_CLI_Workflow_Demo_EN.pptx
+!/ko/GHCP_CLI_Workflow_Demo_KO.pptx
 *.zip
-/production-source/video/*
-!/production-source/video/.gitkeep
-!/production-source/video/card-title.png
-!/production-source/video/card-end.png
+/production-source/video/*/*
+!/production-source/video/*/card-title.png
+!/production-source/video/*/card-end.png
 
-# make_assets.py 가 runs/final 에 만드는 중간 생성물
-/production-source/runs/final/stills-spec.json
-/production-source/runs/final/final_with_images.cast
+# Recorder/launcher logs and failed-attempt snapshots
+/production-source/runs/*/*.rec.log
+/production-source/runs/*/launch.out
+/production-source/runs/*/*/*.snapshots/timeout-*
 
-# 녹화용 Copilot 프로필: 로그인 · 세션 기록이 쌓이는 폴더라 절대 커밋하지 않습니다
+# Intermediates that make_assets.py writes into runs/<lang>/final
+/production-source/runs/*/final/stills-spec.json
+/production-source/runs/*/final/final_with_images.cast
+
+# Recording Copilot profile: holds login state and session history, never commit it
 /production-source/copilot-home/

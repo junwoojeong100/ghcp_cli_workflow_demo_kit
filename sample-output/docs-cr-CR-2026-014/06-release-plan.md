@@ -1,68 +1,70 @@
-# CR-2026-014 릴리스 계획
+# CR-2026-014 - Release plan
 
-## 1. 현업용 릴리스 노트
-| 항목 | 내용·고객 영향 |
+**Release: v1.1.0.** Approved feature merged into local main; tag v1.1.0 at `7bcae49`; no push.
+Deployment order: staging verification, then human-approved production deployment.
+
+## Business release notes
+| Change | Customer impact |
 |---|---|
-| 버전 | **1.1.0**, main 병합 `523f7cc`, 버전 커밋 `1081fda`, 태그 `v1.1.0` |
-| 기간 | 일반 30일 유지, VIP 60일로 확대. 시행 전 구매 주문도 신규 접수에는 적용 |
-| 사유 | 앞뒤 공백 제외 1~200자 입력. 구앱 3.1~3.3은 2026-12-01 UTC까지 누락 허용·경고, 이후 필수 |
-| 고액 | 건별 요청액 1,000,000원 초과는 관리자 승인 대기. 승인 전 환불·승인 이메일 없음 |
-| 안내 | 고객 화면·승인/반려 이메일·정책 문구 동기화. 입력 불가능한 구앱은 웹 접수 안내 |
-| 데이터 | 사유 컬럼만 NULL 허용 확장. 과거 고객·주문·환불과 사유 미수집 이력은 유지 |
+| VIP refunds | VIP customers have 60 days; standard customers retain 30 days, inclusive UTC dates. |
+| Required reason | Trimmed 1-200-character reason supports audit/root-cause analysis. |
+| Temporary compatibility | Exact mobile 3.1-3.3 clients may omit reason before 2026-12-01 00:00 UTC; warnings/audit record omissions. User-Agent spoofability was accepted in design. |
+| High-value approval | Requested amount above KRW 1,000,000 waits for admin approval; exactly that amount does not trigger this rule. Existing delivery approval remains. |
+| Clear policy | Customer web, approved/rejected e-mails and policy reflect the same rules. Legacy clients need updated reason collection by expiry. |
 
-## 2. 배포 순서
-| 순서 | 작업 | 결과·상태 |
-|---|---|---|
-| 1 | 코드 승인② 유효 확인, 전체 린트·테스트 | 유효, 린트 통과·117 passed |
-| 2 | 기능 브랜치 main에 --no-ff 병합, 다음 마이너 버전 커밋·태그 | 완료. 원격 push 없음 |
-| 3 | `scripts/deploy.sh staging` | v1.1.0 배포·헬스 정상, staging 기록 유효 |
-| 4 | staging 기본 스모크·신규 정책 추가 검증 | 기본 6/6·신규 정책 8/8, 승인/알림 재확인 포함 |
-| 5 | staging 결과 안내 후 `scripts/deploy.sh production` | 사람 승인③을 거쳐 운영 배포 성공 |
-| 6 | 운영 헬스·스모크·DB 확인, 결과 기록 | v1.1.0 헬스 정상·기본 스모크 6/6·002 적용·기존 행 보존·백업/현재 DB 무결성 ok |
-
-추가 staging 검증: VIP/일반 구매 45일 차이, 웹 무사유 거절·구앱 예외 경고, 정확히 100만원 자동 승인·초과 대기, 관리자 승인 전후 알림.
-추가 검증 중 승인 응답 직후 외부 DB 알림 건수 조회가 먼저 끝나 최초 1회 실패했다. 재확인에서 승인 상태·알림 반영을 확인했으며, 별도 재검증도 즉시 5건→3초 제한 내 6건으로 단일 증가했다.
-이 타이밍 차이를 숨기지 않고 기록한다. 앱 코드는 변경하지 않았으며, 승인/알림 반영 완료와 웹 안내까지 다시 확인해 추가 검증을 완료했다.
-운영에는 별도 업무 요청을 직접 생성하지 않고, 배포 스크립트의 표준 스모크만 사용한다.
-표준 스모크는 환경마다 **점검 주문 1건·환불 1건(1,000원)**을 API로 생성한다.
-
-## 3. DB 백업·마이그레이션
-| 항목 | 절차·확인 |
+## Deployment order and database handling
+| Step | Action |
 |---|---|
-| 배포 전 상태 | staging/production 모두 v1.0.0·001_init·무결성 ok; 고객 12·주문 20·환불 2·감사 0·알림 0건 |
-| 백업 | 스크립트가 `.deploy/<env>/backups/orders-<시각>.db` 생성. 배포 후 백업과 현재 DB를 읽기 전용 무결성 검사 |
-| 확장 | `002_refund_reason`: reason TEXT NULL 허용 추가. 001 수정·행 삭제·가짜 사유 보완 없음 |
-| 전환·축소 | 새 서버 교체 후 정책 적용, 유예 종료는 UTC 날짜로 자동 판정. 이번 릴리스에 축소 없음 |
-| 보존 확인 | 기존 건수와 스모크 증가분, 기존 환불 reason=NULL, 002 적용 기록·무결성 확인 |
+| 1 | Verify code approval; run `.venv/bin/ruff check .` and `.venv/bin/pytest -q`. |
+| 2 | Merge feature into main with --no-ff; bump VERSION 1.0.0 -> 1.1.0, commit and create local tag v1.1.0. |
+| 3 | Run `scripts/deploy.sh staging`; require health v1.1.0 and successful smoke tests. |
+| 4 | Present staging results; run `scripts/deploy.sh production` through the human production-approval prompt. No bypass or direct approval-record edits. |
+| 5 | Verify production health/version, smoke results and deployment record; record results below. |
+| Backup | Script copies each environment DB to `.deploy/<env>/backups/orders-<timestamp>.db` before migration; record actual backup paths after deployment. |
+| Expand | Script applies new `002_add_refund_reason` before switching code; nullable reason preserves old rows/writers. Existing migration 001 is unchanged. |
+| Switch/contract | Deploy new code; retain nullable column permanently for history. No backfill, deletion, destructive contract or manual production-data edit. |
+| Verification basis | Full suite passed: 100 cases. QA coverage: 99%; migration and pinned previous-app compatibility passed. |
 
-## 4. 롤백 방법과 제한
-기술적 코드 복귀 명령: `scripts/deploy.sh staging --rollback` / `scripts/deploy.sh production --rollback`.
-스크립트는 previous 릴리스로 복귀하며 DB 컬럼·신규 접수 행은 유지한다. 과거 DB 백업을 통째로 덮어써 신규 접수를 유실시키지 않는다.
-현재 직전 릴리스는 1.0.0으로 VIP·사유·고액 통제를 충족하지 못한다. **자동·수동 코드 복귀는 새 정책의 유지까지 보장하지 않는다.**
-따라서 정책을 유지하는 검증본으로 복귀하거나 수정 배포를 우선한다. 1.0.0 복귀의 정책 후퇴는 운영 담당자가 위험을 확인해야 하며 무조건 실행하지 않는다.
-배포 검증 실패 시 스크립트의 자동 복귀 결과와 헬스를 먼저 확인하고 실패 상태를 그대로 보고한다.
-
-## 5. 모니터링·배포 전 체크리스트
-| 담당·구분 | 확인 요청·관측 항목 | 근거 |
-|---|---|---|
-| 운영 | 현행 stop/start는 일시 중단 가능. 실제 무중단 전환·DDL 잠금·정책 유지 롤백본 확인 요청 | `scripts/deploy.sh:107` |
-| 앱·QA | 실제 UA·브라우저·사전 공지·2026-12-02 UTC부터 웹 대체 접수 안내 확인 요청 | `docs/cr/CR-2026-014/04-test-report.md:54` |
-| 알림·도구 | 외부 발송 워커·기존 이메일 대기열·보호된 트래픽 도구 확인 요청 | `docs/cr/CR-2026-014/02-design.md:64` |
-| 문서 | DOC-01 아키텍처 설명 동기화 요청 | `docs/architecture.md:24` |
-| 관측 | /health 버전·5xx·DB 잠금, REASON_REQUIRED·LEGACY_REASON_MISSING, 고액 REQUESTED·승인 전 알림 0, 승인 감사 누락 | `app/services/refund_service.py:58` |
-
-외부 확인은 배포 전 체크리스트로 안내하며 별도 차단 게이트를 추가하지 않는다. 이번 작업에서 무중단·실앱·실제 메일 발송까지 검증했다고 주장하지 않는다.
-
-## 6. 승인 이력
-| 단계 | 기록 |
+## Rollback method
+| Environment | Command / limitation |
 |---|---|
-| 설계① | 홍길동 책임(운영 담당), 2026-10-16 15:40:08 +09:00, 유효 |
-| 코드② | 홍길동 책임(운영 담당), 2026-10-16 15:55:24 +09:00, 병합·VERSION 변경 후에도 코드 해시 유효 |
-| staging | system, 2026-10-16 15:58:23 +09:00, 스모크 통과·검증 기록 유효 |
-| 운영③ | production 스크립트로 사람 승인 후 배포 완료. 기록: 홍길동 책임(운영 담당), 2026-10-16 16:01:11 +09:00 |
+| Staging | `scripts/deploy.sh staging --rollback` |
+| Production | `scripts/deploy.sh production --rollback` |
+| Data safety | Script rollback changes the release symlink, not the DB; retain expanded schema and all new records. Do not restore a stale backup over later writes. |
+| Policy safety | Previous v1.0.0 code omits reasons and can auto-approve high amounts. Owner must confirm containment/recovery before using it for refund writes; schema compatibility is not policy-safe rollback. |
+| Recovery | Keep DB backup for owner-managed recovery/reconciliation if required; no direct restore/data change performed by this release. |
 
-## 7. 배포 결과
-| 환경 | 버전·URL | 배포·스모크·DB 결과 | 백업·릴리스 |
+## Monitoring points
+| Signal | Watch |
+|---|---|
+| Availability/version | `/health`, correct environment/version, response failures during switch; current script uses stop/start, not verified zero downtime. |
+| Refund errors | 400/422 rates, required-reason prompts and legacy client impact. |
+| Compatibility | Structured legacy warnings/audit marker; exception stops at 2026-12-01 00:00 UTC. |
+| Approval control | High-value pending queue and age, admin decisions, no approval e-mail before decision; external payout confirmation below. |
+| Audit/data | Request/decision trace links, reason persistence, unchanged historical records; never log raw reasons or customer PII. |
+
+## Approval history
+| Gate | Record / status |
+|---|---|
+| Design ① | Gildong Hong (Ops Lead), 2026-10-20 09:25:50 +09:00; integrity verified. |
+| Code ② | Gildong Hong (Ops Lead), 2026-10-20 09:45:05 +09:00; integrity verified after merge. |
+| Staging | System verification recorded 2026-10-20 09:47:37 +09:00; smoke 6/6; integrity verified. |
+| Production ③ | Human-approved deployment; Gildong Hong (Ops Lead), record 2026-10-20 09:48:41 +09:00; smoke 6/6. |
+
+## Pre-deployment checklist (copied from approved design)
+Pre-deployment checklist: Needs confirmation - uninterrupted cutover/recovery; current script stops first (`scripts/deploy.sh:107`).
+Pre-deployment checklist: Needs confirmation - actual mobile agents, advance notice and missing-reason UX (`docs/architecture.md:16`).
+Pre-deployment checklist: Needs confirmation - external payout respects pending; worker is external (`docs/architecture.md:8`).
+Pre-deployment checklist: Needs confirmation - production distributions/NULL entitlement; local-only evidence (`docs/cr/CR-2026-014/01-impact-analysis.md:35`).
+
+Human confirmation requested in release conversation; no confirmation inferred. These remain checklist items, not additional deployment gates.
+
+## Deployment result
+| Environment | Version / URL | Result | Backup / migration |
 |---|---|---|---|
-| staging | **1.1.0** · http://127.0.0.1:8101 | 성공, 기본 6/6·추가 8/8. 002 적용·기존 행 보존·무결성 ok. 고객 12·주문 27·환불 8·감사 8·알림 6 | 백업 `orders-20261016-155821.db`, 릴리스 `20261016-155820-v1.1.0` |
-| production | **1.1.0** · http://127.0.0.1:8100 | 성공, 기본 6/6. 002 적용·기존 행 보존·무결성 ok. 고객 12·주문 21·환불 3·감사 1·알림 1 | 백업 `orders-20261016-160110.db`, 릴리스 `20261016-160110-v1.1.0` |
+| Staging | v1.1.0 / http://127.0.0.1:8101 | Success; smoke 6/6; independent health/UI checks; process listening. | `.deploy/staging/backups/orders-20261020-094735.db`; 002 applied. |
+| Production | v1.1.0 / http://127.0.0.1:8100 | Success after human approval; smoke 6/6; independent health/UI checks; process listening. | `.deploy/production/backups/orders-20261020-094840.db`; 002 applied. |
+
+Deployed folders: staging `20261020-094735-v1.1.0`; production `20261020-094839-v1.1.0`.
+Both previous-release links retain v1.0.0. No rollback, database restoration or git push performed.
+Checklist confirmations remain unverified; deployment success does not establish zero downtime or external payment behavior.

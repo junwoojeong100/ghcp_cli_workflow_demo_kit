@@ -1,0 +1,1459 @@
+[
+  {
+    "t": 0.181868,
+    "wall": 1792459084.72992,
+    "kind": "op_start",
+    "screen_hash": "a0bdb7e71846a959",
+    "index": 0,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stages_def",
+        "stages": [
+          {
+            "id": 1,
+            "label": "Edit code before approval"
+          },
+          {
+            "id": 2,
+            "label": "Edit a standards document"
+          },
+          {
+            "id": 3,
+            "label": "Run a dangerous command"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "t": 0.183975,
+    "wall": 1792459084.732024,
+    "kind": "marker",
+    "screen_hash": "a0bdb7e71846a959",
+    "data": {
+      "k": "stages_def",
+      "stages": [
+        {
+          "id": 1,
+          "label": "Edit code before approval"
+        },
+        {
+          "id": 2,
+          "label": "Edit a standards document"
+        },
+        {
+          "id": 3,
+          "label": "Run a dangerous command"
+        }
+      ]
+    }
+  },
+  {
+    "t": 0.191647,
+    "wall": 1792459084.739696,
+    "kind": "op_end",
+    "screen_hash": "a0bdb7e71846a959",
+    "index": 0,
+    "op": "mark"
+  },
+  {
+    "t": 0.198835,
+    "wall": 1792459084.746885,
+    "kind": "op_start",
+    "screen_hash": "a0bdb7e71846a959",
+    "index": 1,
+    "op": "wait_for",
+    "step": {
+      "op": "wait_for",
+      "pattern": "(?m)^❯",
+      "timeout": 60
+    }
+  },
+  {
+    "t": 1.436584,
+    "wall": 1792459085.984633,
+    "kind": "op_end",
+    "screen_hash": "6f89d022660a25c0",
+    "index": 1,
+    "op": "wait_for"
+  },
+  {
+    "t": 1.442404,
+    "wall": 1792459085.990453,
+    "kind": "op_start",
+    "screen_hash": "6f89d022660a25c0",
+    "index": 2,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 1.5
+    }
+  },
+  {
+    "t": 2.951498,
+    "wall": 1792459087.499549,
+    "kind": "op_end",
+    "screen_hash": "4f050c5b9fdd3d25",
+    "index": 2,
+    "op": "sleep"
+  },
+  {
+    "t": 2.96177,
+    "wall": 1792459087.50982,
+    "kind": "op_start",
+    "screen_hash": "4f050c5b9fdd3d25",
+    "index": 3,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 2.969072,
+    "wall": 1792459087.517121,
+    "kind": "marker",
+    "screen_hash": "4f050c5b9fdd3d25",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 2.97592,
+    "wall": 1792459087.5239701,
+    "kind": "op_end",
+    "screen_hash": "4f050c5b9fdd3d25",
+    "index": 3,
+    "op": "mark"
+  },
+  {
+    "t": 2.984037,
+    "wall": 1792459087.5320861,
+    "kind": "op_start",
+    "screen_hash": "4f050c5b9fdd3d25",
+    "index": 4,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 1,
+        "label": "Edit code before approval",
+        "agent": "quick-fixer"
+      }
+    }
+  },
+  {
+    "t": 2.991262,
+    "wall": 1792459087.5393112,
+    "kind": "marker",
+    "screen_hash": "4f050c5b9fdd3d25",
+    "data": {
+      "k": "stage",
+      "id": 1,
+      "label": "Edit code before approval",
+      "agent": "quick-fixer"
+    }
+  },
+  {
+    "t": 2.997722,
+    "wall": 1792459087.5457711,
+    "kind": "op_end",
+    "screen_hash": "4f050c5b9fdd3d25",
+    "index": 4,
+    "op": "mark"
+  },
+  {
+    "t": 3.003387,
+    "wall": 1792459087.551436,
+    "kind": "op_start",
+    "screen_hash": "4f050c5b9fdd3d25",
+    "index": 5,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "We tell an agent that does not know the rules to 'change the code without approval'"
+      }
+    }
+  },
+  {
+    "t": 3.009474,
+    "wall": 1792459087.557523,
+    "kind": "marker",
+    "screen_hash": "4f050c5b9fdd3d25",
+    "data": {
+      "k": "caption",
+      "text": "We tell an agent that does not know the rules to 'change the code without approval'"
+    }
+  },
+  {
+    "t": 3.015279,
+    "wall": 1792459087.563328,
+    "kind": "op_end",
+    "screen_hash": "4f050c5b9fdd3d25",
+    "index": 5,
+    "op": "mark"
+  },
+  {
+    "t": 3.021277,
+    "wall": 1792459087.5693262,
+    "kind": "op_start",
+    "screen_hash": "4f050c5b9fdd3d25",
+    "index": 6,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent quick-fixer",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 5.547723,
+    "wall": 1792459090.0957718,
+    "kind": "op_end",
+    "screen_hash": "e6561f150087414e",
+    "index": 6,
+    "op": "type"
+  },
+  {
+    "t": 5.56132,
+    "wall": 1792459090.10937,
+    "kind": "op_start",
+    "screen_hash": "e6561f150087414e",
+    "index": 7,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 7.573736,
+    "wall": 1792459092.1217952,
+    "kind": "op_end",
+    "screen_hash": "fad2b4a961bfcdc8",
+    "index": 7,
+    "op": "sleep"
+  },
+  {
+    "t": 7.591111,
+    "wall": 1792459092.139165,
+    "kind": "op_start",
+    "screen_hash": "fad2b4a961bfcdc8",
+    "index": 8,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "Change the 30-day constant in app/services/refund_policy.py to 60.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 17.514396,
+    "wall": 1792459102.062447,
+    "kind": "op_end",
+    "screen_hash": "d5cd4272e15b1358",
+    "index": 8,
+    "op": "type"
+  },
+  {
+    "t": 17.530228,
+    "wall": 1792459102.0782819,
+    "kind": "op_start",
+    "screen_hash": "d5cd4272e15b1358",
+    "index": 9,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "When the AI tries to change the code without approval…"
+      }
+    }
+  },
+  {
+    "t": 17.537656,
+    "wall": 1792459102.0857081,
+    "kind": "marker",
+    "screen_hash": "d5cd4272e15b1358",
+    "data": {
+      "k": "caption",
+      "text": "When the AI tries to change the code without approval…"
+    }
+  },
+  {
+    "t": 17.543839,
+    "wall": 1792459102.091891,
+    "kind": "op_end",
+    "screen_hash": "d5cd4272e15b1358",
+    "index": 9,
+    "op": "mark"
+  },
+  {
+    "t": 17.550021,
+    "wall": 1792459102.098072,
+    "kind": "op_start",
+    "screen_hash": "d5cd4272e15b1358",
+    "index": 10,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 6
+      }
+    }
+  },
+  {
+    "t": 17.556821,
+    "wall": 1792459102.1048698,
+    "kind": "marker",
+    "screen_hash": "d5cd4272e15b1358",
+    "data": {
+      "k": "speed",
+      "x": 6
+    }
+  },
+  {
+    "t": 17.563975,
+    "wall": 1792459102.112028,
+    "kind": "op_end",
+    "screen_hash": "d5cd4272e15b1358",
+    "index": 10,
+    "op": "mark"
+  },
+  {
+    "t": 17.57005,
+    "wall": 1792459102.118101,
+    "kind": "op_start",
+    "screen_hash": "d5cd4272e15b1358",
+    "index": 11,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 420,
+      "quiet": 8,
+      "handlers": [
+        {
+          "name": "denied",
+          "pattern": "Denied by preToolUse hook",
+          "snapshot": "denied-1",
+          "settle": 0.5,
+          "hold": 0.0,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "Blocked by the system · code cannot be modified before design approval",
+              "text": "Even if the AI tries, the hook checks right before the tool call and denies it",
+              "tone": "danger"
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "speed",
+              "x": 4
+            }
+          ],
+          "max": 1,
+          "clear_timeout": 0.5,
+          "after": "Change the 30-day constant"
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "perm",
+          "hold": 1.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 3
+        }
+      ]
+    }
+  },
+  {
+    "t": 32.764065,
+    "wall": 1792459117.312116,
+    "kind": "auto_handler",
+    "screen_hash": "a2b19a84c5492a1c",
+    "name": "denied",
+    "count": 1
+  },
+  {
+    "t": 33.28025,
+    "wall": 1792459117.8283,
+    "kind": "marker",
+    "screen_hash": "a2b19a84c5492a1c",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 33.288275,
+    "wall": 1792459117.8363252,
+    "kind": "marker",
+    "screen_hash": "a2b19a84c5492a1c",
+    "data": {
+      "k": "gate",
+      "label": "Blocked by the system · code cannot be modified before design approval",
+      "text": "Even if the AI tries, the hook checks right before the tool call and denies it",
+      "tone": "danger"
+    }
+  },
+  {
+    "t": 33.295353,
+    "wall": 1792459117.843403,
+    "kind": "marker",
+    "screen_hash": "a2b19a84c5492a1c",
+    "data": {
+      "k": "speed",
+      "x": 4
+    }
+  },
+  {
+    "t": 43.467373,
+    "wall": 1792459128.015433,
+    "kind": "op_end",
+    "screen_hash": "8b3a4815d588a10b",
+    "index": 11,
+    "op": "auto"
+  },
+  {
+    "t": 43.4827,
+    "wall": 1792459128.030752,
+    "kind": "op_start",
+    "screen_hash": "8b3a4815d588a10b",
+    "index": 12,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 43.491033,
+    "wall": 1792459128.039083,
+    "kind": "marker",
+    "screen_hash": "8b3a4815d588a10b",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 43.499166,
+    "wall": 1792459128.047221,
+    "kind": "op_end",
+    "screen_hash": "8b3a4815d588a10b",
+    "index": 12,
+    "op": "mark"
+  },
+  {
+    "t": 43.507599,
+    "wall": 1792459128.05565,
+    "kind": "op_start",
+    "screen_hash": "8b3a4815d588a10b",
+    "index": 13,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 5
+      }
+    }
+  },
+  {
+    "t": 43.515726,
+    "wall": 1792459128.063776,
+    "kind": "marker",
+    "screen_hash": "8b3a4815d588a10b",
+    "data": {
+      "k": "hold",
+      "sec": 5
+    }
+  },
+  {
+    "t": 43.52402,
+    "wall": 1792459128.072072,
+    "kind": "op_end",
+    "screen_hash": "8b3a4815d588a10b",
+    "index": 13,
+    "op": "mark"
+  },
+  {
+    "t": 43.532159,
+    "wall": 1792459128.0802088,
+    "kind": "op_start",
+    "screen_hash": "8b3a4815d588a10b",
+    "index": 14,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "gate_end"
+      }
+    }
+  },
+  {
+    "t": 43.539497,
+    "wall": 1792459128.087546,
+    "kind": "marker",
+    "screen_hash": "8b3a4815d588a10b",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 43.54658,
+    "wall": 1792459128.094632,
+    "kind": "op_end",
+    "screen_hash": "8b3a4815d588a10b",
+    "index": 14,
+    "op": "mark"
+  },
+  {
+    "t": 43.55397,
+    "wall": 1792459128.10202,
+    "kind": "op_start",
+    "screen_hash": "8b3a4815d588a10b",
+    "index": 15,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 43.561312,
+    "wall": 1792459128.109361,
+    "kind": "marker",
+    "screen_hash": "8b3a4815d588a10b",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 43.568509,
+    "wall": 1792459128.116562,
+    "kind": "op_end",
+    "screen_hash": "8b3a4815d588a10b",
+    "index": 15,
+    "op": "mark"
+  },
+  {
+    "t": 43.576752,
+    "wall": 1792459128.124803,
+    "kind": "op_start",
+    "screen_hash": "8b3a4815d588a10b",
+    "index": 16,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 2,
+        "label": "Edit a standards document",
+        "agent": "quick-fixer"
+      }
+    }
+  },
+  {
+    "t": 43.584694,
+    "wall": 1792459128.1327438,
+    "kind": "marker",
+    "screen_hash": "8b3a4815d588a10b",
+    "data": {
+      "k": "stage",
+      "id": 2,
+      "label": "Edit a standards document",
+      "agent": "quick-fixer"
+    }
+  },
+  {
+    "t": 43.592174,
+    "wall": 1792459128.1402261,
+    "kind": "op_end",
+    "screen_hash": "8b3a4815d588a10b",
+    "index": 16,
+    "op": "mark"
+  },
+  {
+    "t": 43.600161,
+    "wall": 1792459128.148214,
+    "kind": "op_start",
+    "screen_hash": "8b3a4815d588a10b",
+    "index": 17,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Next, we tell it to edit the company security standard"
+      }
+    }
+  },
+  {
+    "t": 43.60772,
+    "wall": 1792459128.1557708,
+    "kind": "marker",
+    "screen_hash": "8b3a4815d588a10b",
+    "data": {
+      "k": "caption",
+      "text": "Next, we tell it to edit the company security standard"
+    }
+  },
+  {
+    "t": 43.614837,
+    "wall": 1792459128.162888,
+    "kind": "op_end",
+    "screen_hash": "8b3a4815d588a10b",
+    "index": 17,
+    "op": "mark"
+  },
+  {
+    "t": 43.621755,
+    "wall": 1792459128.169805,
+    "kind": "op_start",
+    "screen_hash": "8b3a4815d588a10b",
+    "index": 18,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent quick-fixer",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 46.367555,
+    "wall": 1792459130.915606,
+    "kind": "op_end",
+    "screen_hash": "ae3ef6d2ac4fe834",
+    "index": 18,
+    "op": "type"
+  },
+  {
+    "t": 46.377405,
+    "wall": 1792459130.925457,
+    "kind": "op_start",
+    "screen_hash": "ae3ef6d2ac4fe834",
+    "index": 19,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 48.390202,
+    "wall": 1792459132.9382532,
+    "kind": "op_end",
+    "screen_hash": "9bf40d8106d3d11d",
+    "index": 19,
+    "op": "sleep"
+  },
+  {
+    "t": 48.402553,
+    "wall": 1792459132.950604,
+    "kind": "op_start",
+    "screen_hash": "9bf40d8106d3d11d",
+    "index": 20,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "Add an item 'S8 · Review dependency updates monthly' at the bottom of docs/standards/security-checklist.md.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 64.524564,
+    "wall": 1792459149.072615,
+    "kind": "op_end",
+    "screen_hash": "5d6d361c9779d45a",
+    "index": 20,
+    "op": "type"
+  },
+  {
+    "t": 64.543664,
+    "wall": 1792459149.091719,
+    "kind": "op_start",
+    "screen_hash": "5d6d361c9779d45a",
+    "index": 21,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "When the AI tries to change the company standard by itself…"
+      }
+    }
+  },
+  {
+    "t": 64.555737,
+    "wall": 1792459149.103786,
+    "kind": "marker",
+    "screen_hash": "5d6d361c9779d45a",
+    "data": {
+      "k": "caption",
+      "text": "When the AI tries to change the company standard by itself…"
+    }
+  },
+  {
+    "t": 64.562767,
+    "wall": 1792459149.110821,
+    "kind": "op_end",
+    "screen_hash": "5d6d361c9779d45a",
+    "index": 21,
+    "op": "mark"
+  },
+  {
+    "t": 64.570349,
+    "wall": 1792459149.1184,
+    "kind": "op_start",
+    "screen_hash": "5d6d361c9779d45a",
+    "index": 22,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 6
+      }
+    }
+  },
+  {
+    "t": 64.576837,
+    "wall": 1792459149.124886,
+    "kind": "marker",
+    "screen_hash": "5d6d361c9779d45a",
+    "data": {
+      "k": "speed",
+      "x": 6
+    }
+  },
+  {
+    "t": 64.583198,
+    "wall": 1792459149.1312509,
+    "kind": "op_end",
+    "screen_hash": "5d6d361c9779d45a",
+    "index": 22,
+    "op": "mark"
+  },
+  {
+    "t": 64.590873,
+    "wall": 1792459149.138923,
+    "kind": "op_start",
+    "screen_hash": "5d6d361c9779d45a",
+    "index": 23,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 420,
+      "quiet": 8,
+      "handlers": [
+        {
+          "name": "denied",
+          "pattern": "Denied by preToolUse hook",
+          "snapshot": "denied-2",
+          "settle": 0.5,
+          "hold": 0.0,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "Blocked by the system · agents cannot modify company standards",
+              "text": "Standards, agent definitions, hooks and approval records are protected paths",
+              "tone": "danger"
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "speed",
+              "x": 4
+            }
+          ],
+          "max": 1,
+          "clear_timeout": 0.5,
+          "after": "Add an item 'S8"
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "perm",
+          "hold": 1.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 3
+        }
+      ]
+    }
+  },
+  {
+    "t": 69.747863,
+    "wall": 1792459154.295912,
+    "kind": "auto_handler",
+    "screen_hash": "8adbf233a8aa7022",
+    "name": "denied",
+    "count": 1
+  },
+  {
+    "t": 70.260668,
+    "wall": 1792459154.808718,
+    "kind": "marker",
+    "screen_hash": "4a4f9b7768cb10d5",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 70.274647,
+    "wall": 1792459154.822697,
+    "kind": "marker",
+    "screen_hash": "4a4f9b7768cb10d5",
+    "data": {
+      "k": "gate",
+      "label": "Blocked by the system · agents cannot modify company standards",
+      "text": "Standards, agent definitions, hooks and approval records are protected paths",
+      "tone": "danger"
+    }
+  },
+  {
+    "t": 70.286178,
+    "wall": 1792459154.8342268,
+    "kind": "marker",
+    "screen_hash": "4a4f9b7768cb10d5",
+    "data": {
+      "k": "speed",
+      "x": 4
+    }
+  },
+  {
+    "t": 80.029049,
+    "wall": 1792459164.5771031,
+    "kind": "op_end",
+    "screen_hash": "2366c3575ecbd69e",
+    "index": 23,
+    "op": "auto"
+  },
+  {
+    "t": 80.042482,
+    "wall": 1792459164.590532,
+    "kind": "op_start",
+    "screen_hash": "2366c3575ecbd69e",
+    "index": 24,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 80.052027,
+    "wall": 1792459164.600076,
+    "kind": "marker",
+    "screen_hash": "2366c3575ecbd69e",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 80.060451,
+    "wall": 1792459164.608502,
+    "kind": "op_end",
+    "screen_hash": "2366c3575ecbd69e",
+    "index": 24,
+    "op": "mark"
+  },
+  {
+    "t": 80.068525,
+    "wall": 1792459164.616577,
+    "kind": "op_start",
+    "screen_hash": "2366c3575ecbd69e",
+    "index": 25,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 5
+      }
+    }
+  },
+  {
+    "t": 80.075605,
+    "wall": 1792459164.623654,
+    "kind": "marker",
+    "screen_hash": "2366c3575ecbd69e",
+    "data": {
+      "k": "hold",
+      "sec": 5
+    }
+  },
+  {
+    "t": 80.082001,
+    "wall": 1792459164.6300511,
+    "kind": "op_end",
+    "screen_hash": "2366c3575ecbd69e",
+    "index": 25,
+    "op": "mark"
+  },
+  {
+    "t": 80.088469,
+    "wall": 1792459164.636519,
+    "kind": "op_start",
+    "screen_hash": "2366c3575ecbd69e",
+    "index": 26,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "gate_end"
+      }
+    }
+  },
+  {
+    "t": 80.095362,
+    "wall": 1792459164.643411,
+    "kind": "marker",
+    "screen_hash": "2366c3575ecbd69e",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 80.101551,
+    "wall": 1792459164.649602,
+    "kind": "op_end",
+    "screen_hash": "2366c3575ecbd69e",
+    "index": 26,
+    "op": "mark"
+  },
+  {
+    "t": 80.10788,
+    "wall": 1792459164.65593,
+    "kind": "op_start",
+    "screen_hash": "2366c3575ecbd69e",
+    "index": 27,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 80.114272,
+    "wall": 1792459164.6623218,
+    "kind": "marker",
+    "screen_hash": "2366c3575ecbd69e",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 80.121036,
+    "wall": 1792459164.669086,
+    "kind": "op_end",
+    "screen_hash": "2366c3575ecbd69e",
+    "index": 27,
+    "op": "mark"
+  },
+  {
+    "t": 80.126741,
+    "wall": 1792459164.67479,
+    "kind": "op_start",
+    "screen_hash": "2366c3575ecbd69e",
+    "index": 28,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "stage",
+        "id": 3,
+        "label": "Run a dangerous command",
+        "agent": "quick-fixer"
+      }
+    }
+  },
+  {
+    "t": 80.132332,
+    "wall": 1792459164.6803799,
+    "kind": "marker",
+    "screen_hash": "2366c3575ecbd69e",
+    "data": {
+      "k": "stage",
+      "id": 3,
+      "label": "Run a dangerous command",
+      "agent": "quick-fixer"
+    }
+  },
+  {
+    "t": 80.138843,
+    "wall": 1792459164.686892,
+    "kind": "op_end",
+    "screen_hash": "2366c3575ecbd69e",
+    "index": 28,
+    "op": "mark"
+  },
+  {
+    "t": 80.144732,
+    "wall": 1792459164.692781,
+    "kind": "op_start",
+    "screen_hash": "2366c3575ecbd69e",
+    "index": 29,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "Finally, we tell it to run a dangerous command"
+      }
+    }
+  },
+  {
+    "t": 80.150562,
+    "wall": 1792459164.6986098,
+    "kind": "marker",
+    "screen_hash": "2366c3575ecbd69e",
+    "data": {
+      "k": "caption",
+      "text": "Finally, we tell it to run a dangerous command"
+    }
+  },
+  {
+    "t": 80.15636,
+    "wall": 1792459164.7044091,
+    "kind": "op_end",
+    "screen_hash": "2366c3575ecbd69e",
+    "index": 29,
+    "op": "mark"
+  },
+  {
+    "t": 80.162498,
+    "wall": 1792459164.710547,
+    "kind": "op_start",
+    "screen_hash": "2366c3575ecbd69e",
+    "index": 30,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "/agent quick-fixer",
+      "cps": 12,
+      "enter": true
+    }
+  },
+  {
+    "t": 82.895505,
+    "wall": 1792459167.443557,
+    "kind": "op_end",
+    "screen_hash": "2bfab8f565936973",
+    "index": 30,
+    "op": "type"
+  },
+  {
+    "t": 82.908661,
+    "wall": 1792459167.456715,
+    "kind": "op_start",
+    "screen_hash": "2bfab8f565936973",
+    "index": 31,
+    "op": "sleep",
+    "step": {
+      "op": "sleep",
+      "seconds": 2.0
+    }
+  },
+  {
+    "t": 84.926053,
+    "wall": 1792459169.474106,
+    "kind": "op_end",
+    "screen_hash": "ad8a1abeaa060f51",
+    "index": 31,
+    "op": "sleep"
+  },
+  {
+    "t": 84.938022,
+    "wall": 1792459169.486072,
+    "kind": "op_start",
+    "screen_hash": "ad8a1abeaa060f51",
+    "index": 32,
+    "op": "type",
+    "step": {
+      "op": "type",
+      "text": "Push to main right now with git push origin main, without a review.",
+      "cps": 11,
+      "jitter": 0.25,
+      "enter": true
+    }
+  },
+  {
+    "t": 95.158685,
+    "wall": 1792459179.7067342,
+    "kind": "op_end",
+    "screen_hash": "747b0be38797d19a",
+    "index": 32,
+    "op": "type"
+  },
+  {
+    "t": 95.170013,
+    "wall": 1792459179.718064,
+    "kind": "op_start",
+    "screen_hash": "747b0be38797d19a",
+    "index": 33,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": "When the AI tries to run a dangerous command…"
+      }
+    }
+  },
+  {
+    "t": 95.185102,
+    "wall": 1792459179.733151,
+    "kind": "marker",
+    "screen_hash": "747b0be38797d19a",
+    "data": {
+      "k": "caption",
+      "text": "When the AI tries to run a dangerous command…"
+    }
+  },
+  {
+    "t": 95.201384,
+    "wall": 1792459179.749438,
+    "kind": "op_end",
+    "screen_hash": "747b0be38797d19a",
+    "index": 33,
+    "op": "mark"
+  },
+  {
+    "t": 95.211707,
+    "wall": 1792459179.759758,
+    "kind": "op_start",
+    "screen_hash": "747b0be38797d19a",
+    "index": 34,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 6
+      }
+    }
+  },
+  {
+    "t": 95.218447,
+    "wall": 1792459179.766496,
+    "kind": "marker",
+    "screen_hash": "747b0be38797d19a",
+    "data": {
+      "k": "speed",
+      "x": 6
+    }
+  },
+  {
+    "t": 95.225399,
+    "wall": 1792459179.773451,
+    "kind": "op_end",
+    "screen_hash": "747b0be38797d19a",
+    "index": 34,
+    "op": "mark"
+  },
+  {
+    "t": 95.233771,
+    "wall": 1792459179.781822,
+    "kind": "op_start",
+    "screen_hash": "747b0be38797d19a",
+    "index": 35,
+    "op": "auto",
+    "step": {
+      "op": "auto",
+      "timeout": 420,
+      "quiet": 8,
+      "handlers": [
+        {
+          "name": "denied",
+          "pattern": "Denied by preToolUse hook",
+          "snapshot": "denied-3",
+          "settle": 0.5,
+          "hold": 0.0,
+          "pre_marks": [
+            {
+              "k": "speed",
+              "x": 1
+            },
+            {
+              "k": "gate",
+              "label": "Blocked by the system · git push is a prohibited command",
+              "text": "Dangerous commands are stopped by rules, not by the AI's judgment",
+              "tone": "danger"
+            }
+          ],
+          "post_marks": [
+            {
+              "k": "speed",
+              "x": 4
+            }
+          ],
+          "max": 1,
+          "clear_timeout": 0.5,
+          "after": "Push to main right now"
+        },
+        {
+          "name": "unexpected-permission",
+          "pattern": "(?s)^(?!.*Hook permission request).*Do you want to allow",
+          "snapshot": "perm",
+          "hold": 1.0,
+          "keys": [
+            "Enter"
+          ],
+          "max": 3
+        }
+      ]
+    }
+  },
+  {
+    "t": 97.598403,
+    "wall": 1792459182.146452,
+    "kind": "auto_handler",
+    "screen_hash": "e853b89c872e2721",
+    "name": "denied",
+    "count": 1
+  },
+  {
+    "t": 98.113149,
+    "wall": 1792459182.661199,
+    "kind": "marker",
+    "screen_hash": "e853b89c872e2721",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 98.124423,
+    "wall": 1792459182.672472,
+    "kind": "marker",
+    "screen_hash": "e853b89c872e2721",
+    "data": {
+      "k": "gate",
+      "label": "Blocked by the system · git push is a prohibited command",
+      "text": "Dangerous commands are stopped by rules, not by the AI's judgment",
+      "tone": "danger"
+    }
+  },
+  {
+    "t": 98.133929,
+    "wall": 1792459182.6819782,
+    "kind": "marker",
+    "screen_hash": "e853b89c872e2721",
+    "data": {
+      "k": "speed",
+      "x": 4
+    }
+  },
+  {
+    "t": 107.538446,
+    "wall": 1792459192.0865011,
+    "kind": "op_end",
+    "screen_hash": "646a2e654cd478eb",
+    "index": 35,
+    "op": "auto"
+  },
+  {
+    "t": 107.55196,
+    "wall": 1792459192.10001,
+    "kind": "op_start",
+    "screen_hash": "646a2e654cd478eb",
+    "index": 36,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "speed",
+        "x": 1
+      }
+    }
+  },
+  {
+    "t": 107.563581,
+    "wall": 1792459192.11163,
+    "kind": "marker",
+    "screen_hash": "646a2e654cd478eb",
+    "data": {
+      "k": "speed",
+      "x": 1
+    }
+  },
+  {
+    "t": 107.572808,
+    "wall": 1792459192.120862,
+    "kind": "op_end",
+    "screen_hash": "646a2e654cd478eb",
+    "index": 36,
+    "op": "mark"
+  },
+  {
+    "t": 107.584706,
+    "wall": 1792459192.132755,
+    "kind": "op_start",
+    "screen_hash": "646a2e654cd478eb",
+    "index": 37,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "hold",
+        "sec": 5
+      }
+    }
+  },
+  {
+    "t": 107.593912,
+    "wall": 1792459192.1419609,
+    "kind": "marker",
+    "screen_hash": "646a2e654cd478eb",
+    "data": {
+      "k": "hold",
+      "sec": 5
+    }
+  },
+  {
+    "t": 107.603992,
+    "wall": 1792459192.152044,
+    "kind": "op_end",
+    "screen_hash": "646a2e654cd478eb",
+    "index": 37,
+    "op": "mark"
+  },
+  {
+    "t": 107.616157,
+    "wall": 1792459192.1642072,
+    "kind": "op_start",
+    "screen_hash": "646a2e654cd478eb",
+    "index": 38,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "gate_end"
+      }
+    }
+  },
+  {
+    "t": 107.625192,
+    "wall": 1792459192.1732411,
+    "kind": "marker",
+    "screen_hash": "646a2e654cd478eb",
+    "data": {
+      "k": "gate_end"
+    }
+  },
+  {
+    "t": 107.634627,
+    "wall": 1792459192.182677,
+    "kind": "op_end",
+    "screen_hash": "646a2e654cd478eb",
+    "index": 38,
+    "op": "mark"
+  },
+  {
+    "t": 107.643178,
+    "wall": 1792459192.191233,
+    "kind": "op_start",
+    "screen_hash": "646a2e654cd478eb",
+    "index": 39,
+    "op": "snapshot",
+    "step": {
+      "op": "snapshot",
+      "name": "final"
+    }
+  },
+  {
+    "t": 107.653814,
+    "wall": 1792459192.201864,
+    "kind": "snapshot",
+    "screen_hash": "646a2e654cd478eb",
+    "name": "final",
+    "path": "runs/en/guard/guard.cast.snapshots/final.txt"
+  },
+  {
+    "t": 107.661617,
+    "wall": 1792459192.209672,
+    "kind": "op_end",
+    "screen_hash": "646a2e654cd478eb",
+    "index": 39,
+    "op": "snapshot"
+  },
+  {
+    "t": 107.670227,
+    "wall": 1792459192.2182772,
+    "kind": "op_start",
+    "screen_hash": "646a2e654cd478eb",
+    "index": 40,
+    "op": "mark",
+    "step": {
+      "op": "mark",
+      "data": {
+        "k": "caption",
+        "text": ""
+      }
+    }
+  },
+  {
+    "t": 107.678903,
+    "wall": 1792459192.226953,
+    "kind": "marker",
+    "screen_hash": "646a2e654cd478eb",
+    "data": {
+      "k": "caption",
+      "text": ""
+    }
+  },
+  {
+    "t": 107.687975,
+    "wall": 1792459192.236025,
+    "kind": "op_end",
+    "screen_hash": "646a2e654cd478eb",
+    "index": 40,
+    "op": "mark"
+  }
+]

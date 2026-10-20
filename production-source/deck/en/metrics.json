@@ -1,0 +1,182 @@
+{
+  "stages": [
+    {
+      "id": 1,
+      "label": "Analyze",
+      "agent": "change-analyst",
+      "real_s": 161.8,
+      "wall_start": 1792455598.9898381,
+      "wall_end": 1792455760.782499,
+      "aic_cum": 14.07,
+      "aic": 14.07,
+      "tool_calls": 35
+    },
+    {
+      "id": 2,
+      "label": "Design",
+      "agent": "solution-architect",
+      "real_s": 204.4,
+      "wall_start": 1792455760.782499,
+      "wall_end": 1792455965.2187421,
+      "aic_cum": 34.87,
+      "aic": 20.8,
+      "tool_calls": 17
+    },
+    {
+      "id": 3,
+      "label": "Build",
+      "agent": "app-developer",
+      "real_s": 417.7,
+      "wall_start": 1792455965.2187421,
+      "wall_end": 1792456382.920795,
+      "aic_cum": 78.77,
+      "aic": 43.9,
+      "tool_calls": 23
+    },
+    {
+      "id": 4,
+      "label": "Test",
+      "agent": "qa-engineer",
+      "real_s": 490.7,
+      "wall_start": 1792456382.920795,
+      "wall_end": 1792456873.601003,
+      "aic_cum": 135.8,
+      "aic": 57.03,
+      "tool_calls": 26
+    },
+    {
+      "id": 5,
+      "label": "Review",
+      "agent": "code-reviewer",
+      "real_s": 248.2,
+      "wall_start": 1792456873.601003,
+      "wall_end": 1792457121.81099,
+      "aic_cum": 203.79,
+      "aic": 67.99,
+      "tool_calls": 34
+    },
+    {
+      "id": 6,
+      "label": "Deploy",
+      "agent": "release-manager",
+      "real_s": 252.4,
+      "wall_start": 1792457121.81099,
+      "wall_end": 1792457374.196254,
+      "aic_cum": 268.71,
+      "aic": 64.92,
+      "tool_calls": 20
+    },
+    {
+      "id": 7,
+      "label": "Operate",
+      "agent": "ops-analyst",
+      "real_s": 501.7,
+      "wall_start": 1792457374.196254,
+      "wall_end": 1792457875.856688,
+      "aic_cum": 339.66,
+      "aic": 70.95,
+      "tool_calls": 14
+    }
+  ],
+  "total": {
+    "real_s": 2282.2,
+    "aic": 339.66,
+    "usd": 3.4
+  },
+  "git": {
+    "files": 19,
+    "insertions": 1280,
+    "deletions": 36,
+    "code_files": 11,
+    "code_insertions": 857,
+    "code_deletions": 34,
+    "commits": 6,
+    "log": [
+      "18c4d06 docs(release): record v1.1.0 staging and production results",
+      "7bcae49 chore(release): prepare v1.1.0 for CR-2026-014",
+      "e83ceec Merge approved CR-2026-014 refund policy",
+      "4241067 docs(CR-2026-014): preserve approved code review report",
+      "f33fb57 test(CR-2026-014): verify refund policy and legacy compatibility",
+      "dde25f9 feat(CR-2026-014): implement approved VIP refund policy"
+    ],
+    "app_files": [
+      "app/main.py",
+      "app/notifications.py",
+      "app/routers/orders.py",
+      "app/schemas.py",
+      "app/services/refund_policy.py",
+      "app/services/refund_service.py",
+      "app/static/index.html",
+      "db/migrations/002_add_refund_reason.sql"
+    ],
+    "build": {
+      "commit": "dde25f9",
+      "app_files": 8,
+      "app_insertions": 171,
+      "app_deletions": 31
+    }
+  },
+  "tests": {
+    "baseline": 26,
+    "total": 100,
+    "coverage": 99,
+    "added": 74
+  },
+  "approvals": {
+    "code": {
+      "approver": "Gildong Hong (Ops Lead)",
+      "at": "2026-10-20T09:45:05+09:00",
+      "hash": "b12aac5478ee"
+    },
+    "design": {
+      "approver": "Gildong Hong (Ops Lead)",
+      "at": "2026-10-20T09:25:50+09:00",
+      "hash": "ec343b9c4933"
+    },
+    "production": {
+      "approver": "Gildong Hong (Ops Lead)",
+      "at": "2026-10-20T09:48:41+09:00",
+      "hash": "b12aac5478ee"
+    },
+    "staging": {
+      "approver": "system",
+      "at": "2026-10-20T09:47:37+09:00",
+      "hash": "b12aac5478ee"
+    }
+  },
+  "audit": {
+    "calls": 169,
+    "allow": 166,
+    "ask": 3,
+    "deny": 2,
+    "denials": [
+      {
+        "role": "reviewer",
+        "tool": "bash",
+        "target": "git diff --cached --quiet && git add docs/cr/CR-2026-014/05-review-report.md && git --no-p",
+        "reason": "The [Reviewer] agent is read-only. File changes, git changes and install commands are not "
+      },
+      {
+        "role": "ops",
+        "tool": "bash",
+        "target": "DB=.deploy/production/data/orders.db\nL=\"WITH attempts AS (SELECT value->>'$.ts' AS ts, val",
+        "reason": "The [Ops Analyst] agent may query the DB only in read-only mode (-readonly, SELECT)."
+      }
+    ]
+  },
+  "docs": {
+    "01-impact-analysis.md": 87,
+    "02-design.md": 70,
+    "03-implementation-notes.md": 50,
+    "04-test-report.md": 74,
+    "05-review-report.md": 68,
+    "06-release-plan.md": 70,
+    "07-ops-report.md": 84
+  },
+  "review": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0
+  },
+  "version": "1.1.0"
+}

@@ -1,66 +1,68 @@
-# CR-2026-014 코드 리뷰 보고서
+# CR-2026-014 - Code review report
 
-## 1. 결론
-| 항목 | 결과 |
-|---|---|
-| 결론 | **승인 권고**. 차단할 구현 결함 없음. 코드 승인②는 별도로 사람이 결정 |
-| 발견 건수 | **Blocker 0 / Major 0 / Minor 1** |
-| 대상 | `main...HEAD`, 구현 `c65f316`·QA `1457420`; 승인된 02-design.md와 사내 표준 대조 |
-| 보안 심층 점검 | 내장 security-review에 위임, 변경에서 도입·악화된 고확신 취약점 0건 |
-| 범위 | 코드·DB·정책·테스트·문서 읽기 검토. 본 보고서 외 수정 없음 |
+**Conclusion: Recommend approval.** Findings: **0 Blocker / 0 Major / 0 Minor**.
+Reviewed `main...f33fb57`, approved design and company standards; no production changes made.
+Independent `security-review` found no introduced vulnerabilities.
 
-## 2. 설계·규칙 일치
-| 항목 | 판단 | 근거 |
+## Findings
+| Classification | Finding | Suggested fix |
 |---|---|---|
-| R1 기간·등급 | 일반 30일/VIP 60일, trim/upper·NULL 일반, 기존 주문에도 신규 접수 시 적용 | `app/services/refund_policy.py:27` |
-| R2 사유 | 입력 문자열 공백 정리 후 1~200자, 누락 판정은 서비스, 저장은 NULL 허용 확장 | `app/schemas.py:19` |
-| R2 한시 예외 | 정확한 구앱 버전만 12-01 UTC까지 허용, 이후 자동 종료; 누락 경고·감사 정보 있음 | `app/services/refund_policy.py:34` |
-| R3 고액 통제 | 요청액 >1,000,000 또는 배송 중은 REQUESTED, 대기액도 한도 계산, 승인 전 알림 없음 | `app/services/refund_service.py:58` |
-| R4 고객 안내 | 웹·승인/반려 이메일·정책 문구 동기화 및 입력 안내. 아키텍처 설명은 DOC-01 | `tests/test_ui.py:107` |
-| 코딩 표준 | 업무 판정은 서비스, 정책 상수 집중, 새 SQL 바인딩·clock 사용, 경계 테스트 있음 | `app/services/refund_policy.py:5` |
+| None | No confident, actionable change defects found. | None required. |
 
-## 3. 발견 사항
-| ID | 등급 | 발견 내용·영향 | 근거 | 수정 제안 |
-|---|---|---|---|---|
-| DOC-01 | Minor | 아키텍처의 환불 API 설명이 배송 중만 대기라고 명시해 고액 처리·사유 전환 안내와 불일치. 구현·QA에서 이미 인계한 문서 편차 | `docs/architecture.md:24` | 담당자가 고액 REQUESTED·사유 필수 및 구앱 유예 계약으로 동기화 |
-
-DOC-01은 비차단 문서 개선 권고이며 코드 결함·보안 취약점으로 집계하지 않는다. 스타일 및 변경 전부터 존재한 포맷 차이는 지적에서 제외했다.
-추측성 결함은 추가하지 않았다. 실제 환경 확인이 필요한 사항은 아래 배포 전 체크리스트로 분리한다.
-
-## 4. 보안 점검표와 심층 점검 결과
-| 항목 | 판단·확인 내용 | 근거 |
+## Design, coding and compatibility checks
+| Check | Assessment | Evidence |
 |---|---|---|
-| S1 관리자 인증 | 목록·승인·반려 모두 기존 require_admin 유지 | `app/routers/admin.py:21` |
-| S2 SQL | 사유 포함 신규 INSERT는 값 바인딩, 입력으로 SQL을 조립하지 않음 | `app/services/refund_service.py:65` |
-| S3 개인정보 로그 | 신규 감사에는 ID·금액·상태·누락 여부만, 사유·고객 개인정보 원문 추가 없음 | `app/services/refund_service.py:74` |
-| S4 자유 입력 | 공백·길이 검증, 오류 안내는 textContent로 출력 | `app/static/index.html:114` |
-| S5 입력 검증 | 양의 금액 및 사유 길이 스키마 검증, 유예도 입력된 부적합 문자열은 거절 | `app/schemas.py:17` |
-| S6 시크릿 | 새 시크릿·토큰 추가 없음, 기존 데모용 토큰·인증 구조는 변경하지 않음 | `app/routers/orders.py:21` |
-| S7 권한·승인 | 관리자 권한 완화 없음. 고액 통제 강화, 사유 한시 예외는 승인 설계에 명시 | `docs/cr/CR-2026-014/02-design.md:5` |
+| R1: tier/window | Inclusive 60/30 days; case/whitespace normalization; NULL/unknown stay standard. | `app/services/refund_policy.py:38` |
+| R2: input | Strict string, trim/200-character limit; omitted/null/blank handled as designed. | `app/schemas.py:17` |
+| R2: exception | Exact three clients, omission only, strict UTC cutoff; warning/audit without fabricated reason. | `app/services/refund_policy.py:45` |
+| R3: approval | Above KRW 1,000,000 OR SHIPPED becomes REQUESTED; balance reservations retained. | `app/services/refund_service.py:58` |
+| R3: effects | No approval notification while pending; existing authenticated decisions retained. | `app/services/refund_service.py:85` |
+| R4: wording | Shared policy notices in both outcome e-mails; web/policy parity covered by QA. | `app/notifications.py:6` |
+| Layering/constants/time | Router passes validated input; services own rules; constants and clock remain centralized. | `app/routers/orders.py:29` |
+| Migration | New 002 adds nullable reason only; no 001 alteration, backfill or destructive contract. | `db/migrations/002_add_refund_reason.sql:2` |
+| Old app/new DB | Pinned previous app reads/writes expanded schema; historical rows preserved. | `tests/test_migrations.py:101` |
+| Response compatibility | Public refund fields/statuses unchanged; stored free text not exposed. | `tests/test_refunds.py:463` |
+| Rendering adapter | Extra main.py adapter is justified: existing index paths share constants without new business API. | `app/main.py:75` |
+| Rollback | Expanded schema retained; old code is not policy-safe after activation. Owner recovery rehearsal remains a checklist item. | `docs/cr/CR-2026-014/02-design.md:63` |
 
-security-review 결과 요약(기존 문제·승인된 UA 자가신고 위험은 신규 발견으로 중복 집계하지 않음):
+## Security checklist S1-S7
+| Check | Assessment | Evidence |
+|---|---|---|
+| S1 | Admin list/approve/reject retain require_admin. | `app/routers/admin.py:21` |
+| S2 | New reason insert uses bound SQL parameters. | `app/services/refund_service.py:67` |
+| S3 | Changed audit/warning fields exclude raw reason and customer PII. | `app/services/refund_service.py:73` |
+| S4 | Trim/type/length guards; errors use textContent; request bodies not access-logged. | `app/static/index.html:113` |
+| S5 | Positive amount validation retained; reason validation added server-side. | `app/schemas.py:17` |
+| S6 | No credentials introduced; existing marked demo-token setup unchanged. | `app/config.py:18` |
+| S7 | High-value control is stricter; no admin-permission relaxation. | `app/services/refund_service.py:64` |
+
+Delegated security result (scope: introduced vulnerabilities; not a whole-system security certification):
 | # | Severity | File | Lines | Vulnerability | Confidence |
 |---|----------|------|-------|---------------|------------|
-| — | — | — | — | 변경에서 확인된 고확신 취약점 없음 | — |
+| - | - | - | - | No introduced vulnerabilities found | - |
 
-## 5. 테스트 충분성·DB·하위호환
-| 항목 | 판단·한계 | 근거 |
+User-Agent spoofability is the explicitly accepted design risk, not a new review finding.
+Shared-admin identity/customer-access behavior is unchanged and outside this CR.
+
+## Independent validation
+| Command | Result |
+|---|---|
+| `.venv/bin/ruff check .` | Passed. |
+| `.venv/bin/ruff format --check .` | Passed; 55 files already formatted. |
+| `.venv/bin/pytest -q --cov=app --cov-report=term-missing` | Passed: 100 cases, none failed/skipped; 99% application coverage. |
+| `.venv/bin/python scripts/gate.py verify design CR-2026-014` | Passed; approved document unchanged. |
+| Test sufficiency | Boundaries, cutoff, legacy payloads, audit/privacy, status persistence, notifications and migration compatibility covered. |
+| Security agent | Read-only review plus memory-only type/length and 90 client/omission/cutoff checks passed. |
+
+## Needs confirmation / pre-deployment checklist
+| Item | Action | Evidence |
 |---|---|---|
-| 자동 테스트 | QA 결과 117 통과·0 실패·0 skip, 앱 커버리지 99%. 리뷰에서는 코드·추적표 대조, 재실행 결과로 오기하지 않음 | `docs/cr/CR-2026-014/04-test-report.md:9` |
-| 테스트 범위 | 기간·금액·사유·UTC 유예 경계·구앱·미인증·감사·단일 알림·부분 환불 검증 충분 | `tests/test_refunds.py:345` |
-| DB 확장 | 002에서 NULL 허용 컬럼만 추가, 001·기존 행 미수정. 확장→전환, 축소 없음 | `db/migrations/002_refund_reason.sql:1` |
-| 구버전 서버 호환 | 데이터 보존·구버전 INSERT·재적용 검증 있음. 스키마 호환이 구버전의 새 정책 준수를 뜻하지는 않음 | `tests/test_seed.py:25` |
-| API 호환 | 응답 필드 유지·사유 비노출. 웹/미식별 앱의 무사유 거절은 승인된 의도적 변경 | `app/services/refund_service.py:17` |
-| 롤백 | 추가 컬럼·신규 행 유지, 동일 정책을 지키는 검증본 복귀 또는 수정 배포라는 설계 방향 타당 | `docs/cr/CR-2026-014/02-design.md:65` |
+| Uninterrupted switch/recovery | Release owner confirms operational cutover; current script stops before starting. | `scripts/deploy.sh:107` |
+| External payout | Confirm REQUESTED cannot trigger money movement outside this repository. | `docs/architecture.md:8` |
+| Actual clients/browser | Confirm mobile agent strings, advance notice and browser/device UX; QA used a DOM stub. | `docs/cr/CR-2026-014/04-test-report.md:63` |
+| Production data | Confirm production tier distribution and unresolved entitlement; tests used isolated data. | `docs/cr/CR-2026-014/01-impact-analysis.md:35` |
+| CI prerequisites | Retain pinned Git object and Node for the complete compatibility/UI run. | `tests/test_migrations.py:14` |
 
-## 6. 배포 전 체크리스트·승인 요청
-| 담당 | 확인 필요 사항 | 근거 |
-|---|---|---|
-| 문서 담당 | DOC-01 설명 동기화 | `docs/architecture.md:24` |
-| 운영 담당 | 실제 무중단 전환 수단·DDL 잠금·정책 유지 롤백본 검증. 현행 stop/start만으로 무중단을 주장하지 않음 | `scripts/deploy.sh:107` |
-| 앱·QA 담당 | 실제 UA·사전 공지·유예 종료 후 입력 안내, Node 스텁과 별개인 실제 브라우저·앱 확인 | `docs/cr/CR-2026-014/04-test-report.md:54` |
-| 알림·도구 담당 | 외부 발송 워커·기존 이메일 대기열·보호된 트래픽 도구 확인 | `docs/cr/CR-2026-014/02-design.md:64` |
-
-위 외부 확인은 배포 전 체크리스트이며 별도 기능 요구·추가 코드 승인 게이트가 아니다.
-요약을 안내한 뒤 `.venv/bin/python scripts/gate.py request code CR-2026-014`로 코드 승인②를 요청한다.
-실제 승인 여부는 gate 실행 결과와 승인 기록으로 확인한다. 코드 승인은 운영 배포 승인③을 대신하지 않는다.
+These are existing design/release checklist items, not code-approval conditions or added CR scope.
+Code approval is requested after saving this report; the gate record is authoritative for the human decision.
+Next stage after code approval: **release-manager**; production approval remains separate.

@@ -1,0 +1,30 @@
+ [Current]  Sessions   Issues   Pull requests   Gists
+
+   Refunds above KRW 1,000,000 reuse pending admin approval; historical reasons remain NULL.                           ┃
+   The design records the accepted spoofing risk and cutover/payout checks. Requesting design approval now.            ┃
+                                                                                                                       ┃
+ $ Shell Request human design approval for CR-2026-014                                                                 ┃
+   .venv/bin/python scripts/gate.py request design CR-2026-014                                                         ┃
+                                                                                                                       ┃
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Hook permission request                                                                                              │
+│ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────── │
+│ ① Design approval — Have you reviewed the design document (docs/cr/CR-2026-014/02-design.md)? Approving starts the   │
+│ implementation phase, and if the design changes after approval, the approval is automatically invalidated.           │
+│                                                                                                                      │
+│                                                                                                                      │
+│ ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮ │
+│ │ Tool: bash                                                                                                       │ │
+│ │ Args: {                                                                                                          │ │
+│ │   "command": ".venv/bin/python scripts/gate.py request design CR-2026-014",                                      │ │
+│ │   "description": "Request human design approval for CR-2026-014"                                                 │ │
+│ │ }                                                                                                                │ │
+│ ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯ │
+│                                                                                                                      │
+│ Do you want to allow this tool call?                                                                                 │
+│                                                                                                                      │
+│ ❯ 1. Yes                                                                                                             │
+│   2. No (Esc to stop)                                                                                                │
+│                                                                                                                      │
+│ ↑/↓ to navigate · enter to select · esc to cancel                                                                    │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯

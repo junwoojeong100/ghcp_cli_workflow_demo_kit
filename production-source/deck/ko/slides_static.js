@@ -1,5 +1,5 @@
 // 정적 슬라이드(데이터와 무관한 소개·설명·마무리) 생성 모듈
-const L = require("./lib");
+const L = require("../lib");
 const { C, FONT, MONO, text, card, pill, iconBadge, title, footer, tracker, gateBadge } = L;
 
 async function cover(pptx, n, d = {}) {

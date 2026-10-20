@@ -166,7 +166,7 @@ class Recorder:
         try:
             lines = self.screen.display
         except Exception:
-            # pyte 의 display 는 빈 셀(와이드 문자 처리)에서 IndexError 가 날 수 있어 직접 렌더링한다
+            # pyte's display can raise IndexError on empty cells (wide-character handling), so render the buffer ourselves
             buf = self.screen.buffer
             lines = ["".join((buf[y][x].data or " ") for x in range(self.screen.columns)) for y in range(self.screen.lines)]
         return "\n".join(line.rstrip() for line in lines)
@@ -326,10 +326,12 @@ class Recorder:
             self.op_mark({"data": data})
 
     def op_auto(self, step: dict[str, Any]) -> None:
-        """권한 요청·질문 대화상자를 감지해 사람처럼 응답하며, 에이전트 작업이 끝날 때까지 진행한다.
+        """Detects permission/question dialogs, answers them like a human, and keeps going until the agent finishes its work.
 
-        handlers: [{"name","pattern","pre_marks":[...],"hold":초,"keys":[...]|"text":"..","post_marks":[...],"max":N,"snapshot":"name"}]
-        busy: 작업 중 표시 정규식(기본 "Working"), quiet: busy 가 이 시간 동안 사라지면 종료
+        handlers: [{"name","pattern","pre_marks":[...],"hold":seconds,"keys":[...]|"text":"..","post_marks":[...],"max":N,"snapshot":"name"}]
+        "after": optional text; the pattern is matched only against the screen text after its last occurrence (e.g. the prompt just typed),
+        so that output of an earlier request that is still on screen is not mistaken for the current one
+        busy: regex of the "working" indicator (default "Working"); quiet: stop once busy has been absent for this many seconds
         """
         handlers = step.get("handlers", [])
         busy_re = re.compile(step.get("busy", r"Working|esc (again to )?interrupt|esc edit prompt"))
@@ -347,7 +349,9 @@ class Recorder:
             handled = False
             for handler, regex in compiled:
                 name = handler.get("name", handler["pattern"])
-                if not regex.search(text) or counts.get(name, 0) >= int(handler.get("max", 99)):
+                after = handler.get("after")
+                scoped = text[text.rfind(after):] if after and after in text else text
+                if not regex.search(scoped) or counts.get(name, 0) >= int(handler.get("max", 99)):
                     continue
                 counts[name] = counts.get(name, 0) + 1
                 self.log(f"auto handler: {name} (#{counts[name]})")
@@ -366,11 +370,11 @@ class Recorder:
                     rule_key = f"{name}#{ridx}"
                     if rule.get("once") and rule_key in used_rules:
                         continue
-                    # 화면 텍스트에 따라 선택을 달리한다 (예: 특정 질문에서는 '직접 입력')
+                    # Choose differently depending on the screen text (e.g. type a custom answer for one particular question)
                     scope = self.screen_text()
                     anchor = handler.get("anchor")
                     if anchor and anchor in scope:
-                        scope = scope[scope.rfind(anchor):]  # 화면에 남은 이전 대화 내용은 제외하고 현재 대화상자만 본다
+                        scope = scope[scope.rfind(anchor):]  # ignore earlier conversation still on screen; look at the current dialog only
                     if not rule.get("if") or re.search(rule["if"], scope, re.S):
                         keys = rule.get("keys")
                         answer_text = rule.get("text")
@@ -378,7 +382,7 @@ class Recorder:
                         used_rules.add(rule_key)
                         break
                 if selector:
-                    # 커서(❯)가 해당 줄에 올 때까지 아래로 이동 (선택지 개수를 몰라도 동작)
+                    # Move down until the cursor (❯) is on the matching line (works without knowing the number of options)
                     target = re.compile(selector)
                     for _ in range(10):
                         lines = self.screen_text().splitlines()
@@ -394,7 +398,7 @@ class Recorder:
                     self.pump_until(lambda _a: False, 1.5)
                     self.op_key({"keys": ["Enter"], "delay": 0.2})
                 self.emit_marks(handler.get("post_marks"))
-                # 같은 대화상자가 다시 감지되지 않도록 사라질 때까지 대기
+                # Wait until the dialog disappears so it is not detected again
                 self.pump_until(lambda _a: not regex.search(self.screen_text()), float(handler.get("clear_timeout", 8.0)))
                 handled = True
                 absent_since = None
@@ -414,7 +418,7 @@ class Recorder:
 
 
     def op_expect_file(self, step: dict[str, Any]) -> None:
-        """단계 산출물(파일)이 생길 때까지 기다린다. 없으면 녹화를 중단해 엉뚱한 진행을 막는다."""
+        """Waits until the stage artifact (file) exists. If it never appears, abort the recording instead of drifting on."""
         path = pathlib.Path(self.args.cwd) / step["path"]
         timeout = float(step.get("timeout", 120))
         if not self.pump_until(lambda _a: path.exists(), timeout):
@@ -537,7 +541,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> int:
-    # 새 세션으로 분리해 부모 셸/도구의 프로세스 그룹 종료 신호가 녹화 도중 전달되지 않게 한다
+    # Detach into a new session so a process-group kill signal from the parent shell/tool cannot reach the recording
     try:
         os.setsid()
     except OSError:
