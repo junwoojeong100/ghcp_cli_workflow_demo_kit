@@ -25,7 +25,7 @@ git clone -b ko https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_ord
 ```
 
 - 이 저장소의 `.gitignore` 가 `shopflow-orders/` 를 제외하므로, 안쪽에 clone 해도 서로의 이력이 섞이지 않습니다. 다른 위치에 두려면 환경 변수 `SHOPFLOW_ROOT` 를 지정하세요.
-- **발표만 하려면** 데모 저장소는 필요 없고, 이 저장소의 `ko/GHCP_CLI_Workflow_Demo_KO.pptx` 와 `ko/video/GHCP_CLI_Workflow_Demo_KO.mp4` 만 받으면 됩니다. 저장소 전체를 clone 하면 영어판·한국어판을 함께 담고 있어 약 ⟦REPO_MB⟧MB 이므로, 덜 받으려면 `git clone --depth 1` 을 쓰거나 [Releases](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit/releases) 의 같은 파일(한국어판 = v1.0.0, 영어판 = v1.1.0)을 쓰세요.
+- **발표만 하려면** 데모 저장소는 필요 없고, 이 저장소의 `ko/GHCP_CLI_Workflow_Demo_KO.pptx` 와 `ko/video/GHCP_CLI_Workflow_Demo_KO.mp4` 만 받으면 됩니다. 저장소 전체를 clone 하면 영어판·한국어판을 함께 담고 있어 약 200MB 이므로, 덜 받으려면 `git clone --depth 1` 을 쓰거나 [Releases](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit/releases) 의 같은 파일(한국어판 = v1.0.0, 영어판 = v1.1.0)을 쓰세요.
 
 | 실측 결과 (한 세션) | |
 |---|---|
