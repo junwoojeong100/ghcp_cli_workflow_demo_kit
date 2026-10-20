@@ -13,7 +13,7 @@
 | `docs-cr-CR-2026-014/07-ops-report.md` | 운영 분석가: 운영 로그·DB 읽기 전용 분석, 현업이 결정할 사항 |
 | `approvals/CR-2026-014/*.json` | 승인 기록 4건 — design · code · production(사람), staging(시스템). 설계서/코드의 SHA-256 과 묶여 있음 |
 | `audit.jsonl` | 모든 도구 호출의 감사 로그 231건 (허용/차단/승인 요청). 로컬 경로는 `<DEMO_KIT>` 로 치환 |
-| `full-change.diff` | 기준 상태(데모 저장소 `ko` 브랜치의 `baseline-recorded-ko` 태그) 대비 전체 변경 diff (코드·테스트·문서) |
+| `full-change.diff` | 기준 상태(데모 저장소의 `baseline-recorded-ko` 태그) 대비 전체 변경 diff (코드·테스트·문서) |
 | `git-log-stat.txt` | 커밋 7개의 요약과 파일별 변경량 |
 | `production-app.log` | 시뮬레이션 운영 환경의 접근 로그 (운영 분석가의 분석 대상) |
 | `run-metrics.json` | 슬라이드에 쓴 실측 지표 (단계별 소요·AI 사용량, 변경 규모, 테스트, 리뷰, 감사) |

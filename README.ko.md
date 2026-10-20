@@ -29,17 +29,17 @@
 | 저장소 | 역할 |
 |---|---|
 | [`ghcp_cli_workflow_demo_kit`](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit) (**지금 보는 저장소**) | 발표 키트 — 슬라이드(PPTX) · 영상 · 실제 산출물(`ko/sample-output/`) · 제작 소스(`production-source/`). 한국어판은 `ko/` 폴더, 영어판(기본)은 저장소 루트 |
-| [`ghcp_cli_workflow_shopflow_orders`](https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders) | **데모 저장소** — Custom Agent 7종 · Hook · 승인 게이트 · CI/CD 가 들어 있는 시연 대상 앱(ShopFlow). 직접 Copilot CLI 로 같은 흐름을 재현할 때 씁니다. 한국어판은 `ko` 브랜치이고, 기본 `main` 브랜치는 영어판입니다 |
+| [`ghcp_cli_workflow_shopflow_orders`](https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders) | **데모 저장소** — Custom Agent 7종 · Hook · 승인 게이트 · CI/CD 가 들어 있는 시연 대상 앱(ShopFlow). 직접 Copilot CLI 로 같은 흐름을 재현할 때 씁니다. 브랜치는 `main` 하나(영어)이고, 안내 문서만 영어·한국어(`README.md` / `README.ko.md`)로 제공합니다 |
 
 ```bash
 # 한 폴더에 두 저장소를 받습니다. 키트 도구가 데모 저장소를 '키트 폴더 안의 shopflow-orders' 로 찾기 때문에 폴더 이름을 지정합니다.
 git clone https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit.git
 cd ghcp_cli_workflow_demo_kit
-# 한국어판 데모 저장소는 ko 브랜치입니다 (-b ko 를 빼면 영어판 main 을 받습니다)
-git clone -b ko https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.git shopflow-orders
+git clone https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.git shopflow-orders
 ```
 
 - 이 저장소의 `.gitignore` 가 `shopflow-orders/` 를 제외하므로, 안쪽에 clone 해도 서로의 이력이 섞이지 않습니다. 다른 위치에 두려면 환경 변수 `SHOPFLOW_ROOT` 를 지정하세요.
+- **한국어 녹화본 재현:** `ko/` 의 한국어 슬라이드·영상·샘플 산출물은 한국어로 동작하는 변형판 앱에서 녹화했고, 그 앱은 브랜치가 아니라 **태그 `baseline-ko`** 로 보존되어 있습니다: `git clone -b baseline-ko https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.git shopflow-orders`. 한국어 녹화를 그대로 다시 돌릴 때만 필요하며, 데모 저장소의 `main` 은 영어 앱입니다.
 - **보기만 하려면** 다운로드가 필요 없습니다. 위의 [브라우저에서 바로 보기](#브라우저에서-바로-보기--다운로드-없이)를 쓰세요.
 - **발표만 하려면** 데모 저장소는 필요 없고, 이 저장소의 `ko/GHCP_CLI_Workflow_Demo_KO.pptx` 와 `ko/video/GHCP_CLI_Workflow_Demo_KO.mp4` 만 받으면 됩니다. 저장소 전체를 clone 하면 영어판·한국어판을 함께 담고 있어 약 200MB 이므로, 덜 받으려면 `git clone --depth 1` 을 쓰거나 [Releases](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit/releases) 의 같은 파일(한국어판 = v1.0.0, 영어판 = v1.1.0)을 쓰세요.
 
@@ -61,7 +61,7 @@ git clone -b ko https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_ord
 | `ko/sample-output/` | 녹화 세션의 **실제 산출물**: 단계별 문서 01~07, 승인 기록, 감사 로그(231건), 변경 diff, 실측 지표 |
 | `production-source/` | 영상·PPT **제작 소스**: 녹화본(cast)으로 영상 다시 만들기, 덱 빌드 스크립트 (`production-source/README.ko.md` 참고). 발표자 노트 원문은 `production-source/deck/ko/notes.md` |
 | `GHCP_CLI_Workflow_Demo_EN.pptx` · `video/` · `sample-output/` | **영어판**(기본) 산출물. 별도의 영어 녹화본에서 만든 것이며 수치가 다릅니다. 안내는 [`README.md`](README.md) |
-| `shopflow-orders/` | (저장소에는 없음) 위 시리즈 안내처럼 데모 저장소(한국어판은 `ko` 브랜치)를 이 이름으로 clone 해 두는 자리 |
+| `shopflow-orders/` | (저장소에는 없음) 위 시리즈 안내처럼 데모 저장소를 이 이름으로 clone 해 두는 자리(한국어 녹화본을 재현하려면 태그 `baseline-ko`) |
 
 한국어판 PPTX · 영상 · 클립은 용량이 커서(합계 약 93MB) clone 이 무겁습니다. **파일만 받으려면** [Releases](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit/releases) 의 **v1.0.0** 에서 PPTX · MP4 를 각각 내려받으세요(저장소의 `ko/` 와 같은 파일입니다).
 
@@ -92,7 +92,7 @@ git clone -b ko https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_ord
 **15분 압축본**: 슬라이드 1·2·9·11(4분) → 전체 영상 `0:04–8:10`(8분, 챕터 1~7 + 결과 화면) → 슬라이드 21·25(3분).
 
 **라이브 시연을 넣고 싶다면**: 전체 흐름은 실제 30~40분이 걸리므로, 라이브는 **1단계(분석, 약 2.5분)** 또는 **승인 팝업 장면**만 권장합니다.
-나머지는 영상으로 보여 주고, 질문이 나오면 [데모 저장소](https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders)(한국어판은 `ko` 브랜치) `README.md` 의 스크립트로 해당 단계를 보여 줄 수 있습니다.
+나머지는 영상으로 보여 주고, 질문이 나오면 [데모 저장소](https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders)`README.ko.md` 의 스크립트로 해당 단계를 보여 줄 수 있습니다.
 
 **진행 팁**
 - **발표자 노트는 그대로 읽어도 되는 구어체 스크립트**입니다. 슬라이드 사이가 끊기지 않도록 앞 장면을 받는 말로 이어지고, 영상 슬라이드(12–18, 20)는 `▶ 영상 재생 (약 N초)` 줄을 기준으로 "영상 전 → 재생 → 영상 후" 순서로 읽습니다. `※` 로 시작하는 줄은 출처라 낭독하지 않습니다. 노트를 그대로 읽으면 말하는 시간이 약 26분(말 속도에 따라 24~29분)이고 영상(약 9분)을 더하면 35분 안팎입니다. 30분대 초반에 맞추려면 4·5·6·22·24번처럼 설명이 긴 슬라이드를 한두 문장으로 줄이세요. 노트 원문은 `production-source/deck/ko/notes.md` 이고, 고친 뒤 덱을 다시 빌드하면 PPT에 반영됩니다.

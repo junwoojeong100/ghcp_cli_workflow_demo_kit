@@ -19,7 +19,7 @@
 | 완성 PPT | `GHCP_CLI_Workflow_Demo_EN.pptx` (저장소 루트) | `ko/GHCP_CLI_Workflow_Demo_KO.pptx` |
 | 완성 영상 · 클립 · 스틸 | `video/` (저장소 루트) | `ko/video/` |
 | 샘플 산출물 | `sample-output/` | `ko/sample-output/` |
-| 데모 저장소 | `main` 브랜치 (기본 clone) | `ko` 브랜치 (`git clone -b ko ...`) |
+| 데모 저장소 | `main` 브랜치 (기본 clone) | 태그 `baseline-ko` (`git clone -b baseline-ko ...`) |
 | diff 기준 태그 | `baseline-recorded` | `baseline-recorded-ko` |
 | 글꼴 | Arial / Consolas | Apple SD Gothic Neo / Consolas |
 
@@ -45,7 +45,7 @@ production-source/
 | Node.js 22 | 영상 렌더러(`tools/render`, xterm.js + playwright-core), `cards.js`, `ui_shots.js`, 덱 빌드 |
 | Google Chrome (macOS 기본 경로, 다른 경로는 `CHROME_PATH` — 영상 렌더러에만 적용) | 렌더러 · 카드 · UI 캡처의 헤드리스 브라우저 |
 | ffmpeg / ffprobe (Homebrew, `/opt/homebrew/bin`) | 인코딩 · 클립 · 포스터 · 이어 붙이기 (렌더러는 이 경로를 가정하고, `make_assets.py` 는 `PATH` 의 `ffmpeg` 도 씁니다) |
-| 이 폴더의 **상위(저장소 루트)에 있는** `shopflow-orders/` = 데모 저장소 clone (한국어판은 `ko` 브랜치) | 지표·샘플 산출물 수집 · UI 캡처 · 재녹화(C). 이름·위치가 다르면 `SHOPFLOW_ROOT`. clone 방법은 저장소 루트 `README.ko.md` 참고: `git clone -b ko https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.git shopflow-orders` (B 의 덱 빌드만 할 때는 필요 없음) |
+| 이 폴더의 **상위(저장소 루트)에 있는** `shopflow-orders/` = 데모 저장소 clone (한국어판은 태그 `baseline-ko`) | 지표·샘플 산출물 수집 · UI 캡처 · 재녹화(C). 이름·위치가 다르면 `SHOPFLOW_ROOT`. clone 방법은 저장소 루트 `README.ko.md` 참고: `git clone -b baseline-ko https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.git shopflow-orders` (B 의 덱 빌드만 할 때는 필요 없음) |
 
 ```bash
 cd production-source
@@ -112,7 +112,7 @@ NO_VIDEO=1 DEMO_LANG=ko node build.js ../out.pptx                    # 영상 �
 
 ## C. 처음부터 다시 녹화하기 (Copilot 구독 필요)
 
-먼저 데모 저장소를 `shopflow-orders` 로 clone 하고(저장소 루트 `README.ko.md` 참고) 그 저장소 README 의 "1. 준비물"대로 설정하세요(지표 수집이 `shopflow-orders/.venv` 로 테스트를 실행합니다). 한국어판은 `ko` 브랜치를 씁니다: `git clone -b ko https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.git shopflow-orders` (영어판은 기본 `main` 브랜치).
+먼저 데모 저장소를 `shopflow-orders` 로 clone 하고(저장소 루트 `README.ko.md` 참고) 그 저장소 README 의 "1. 준비물"대로 설정하세요(지표 수집이 `shopflow-orders/.venv` 로 테스트를 실행합니다). 한국어판은 한국어 변형판 태그를 씁니다(브랜치가 아니라 태그): `git clone -b baseline-ko https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.git shopflow-orders` (영어판은 기본 `main` 브랜치).
 
 ```bash
 cd production-source
@@ -128,7 +128,7 @@ DEMO_LANG=ko python3 tools/collect_sample_output.py   # 실제 산출물 → ko/
 - 이미 녹화본이 있으면 덮어쓰지 않습니다(`FORCE=1` 필요, 또는 `tools/launch_final.sh rerun` 처럼 다른 이름 사용. 다만 에셋·지표 스크립트는 `runs/<언어>/final/final.cast` 를 읽습니다). 녹화기 로그는 `runs/<언어>/<이름>.rec.log` 에 남습니다. 다른 녹화나 `copilot --no-auto-update` 프로세스가 실행 중이면 시작하지 않습니다.
 - 선택 환경 변수: `SHOPFLOW_ROOT`(데모 저장소 위치), `COPILOT_BIN`(`copilot` 실행 파일 경로), `DEMO_COPILOT_HOME`(녹화 프로필 위치), `BASELINE_REF`(두 수집 스크립트가 diff 기준으로 쓰는 git ref, 기본 `baseline-recorded-ko`. 영어판은 `baseline-recorded`).
 - 승인 기록에 들어가는 승인자 이름은 `launch_final.sh` 가 `DEMO_APPROVER` 로 넘깁니다: 한국어판은 `홍길동 책임(운영 담당)`, 영어판은 `Gildong Hong (Ops Lead)`.
-- **주의**: 녹화는 `shopflow-orders` 를 `demo_reset.sh` 로 초기화합니다(커밋하지 않은 변경, 추적되지 않는 파일과 무시된 파일(`.venv` 제외), `feature/*` 브랜치, `v*` 태그를 삭제합니다. 이전 실행의 `docs/cr/` · `approvals/` · `.copilot-audit/` 파일도 지워지고, 로컬 `main` 은 태그 `baseline-ko`(한국어판, `ko` 브랜치) 또는 `baseline`(영어판)으로 다시 만들어집니다). `collect_metrics.py` 와 `collect_sample_output.py` 는 녹화 직후, 다음 초기화 전에 실행하세요. 화면 문구가 Copilot CLI 버전에 따라 달라질 수 있어, 버전이 바뀌면 `record.py` 의 대기 조건(`busy` 정규식 · 핸들러 패턴)을 조정해야 할 수 있습니다.
+- **주의**: 녹화는 `shopflow-orders` 를 `demo_reset.sh` 로 초기화합니다(커밋하지 않은 변경, 추적되지 않는 파일과 무시된 파일(`.venv` 제외), `feature/*` 브랜치, `v*` 태그를 삭제합니다. 이전 실행의 `docs/cr/` · `approvals/` · `.copilot-audit/` 파일도 지워지고, 로컬 `main` 은 태그 `baseline-ko`(한국어판, 그 태그에서 clone) 또는 `baseline`(영어판)으로 다시 만들어집니다). `collect_metrics.py` 와 `collect_sample_output.py` 는 녹화 직후, 다음 초기화 전에 실행하세요. 화면 문구가 Copilot CLI 버전에 따라 달라질 수 있어, 버전이 바뀌면 `record.py` 의 대기 조건(`busy` 정규식 · 핸들러 패턴)을 조정해야 할 수 있습니다.
 - **안전장치 시연**: `DEMO_LANG=ko FORCE=1 tools/launch_final.sh guard2 steps_guard2.json` 이 `runs/ko/guard2/guard2.cast` 에 녹화합니다(영어판은 `DEMO_LANG=en FORCE=1 tools/launch_final.sh guard steps_guard.json` → `runs/en/guard/guard.cast`). 단계 스크립트 파일 이름에 `guard` 가 들어 있으면 런처가 초기화 후 시연 준비를 직접 합니다: 규칙을 모르는 시연용 에이전트(`shopflow-orders/docs/demo/quick-fixer.agent.md.example` → `.github/agents/quick-fixer.agent.md`)를 설치하고, Copilot CLI 를 `--no-custom-instructions` 로, `git push` 용 CLI 거부 규칙 **없이** 실행해 세 요청을 막는 것이 오직 Hook 이 되게 합니다. 단계 스크립트 자체는 `/agent quick-fixer` 선택과 위험한 요청 3건 입력만 합니다. 초기화가 데모 저장소의 메인 녹화 파일을 지우므로 메인 녹화와 `collect_*` 이후에 실행하세요.
 - `collect_sample_output.py` 는 `deck/<언어>/metrics.json` 을 `run-metrics.json` 으로 복사하므로 `collect_metrics.py` 뒤에 실행하세요. 로컬 경로는 치환하고(키트 폴더는 `<DEMO_KIT>`, 그 밖의 홈 폴더는 `<HOME>`) 이미 있는 `sample-output/README.md` 는 그대로 둡니다.
 - **결과 화면 before/after 캡처**(고객 화면 · 관리자 콘솔)는 포트 8100(운영)의 데모 앱에서 `production-source` 기준으로 만듭니다:

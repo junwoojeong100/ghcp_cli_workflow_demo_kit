@@ -28,7 +28,7 @@ This demo is split into **two repositories whose names start with `ghcp_cli_work
 | Repository | Role |
 |---|---|
 | [`ghcp_cli_workflow_demo_kit`](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit) (**this repository**) | Presentation kit: slides (PPTX), videos, the real outputs (`sample-output/`) and the production source (`production-source/`) |
-| [`ghcp_cli_workflow_shopflow_orders`](https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders) | **Demo repository**: the app the demo runs against (ShopFlow), with the 7 custom agents, hooks, approval gates and CI/CD. Use it to replay the same flow with Copilot CLI yourself. Its `main` branch is the English edition; the Korean edition is the `ko` branch |
+| [`ghcp_cli_workflow_shopflow_orders`](https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders) | **Demo repository**: the app the demo runs against (ShopFlow), with the 7 custom agents, hooks, approval gates and CI/CD. Use it to replay the same flow with Copilot CLI yourself. It has a single `main` branch (English); only its guide is bilingual (`README.md` / `README.ko.md`) |
 
 ```bash
 # Clone both repositories into one folder. The kit tools look for the demo repository as 'shopflow-orders' inside the kit folder, so give the clone that name.
@@ -38,7 +38,7 @@ git clone https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.gi
 ```
 
 - This repository's `.gitignore` excludes `shopflow-orders/`, so cloning inside it does not mix the two histories. To keep the demo repository somewhere else, set the environment variable `SHOPFLOW_ROOT`.
-- **Korean edition:** clone the `ko` branch of the demo repository instead: `git clone -b ko https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.git shopflow-orders`. The Korean slides, videos and sample output are in [`ko/`](ko/).
+- **Korean edition:** the Korean slides, videos and sample output are in [`ko/`](ko/). They were recorded on a Korean-language variant of the demo app, which is kept as the tag `baseline-ko` (not a branch): `git clone -b baseline-ko https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.git shopflow-orders`. Use it only if you want to replay the Korean recording; the demo repository's `main` is the English app.
 - **Just watching?** No download is needed: see [Watch online](#watch-online--no-download) above.
 - **Just presenting?** You do not need the demo repository. All you need is `GHCP_CLI_Workflow_Demo_EN.pptx` and `video/GHCP_CLI_Workflow_Demo_EN.mp4` from this repository, or the same files from [Releases](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit/releases).
   Cloning the whole repository is about 200 MB because it carries both editions. Use `git clone --depth 1` or the Release files to download less.
