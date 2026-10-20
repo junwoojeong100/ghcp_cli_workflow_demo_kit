@@ -47,12 +47,12 @@ function newDeck(title) {
   return pptx;
 }
 
-// 텍스트(한 덩어리)
+// Text block (one run)
 function text(slide, str, o) {
   slide.addText(str, Object.assign({ fontFace: FONT, color: C.TEXT, fontSize: 18, margin: 0, valign: "top" }, o));
 }
 
-// 둥근 사각형 카드
+// Rounded-rectangle card
 function card(pptx, slide, x, y, w, h, o = {}) {
   slide.addShape(pptx.ShapeType.roundRect, {
     x, y, w, h, rectRadius: o.radius ?? 0.14,
@@ -62,7 +62,7 @@ function card(pptx, slide, x, y, w, h, o = {}) {
   });
 }
 
-// 알약(작은 라벨)
+// Pill (small label)
 function pill(pptx, slide, x, y, w, h, label, o = {}) {
   slide.addShape(pptx.ShapeType.roundRect, {
     x, y, w, h, rectRadius: h / 2,
@@ -74,14 +74,14 @@ function pill(pptx, slide, x, y, w, h, label, o = {}) {
   });
 }
 
-// 원형 아이콘 배지
+// Round icon badge
 async function iconBadge(pptx, slide, name, x, y, d, fill, iconColor = "#FFFFFF") {
   slide.addShape(pptx.ShapeType.ellipse, { x, y, w: d, h: d, fill: { color: fill }, line: { type: "none" } });
   const pad = d * 0.27;
   slide.addImage({ data: await icon(name, iconColor), x: x + pad, y: y + pad, w: d - 2 * pad, h: d - 2 * pad });
 }
 
-// 제목 영역: 상단 소제목(kicker) + 메시지형 제목
+// Title area: kicker above a message-style title
 function title(slide, kicker, str, o = {}) {
   const dark = !!o.dark;
   if (kicker) {
@@ -93,7 +93,7 @@ function title(slide, kicker, str, o = {}) {
   });
 }
 
-// 괄호 안의 공백을 줄바꿈 없는 공백(NBSP)으로 바꿔 "(서버 오류 0건)" 같은 묶음이 좁은 칸에서 줄 중간에 끊기지 않게 한다 (표시용, 원문은 그대로)
+// Replace spaces inside parentheses with non-breaking spaces so that groups such as "(0 server errors)" do not break mid-way in narrow cells (display only; the source text is unchanged)
 const nb = (s) => String(s).replace(/\([^)]*\)/g, (m) => m.replace(/ /g, "\u00A0"));
 
 function footer(slide, n, o = {}) {
@@ -104,7 +104,7 @@ function footer(slide, n, o = {}) {
 }
 
 const STEPS = KO ? ["분석", "설계", "구현", "테스트", "리뷰", "배포", "운영"] : ["Analyze", "Design", "Build", "Test", "Review", "Deploy", "Operate"];
-// 데모 단계 트래커 (현재 단계 강조)
+// Demo step tracker (highlights the current step)
 function tracker(pptx, slide, current, o = {}) {
   const w = 0.92, h = 0.34, gap = 0.08;
   const total = STEPS.length * w + (STEPS.length - 1) * gap;
@@ -121,7 +121,7 @@ function tracker(pptx, slide, current, o = {}) {
   });
 }
 
-// 사람 승인 배지 (호박색)
+// Human approval badge (amber)
 async function gateBadge(pptx, slide, x, y, label, o = {}) {
   const w = o.w ?? 2.5, h = o.h ?? 0.46;
   slide.addShape(pptx.ShapeType.roundRect, { x, y, w, h, rectRadius: h / 2, fill: { color: C.AMBER_F }, line: { type: "none" } });
