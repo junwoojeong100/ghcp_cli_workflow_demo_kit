@@ -7,6 +7,21 @@
 > 현업의 변경 요청 한 장을 분석 → 설계 → 구현 → 테스트 → 리뷰 → 배포 → 운영 분석까지 역할별 AI 팀원(Custom Agent 7종)이 처리하고,
 > 사람은 중요한 3곳(설계 · 코드 · 운영 배포)에서만 승인하는 워크플로우를 **실제 Copilot CLI 세션으로 녹화**했습니다.
 
+## 브라우저에서 바로 보기 — 다운로드 없이
+
+클릭하면 영상이 브라우저에서 바로 재생되고, 슬라이드도 브라우저에서 열립니다(슬라이드 안의 단계별 영상도 재생됩니다).
+
+[![전체 영상 재생 (9분 28초)](production-source/video/ko/card-title.png)](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/GHCP_CLI_Workflow_Demo_KO.mp4)
+
+| 항목 | 열기 |
+|---|---|
+| **전체 영상** (9분 28초, 1080p) | [▶ 브라우저에서 재생](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/GHCP_CLI_Workflow_Demo_KO.mp4) |
+| **발표 자료** (25장, 단계별 영상 내장) | [📑 브라우저에서 열기](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fjunwoojeong100.github.io%2Fghcp_cli_workflow_demo_kit%2Fko%2FGHCP_CLI_Workflow_Demo_KO.pptx) |
+| 전체 영상의 **챕터로 바로 이동** | [분석](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/GHCP_CLI_Workflow_Demo_KO.mp4#t=4) · [설계](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/GHCP_CLI_Workflow_Demo_KO.mp4#t=47.3) · [구현](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/GHCP_CLI_Workflow_Demo_KO.mp4#t=124.8) · [테스트](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/GHCP_CLI_Workflow_Demo_KO.mp4#t=183.2) · [리뷰](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/GHCP_CLI_Workflow_Demo_KO.mp4#t=235.6) · [배포](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/GHCP_CLI_Workflow_Demo_KO.mp4#t=287.9) · [운영](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/GHCP_CLI_Workflow_Demo_KO.mp4#t=362) · [결과 화면](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/GHCP_CLI_Workflow_Demo_KO.mp4#t=472.8) · [안전장치 시연](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/GHCP_CLI_Workflow_Demo_KO.mp4#t=490) · [정리](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/GHCP_CLI_Workflow_Demo_KO.mp4#t=563) |
+| **단계별 클립** (한 단계씩) | [분석 0:41](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/clips/01_%EB%B6%84%EC%84%9D.mp4) · [설계 1:18](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/clips/02_%EC%84%A4%EA%B3%84.mp4) · [구현 0:58](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/clips/03_%EA%B5%AC%ED%98%84.mp4) · [테스트 0:52](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/clips/04_%ED%85%8C%EC%8A%A4%ED%8A%B8.mp4) · [리뷰 0:52](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/clips/05_%EB%A6%AC%EB%B7%B0.mp4) · [배포 1:14](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/clips/06_%EB%B0%B0%ED%8F%AC.mp4) · [운영 1:51](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/clips/07_%EC%9A%B4%EC%98%81.mp4) · [안전장치 시연 1:13](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/ko/video/clips/08_%EC%95%88%EC%A0%84%EC%9E%A5%EC%B9%98_%EC%8B%9C%EC%97%B0.mp4) |
+
+영상은 GitHub Pages 로 제공되어 브라우저 내장 플레이어에서 재생됩니다. 슬라이드는 Microsoft 의 PowerPoint 웹 뷰어로 열리며, 슬라이드의 영상에서 ▶ 를 누르면 재생되고, 오른쪽 아래 **NOTES** 에서 발표 스크립트를, **Start Slide Show** 로 전체 화면 발표를 볼 수 있습니다. 뷰어는 자체 글꼴을 쓰므로 일부 줄바꿈이 데스크톱 PowerPoint 와 조금 다를 수 있습니다. 정확한 모양은 PPTX 를 내려받아 확인하세요(아래 안내).
+
 ## ghcp_cli_workflow 시리즈 — 2개 저장소를 함께 씁니다
 
 이 데모는 **이름이 `ghcp_cli_workflow` 로 시작하는 두 저장소**로 나뉘어 있습니다. 둘 다 있어야 발표와 시연을 모두 할 수 있습니다.
@@ -25,6 +40,7 @@ git clone -b ko https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_ord
 ```
 
 - 이 저장소의 `.gitignore` 가 `shopflow-orders/` 를 제외하므로, 안쪽에 clone 해도 서로의 이력이 섞이지 않습니다. 다른 위치에 두려면 환경 변수 `SHOPFLOW_ROOT` 를 지정하세요.
+- **보기만 하려면** 다운로드가 필요 없습니다. 위의 [브라우저에서 바로 보기](#브라우저에서-바로-보기--다운로드-없이)를 쓰세요.
 - **발표만 하려면** 데모 저장소는 필요 없고, 이 저장소의 `ko/GHCP_CLI_Workflow_Demo_KO.pptx` 와 `ko/video/GHCP_CLI_Workflow_Demo_KO.mp4` 만 받으면 됩니다. 저장소 전체를 clone 하면 영어판·한국어판을 함께 담고 있어 약 200MB 이므로, 덜 받으려면 `git clone --depth 1` 을 쓰거나 [Releases](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit/releases) 의 같은 파일(한국어판 = v1.0.0, 영어판 = v1.1.0)을 쓰세요.
 
 | 실측 결과 (한 세션) | |

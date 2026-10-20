@@ -6,6 +6,21 @@
 > A single change request from the business goes through analysis → design → implementation → testing → review → deployment → operations analysis, handled by role-specific AI teammates (7 custom agents).
 > People approve in only 3 places (design, code, production deploy). We **recorded this workflow in a real Copilot CLI session**.
 
+## Watch online — no download
+
+Click to play the video or open the slides right in your browser (the step videos inside the slides play too).
+
+[![Play the full video (10 min 17 s)](production-source/video/en/card-title.png)](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/GHCP_CLI_Workflow_Demo_EN.mp4)
+
+| What | Open |
+|---|---|
+| **Full video** (10 min 17 s, 1080p) | [▶ Play in the browser](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/GHCP_CLI_Workflow_Demo_EN.mp4) |
+| **Slides** (25 slides, step videos embedded) | [📑 Open in the browser](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fjunwoojeong100.github.io%2Fghcp_cli_workflow_demo_kit%2FGHCP_CLI_Workflow_Demo_EN.pptx) |
+| **Jump to a chapter** of the full video | [Analyze](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/GHCP_CLI_Workflow_Demo_EN.mp4#t=4) · [Design](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/GHCP_CLI_Workflow_Demo_EN.mp4#t=54.8) · [Build](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/GHCP_CLI_Workflow_Demo_EN.mp4#t=143.3) · [Test](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/GHCP_CLI_Workflow_Demo_EN.mp4#t=210.2) · [Review](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/GHCP_CLI_Workflow_Demo_EN.mp4#t=289.1) · [Deploy](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/GHCP_CLI_Workflow_Demo_EN.mp4#t=345.8) · [Operate](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/GHCP_CLI_Workflow_Demo_EN.mp4#t=406.3) · [Result screens](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/GHCP_CLI_Workflow_Demo_EN.mp4#t=514.7) · [Guardrail demo](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/GHCP_CLI_Workflow_Demo_EN.mp4#t=531.8) · [Wrap-up](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/GHCP_CLI_Workflow_Demo_EN.mp4#t=612.3) |
+| **Step clips** (one stage at a time) | [Analyze 0:45](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/clips/01_analysis.mp4) · [Design 1:29](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/clips/02_design.mp4) · [Build 1:07](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/clips/03_implementation.mp4) · [Test 1:19](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/clips/04_testing.mp4) · [Review 0:57](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/clips/05_review.mp4) · [Deploy 1:01](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/clips/06_deployment.mp4) · [Operate 1:48](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/clips/07_operations.mp4) · [Guardrail demo 1:20](https://junwoojeong100.github.io/ghcp_cli_workflow_demo_kit/video/clips/08_guardrail_demo.mp4) |
+
+The videos are served by GitHub Pages, so they open in your browser's built-in player. The slides open in Microsoft's PowerPoint for the web: press ▶ on a slide's video to play it, **Notes** (bottom right) shows the spoken script, and **Start Slide Show** gives a full-screen view. The viewer uses its own fonts, so a few line breaks can differ slightly from desktop PowerPoint. For the exact layout, download the PPTX (see below).
+
 ## The ghcp_cli_workflow series — two repositories used together
 
 This demo is split into **two repositories whose names start with `ghcp_cli_workflow`**. You need both to present and to run the demo yourself.
@@ -24,6 +39,7 @@ git clone https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.gi
 
 - This repository's `.gitignore` excludes `shopflow-orders/`, so cloning inside it does not mix the two histories. To keep the demo repository somewhere else, set the environment variable `SHOPFLOW_ROOT`.
 - **Korean edition:** clone the `ko` branch of the demo repository instead: `git clone -b ko https://github.com/junwoojeong100/ghcp_cli_workflow_shopflow_orders.git shopflow-orders`. The Korean slides, videos and sample output are in [`ko/`](ko/).
+- **Just watching?** No download is needed: see [Watch online](#watch-online--no-download) above.
 - **Just presenting?** You do not need the demo repository. All you need is `GHCP_CLI_Workflow_Demo_EN.pptx` and `video/GHCP_CLI_Workflow_Demo_EN.mp4` from this repository, or the same files from [Releases](https://github.com/junwoojeong100/ghcp_cli_workflow_demo_kit/releases).
   Cloning the whole repository is about 200 MB because it carries both editions. Use `git clone --depth 1` or the Release files to download less.
 - **Releases:** v1.1.0 is the English edition (`GHCP_CLI_Workflow_Demo_EN.pptx`, `GHCP_CLI_Workflow_Demo_EN.mp4`, and `ghcp_cli_workflow_video_assets_en.zip` = `video/clips` + `video/stills`).
